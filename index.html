@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Steward Pro — نظام النظافة الاحترافي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0f1e;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --border: #1e2d45;
+  --accent: #00d4ff;
+  --accent2: #0099cc;
+  --green: #00e676;
+  --red: #ff5252;
+  --yellow: #ffd740;
+  --text: #e8f0fe;
+  --text2: #8899bb;
+  --card: #131f35;
+}
+.light {
+  --bg: #f0f4f8;
+  --surface: #ffffff;
+  --surface2: #e8eef5;
+  --border: #d0dce8;
+  --accent: #0066cc;
+  --accent2: #0099cc;
+  --green: #00a651;
+  --red: #e53935;
+  --yellow: #f9a825;
+  --text: #1a2235;
+  --text2: #556688;
+  --card: #ffffff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+/* ── LOGIN ── */
+#loginScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+#loginScreen::before {
+  content:'';
+  position:absolute;
+  width:600px; height:600px;
+  background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+  top:-100px; right:-100px;
+  border-radius:50%;
+}
+#loginScreen::after {
+  content:'';
+  position:absolute;
+  width:400px; height:400px;
+  background: radial-gradient(circle, rgba(0,230,118,0.06) 0%, transparent 70%);
+  bottom:-100px; left:-100px;
+  border-radius:50%;
+}
+.loginBox {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index:1;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  animation: slideUp 0.5s ease;
+}
+@keyframes slideUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.loginLogo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.loginLogo .icon {
+  font-size: 52px;
+  display: block;
+  margin-bottom: 8px;
+}
+.loginLogo h1 {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+.loginLogo p {
+  color: var(--text2);
+  font-size: 13px;
+  margin-top: 4px;
+}
+.formGroup {
+  margin-bottom: 18px;
+}
+.formGroup label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+.formGroup input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  outline: none;
+  text-align: right;
+}
+.formGroup input:focus { border-color: var(--accent); }
+.loginBtn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-top: 8px;
+}
+.loginBtn:hover { opacity:0.9; transform:translateY(-1px); }
+.loginBtn:active { transform:translateY(0); }
+.loginError {
+  background: rgba(255,82,82,0.1);
+  border: 1px solid rgba(255,82,82,0.3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--red);
+  margin-top: 12px;
+  text-align: center;
+  display: none;
+}
+
+/* ── APP LAYOUT ── */
+#app { display:none; min-height:100vh; }
+.layout { display:flex; min-height:100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 260px;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+  transition: transform 0.3s;
+}
+.sidebarLogo {
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebarLogo h2 {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--accent);
+}
+.sidebarLogo p {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+.sidebarNav {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+.navSection {
+  margin-bottom: 8px;
+}
+.navSectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 10px 4px;
+}
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text2);
+  transition: all 0.2s;
+  margin-bottom: 2px;
+}
+.navItem:hover { background: var(--surface2); color: var(--text); }
+.navItem.active {
+  background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,153,204,0.1));
+  color: var(--accent);
+  border: 1px solid rgba(0,212,255,0.2);
+}
+.navItem .navIcon { font-size: 18px; width: 24px; text-align: center; }
+.sidebarFooter {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--surface2);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.userAvatar {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900; color: #fff;
+}
+.userName { font-size: 13px; font-weight: 700; }
+.userRole {
+  font-size: 11px;
+  color: var(--text2);
+}
+.logoutBtn {
+  width: 100%;
+  padding: 9px;
+  background: rgba(255,82,82,0.1);
+  border: 1px solid rgba(255,82,82,0.2);
+  border-radius: 8px;
+  color: var(--red);
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.logoutBtn:hover { background: rgba(255,82,82,0.2); }
+
+/* MAIN */
+.main {
+  flex: 1;
+  margin-right: 260px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.pageTitle { font-size: 18px; font-weight: 700; }
+.topbarActions { display: flex; align-items: center; gap: 12px; }
+.themeBtn {
+  width: 40px; height: 40px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.themeBtn:hover { border-color: var(--accent); }
+.content { padding: 24px; flex: 1; }
+
+/* PAGES */
+.page { display: none; animation: fadeIn 0.3s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* CHAT PAGE */
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 112px);
+  background: var(--surface);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.chatMessages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chatMessages::-webkit-scrollbar { width: 4px; }
+.chatMessages::-webkit-scrollbar-track { background: transparent; }
+.chatMessages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.quickBtns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+}
+.quickBtn {
+  padding: 6px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.quickBtn:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.05); }
+.chatInput {
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.chatInput input {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  outline: none;
+  text-align: right;
+  transition: border-color 0.2s;
+}
+.chatInput input:focus { border-color: var(--accent); }
+.sendBtn {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+}
+.sendBtn:hover { opacity: 0.85; }
+.sendBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* MESSAGES */
+.msg {
+  display: flex;
+  flex-direction: column;
+  max-width: 75%;
+  animation: msgIn 0.3s ease;
+}
+@keyframes msgIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.msg.user { align-self: flex-end; align-items: flex-end; }
+.msg.bot  { align-self: flex-start; align-items: flex-start; }
+.msgBubble {
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.msg.user .msgBubble {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.msg.bot .msgBubble {
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 4px;
+}
+.msgTime { font-size: 11px; color: var(--text2); margin-top: 4px; padding: 0 4px; }
+.typingIndicator {
+  display: flex; gap: 4px; align-items: center;
+  padding: 14px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  border-bottom-left-radius: 4px;
+  width: fit-content;
+}
+.typingDot {
+  width: 7px; height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: bounce 1.2s infinite;
+}
+.typingDot:nth-child(2) { animation-delay: 0.2s; }
+.typingDot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce {
+  0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)}
+}
+.welcomeMsg {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text2);
+}
+.welcomeMsg .wIcon { font-size: 48px; margin-bottom: 12px; }
+.welcomeMsg h3 { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.welcomeMsg p { font-size: 13px; line-height: 1.6; }
+
+/* STATS CARDS */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.statCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: border-color 0.2s;
+}
+.statCard:hover { border-color: var(--accent); }
+.statIcon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.statValue { font-size: 26px; font-weight: 900; }
+.statLabel { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+/* MATERIALS TABLE */
+.tableCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.tableTitle { font-size: 15px; font-weight: 700; }
+.addBtn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.addBtn:hover { opacity: 0.85; }
+.searchBar {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.searchBar input {
+  width: 100%;
+  padding: 9px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  outline: none;
+  text-align: right;
+}
+.searchBar input:focus { border-color: var(--accent); }
+table { width: 100%; border-collapse: collapse; }
+th {
+  padding: 12px 16px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+}
+td {
+  padding: 14px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface2); }
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.badge.green { background: rgba(0,230,118,0.1); color: var(--green); }
+.badge.blue  { background: rgba(0,212,255,0.1); color: var(--accent); }
+.badge.yellow{ background: rgba(255,215,64,0.1); color: var(--yellow); }
+.badge.red   { background: rgba(255,82,82,0.1);  color: var(--red); }
+.actionBtns { display: flex; gap: 6px; }
+.iconBtn {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.iconBtn:hover { border-color: var(--accent); }
+.iconBtn.del:hover { border-color: var(--red); background: rgba(255,82,82,0.1); }
+
+/* CHARTS */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.chartCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+.chartCard h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+.barChart { display: flex; flex-direction: column; gap: 10px; }
+.barRow { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.barLabel { width: 110px; text-align: right; color: var(--text2); flex-shrink: 0; font-size: 11px; }
+.barTrack {
+  flex: 1;
+  background: var(--surface2);
+  border-radius: 6px;
+  height: 20px;
+  overflow: hidden;
+}
+.barFill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 8px;
+  font-size: 11px;
+  color: #fff;
+  font-weight: 700;
+  transition: width 1s ease;
+}
+.topList { display: flex; flex-direction: column; gap: 10px; }
+.topItem {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-radius: 10px;
+  font-size: 13px;
+}
+.topRank {
+  width: 24px; height: 24px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* USERS TABLE */
+.usersBadge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* MODAL */
+.modalOverlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modalOverlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  width: 100%;
+  max-width: 480px;
+  animation: slideUp 0.3s ease;
+}
+.modalTitle {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.modalBtns {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  justify-content: flex-start;
+}
+.btnPrimary {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btnSecondary {
+  padding: 10px 20px;
+  background: var(--surface2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* MOBILE */
+.menuToggle {
+  display: none;
+  width: 40px; height: 40px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  align-items: center; justify-content: center;
+}
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-right: 0; }
+  .menuToggle { display: flex; }
+  .chartsGrid { grid-template-columns: 1fr; }
+  .statsGrid { grid-template-columns: repeat(2, 1fr); }
+}
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+}
+.overlay.open { display: block; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="loginBox">
+    <div class="loginLogo">
+      <span class="icon">🧽</span>
+      <h1>Steward Pro</h1>
+      <p>نظام إدارة النظافة الاحترافي</p>
+    </div>
+    <div class="formGroup">
+      <label>اسم المستخدم</label>
+      <input type="text" id="loginUser" placeholder="أدخل اسم المستخدم" />
+    </div>
+    <div class="formGroup">
+      <label>كلمة المرور</label>
+      <input type="password" id="loginPass" placeholder="أدخل كلمة المرور" />
+    </div>
+    <button class="loginBtn" onclick="doLogin()">تسجيل الدخول</button>
+    <div class="loginError" id="loginError">اسم المستخدم أو كلمة المرور غير صحيحة</div>
+    <div style="margin-top:16px;padding:12px;background:var(--surface2);border-radius:8px;font-size:12px;color:var(--text2);text-align:center;">
+      <strong>مشرف:</strong> admin / admin123 &nbsp;|&nbsp; <strong>عامل:</strong> worker / worker123
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebarLogo">
+        <h2>🧽 Steward Pro</h2>
+        <p>نظام النظافة الاحترافي</p>
+      </div>
+      <nav class="sidebarNav">
+        <div class="navSection">
+          <div class="navSectionTitle">الرئيسية</div>
+          <div class="navItem active" onclick="showPage('chat')">
+            <span class="navIcon">💬</span> المساعد الذكي
+          </div>
+          <div class="navItem admin-only" onclick="showPage('dashboard')" style="display:none">
+            <span class="navIcon">📊</span> لوحة التحكم
+          </div>
+        </div>
+        <div class="navSection">
+          <div class="navSectionTitle">المواد</div>
+          <div class="navItem" onclick="showPage('materials')">
+            <span class="navIcon">🧴</span> المواد والكيماويات
+          </div>
+        </div>
+        <div class="navSection admin-only" style="display:none">
+          <div class="navSectionTitle">الإدارة</div>
+          <div class="navItem" onclick="showPage('users')">
+            <span class="navIcon">👥</span> المستخدمين
+          </div>
+          <div class="navItem" onclick="showPage('reports')">
+            <span class="navIcon">📈</span> التقارير
+          </div>
+        </div>
+      </nav>
+      <div class="sidebarFooter">
+        <div class="userInfo">
+          <div class="userAvatar" id="userAvatar">م</div>
+          <div>
+            <div class="userName" id="userNameDisplay">مستخدم</div>
+            <div class="userRole" id="userRoleDisplay">عامل</div>
+          </div>
+        </div>
+        <button class="logoutBtn" onclick="doLogout()">🚪 تسجيل الخروج</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button class="menuToggle" onclick="toggleSidebar()">☰</button>
+          <div class="pageTitle" id="pageTitle">المساعد الذكي</div>
+        </div>
+        <div class="topbarActions">
+          <button class="themeBtn" onclick="toggleTheme()" title="تبديل الثيم">🌙</button>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- CHAT -->
+        <div class="page active" id="page-chat">
+          <div class="chatContainer">
+            <div class="chatMessages" id="chatMessages">
+              <div class="welcomeMsg">
+                <div class="wIcon">🧽</div>
+                <h3>مرحباً بك في Steward Pro!</h3>
+                <p>اسألني عن أي مادة تنظيف أو طريقة استخدامها<br>أو اضغط على الأزرار السريعة أدناه</p>
+              </div>
+            </div>
+            <div class="quickBtns">
+              <button class="quickBtn" onclick="quickSend('كيف أنظف الأفران وأزيل الدهون؟')">🔥 تنظيف أفران</button>
+              <button class="quickBtn" onclick="quickSend('كيف أنظف الأرضيات؟')">🧹 تنظيف أرضيات</button>
+              <button class="quickBtn" onclick="quickSend('كيف أزيل بقع الشاي والقهوة؟')">☕ إزالة بقع</button>
+              <button class="quickBtn" onclick="quickSend('عندي انسداد في الصرف كيف أعالجه؟')">🚰 تسليك صرف</button>
+              <button class="quickBtn" onclick="quickSend('كيف أعقم أدوات المطبخ والأسطح؟')">💊 تعقيم أدوات</button>
+              <button class="quickBtn" onclick="quickSend('كيف ألمع الاستانلس ستيل؟')">🪞 تلميع استانلس</button>
+              <button class="quickBtn" onclick="quickSend('شرح طريقة تشغيل ماكينة الجلي Dishwasher')">🤖 ماكينة الجلي</button>
+              <button class="quickBtn" onclick="quickSend('شرح طريقة غسيل الكسرولات بالأحواض الثلاثة')">🍳 غسيل كسرولات</button>
+            </div>
+            <div class="chatInput">
+              <button class="sendBtn" onclick="sendMessage()" id="sendBtn">➤</button>
+              <input type="text" id="chatInput" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter')sendMessage()" />
+            </div>
+          </div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="page" id="page-dashboard">
+          <div class="statsGrid">
+            <div class="statCard">
+              <div class="statIcon" style="background:rgba(0,212,255,0.1)">🧴</div>
+              <div><div class="statValue" style="color:var(--accent)">18</div><div class="statLabel">إجمالي المواد</div></div>
+            </div>
+            <div class="statCard">
+              <div class="statIcon" style="background:rgba(0,230,118,0.1)">💬</div>
+              <div><div class="statValue" style="color:var(--green)" id="totalQuestions">0</div><div class="statLabel">إجمالي الأسئلة</div></div>
+            </div>
+            <div class="statCard">
+              <div class="statIcon" style="background:rgba(255,215,64,0.1)">👥</div>
+              <div><div class="statValue" style="color:var(--yellow)">3</div><div class="statLabel">المستخدمين</div></div>
+            </div>
+            <div class="statCard">
+              <div class="statIcon" style="background:rgba(255,82,82,0.1)">⚡</div>
+              <div><div class="statValue" style="color:var(--red)" id="todayQuestions">0</div><div class="statLabel">أسئلة اليوم</div></div>
+            </div>
+          </div>
+          <div class="chartsGrid">
+            <div class="chartCard">
+              <h3>📊 أكثر الأسئلة تكراراً</h3>
+              <div class="barChart" id="topQuestionsChart"></div>
+            </div>
+            <div class="chartCard">
+              <h3>🏆 أكثر المستخدمين نشاطاً</h3>
+              <div class="topList" id="topUsersList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MATERIALS -->
+        <div class="page" id="page-materials">
+          <div class="tableCard">
+            <div class="tableHeader">
+              <div class="tableTitle">🧴 قائمة المواد والكيماويات</div>
+              <button class="addBtn admin-only" onclick="openAddMaterial()" style="display:none">+ إضافة مادة</button>
+            </div>
+            <div class="searchBar">
+              <input type="text" placeholder="🔍 ابحث عن مادة..." oninput="filterMaterials(this.value)" />
+            </div>
+            <div style="overflow-x:auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>الأيقونة</th>
+                    <th>اسم المادة</th>
+                    <th>الاستخدام</th>
+                    <th>التصنيف</th>
+                    <th class="admin-only" style="display:none">إجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="materialsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- USERS -->
+        <div class="page" id="page-users">
+          <div class="tableCard">
+            <div class="tableHeader">
+              <div class="tableTitle">👥 إدارة المستخدمين</div>
+              <button class="addBtn" onclick="openAddUser()">+ إضافة مستخدم</button>
+            </div>
+            <div style="overflow-x:auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>الاسم</th>
+                    <th>اسم المستخدم</th>
+                    <th>الصلاحية</th>
+                    <th>الأسئلة</th>
+                    <th>إجراءات</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- REPORTS -->
+        <div class="page" id="page-reports">
+          <div class="chartsGrid">
+            <div class="chartCard">
+              <h3>📊 إحصائيات الأسئلة بالتصنيف</h3>
+              <div class="barChart" id="categoryChart"></div>
+            </div>
+            <div class="chartCard">
+              <h3>🧴 أكثر المواد استفساراً</h3>
+              <div class="barChart" id="materialsChart"></div>
+            </div>
+          </div>
+          <div class="tableCard">
+            <div class="tableHeader">
+              <div class="tableTitle">📋 سجل المحادثات</div>
+            </div>
+            <div style="overflow-x:auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>المستخدم</th>
+                    <th>السؤال</th>
+                    <th>الوقت</th>
+                    <th>النموذج</th>
+                  </tr>
+                </thead>
+                <tbody id="logsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL إضافة مادة -->
+<div class="modalOverlay" id="materialModal">
+  <div class="modal">
+    <div class="modalTitle" id="materialModalTitle">➕ إضافة مادة جديدة</div>
+    <div class="formGroup">
+      <label>الأيقونة</label>
+      <input type="text" id="matIcon" placeholder="🧴" maxlength="2" />
+    </div>
+    <div class="formGroup">
+      <label>اسم المادة</label>
+      <input type="text" id="matName" placeholder="مثال: جريس كتر" />
+    </div>
+    <div class="formGroup">
+      <label>الاستخدام</label>
+      <input type="text" id="matUse" placeholder="مثال: تنظيف الأفران وإزالة الدهون" />
+    </div>
+    <div class="formGroup">
+      <label>التصنيف</label>
+      <input type="text" id="matCategory" placeholder="مثال: مزيل دهون" />
+    </div>
+    <div class="modalBtns">
+      <button class="btnPrimary" onclick="saveMaterial()">حفظ</button>
+      <button class="btnSecondary" onclick="closeModal('materialModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL إضافة مستخدم -->
+<div class="modalOverlay" id="userModal">
+  <div class="modal">
+    <div class="modalTitle">➕ إضافة مستخدم جديد</div>
+    <div class="formGroup">
+      <label>الاسم الكامل</label>
+      <input type="text" id="newUserName" placeholder="الاسم الكامل" />
+    </div>
+    <div class="formGroup">
+      <label>اسم المستخدم</label>
+      <input type="text" id="newUsername" placeholder="username" />
+    </div>
+    <div class="formGroup">
+      <label>كلمة المرور</label>
+      <input type="password" id="newUserPass" placeholder="كلمة المرور" />
+    </div>
+    <div class="formGroup">
+      <label>الصلاحية</label>
+      <select id="newUserRole" style="width:100%;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;outline:none;">
+        <option value="worker">عامل</option>
+        <option value="admin">مشرف</option>
+      </select>
+    </div>
+    <div class="modalBtns">
+      <button class="btnPrimary" onclick="saveUser()">حفظ</button>
+      <button class="btnSecondary" onclick="closeModal('userModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════
+let currentUser = null;
+let isDark = true;
+let chatHistory = [];
+let editingMaterialIndex = -1;
+
+const GROQ_API_KEY = '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'; // ← ضع مفتاحك هنا
+
+const GROQ_MODELS = [
+  'meta-llama/llama-4-scout-17b-16e-instruct',
+  'meta-llama/llama-4-maverick-17b-128e-instruct',
+  'llama-3.1-8b-instant',
+  'llama-3.3-70b-versatile',
+  'qwen/qwen3-32b',
+  'deepseek-r1-distill-llama-70b',
+  'moonshotai/kimi-k2-instruct',
+  'mixtral-8x7b-32768',
+  'gemma-7b-it',
+];
+
+const SYSTEM_PROMPT = `أنت مساعد ذكي متخصص في قسم الـ Steward وخدمات النظافة المهنية داخل المطاعم والفنادق والمطابخ المركزية. خبرتك لا تقل عن 15 سنة.
+
+قاعدة بيانات المواد:
+🔥 جريس كتر ← تنظيف الأفران، إزالة الدهون
+🧹 إن فورس ← منظف الأرضيات
+💊 146 ← مطهر الأسطح وأدوات المطبخ
+🧼 137 ← صابون متعدد الاستخدام
+⚗️ لي ما وي ← إزالة الأملاح والترسبات
+🖐️ انتي بكتريا ← صابون يد مضاد للبكتيريا
+🍳 سوليتر ← صابون الكسرولات والحلل
+🐟 باز واي ← معالجة الصرف للسماك والجزار
+✨ رنز ← إزالة بقايا المياه من الأطباق
+🤖 سوليد باور ← صابون ماكينة الغسيل كبسولة
+☕ ديبيت ← إزالة بقع الشاي والقهوة
+🪞 كرومول ← ملمع استانلس ستيل
+🧴 سيني تايزر ← معقم يد
+🏥 اتش بي/هيدروكسيد ← تطهير من القيء
+🚰 أوفاك ← تسليك مواسير الصرف
+💡 إيكو شاينا ← كبسولات الماكينة الصغيرة
+🥬 كلور ← تعقيم الخضروات
+🪙 هيليوز ← ملمع النحاس
+
+ماكينة الجلي: مرحلة 1: 55° | مرحلة 2: 72° سوليد باور | مرحلة 3: 82° رنز
+الكسرولات: حوض 1و2: 43°+ | حوض 3: 24-38° مع 146 دقيقة-دقيقتين
+
+قواعد: إجابات عملية مختصرة، اذكر تحذيرات السلامة دائماً، استخدم الإيموجي.`;
+
+let users = [
+  { id:1, name:'المشرف الرئيسي', username:'admin', password:'admin123', role:'admin', questions:0 },
+  { id:2, name:'أحمد العامل', username:'worker', password:'worker123', role:'worker', questions:0 },
+];
+
+let materials = [
+  { icon:'🔥', name:'جريس كتر', use:'تنظيف الأفران، إزالة الدهون والشحوم الثقيلة', category:'مزيل دهون' },
+  { icon:'🧹', name:'إن فورس', use:'منظف الأرضيات', category:'منظف أرضيات' },
+  { icon:'💊', name:'146', use:'مطهر الأسطح وأدوات المطبخ', category:'مطهر' },
+  { icon:'🧼', name:'137', use:'صابون متعدد الاستخدام', category:'صابون' },
+  { icon:'⚗️', name:'لي ما وي', use:'إزالة الأملاح والترسبات', category:'مزيل أملاح' },
+  { icon:'🖐️', name:'انتي بكتريا', use:'صابون يد مضاد للبكتيريا', category:'صابون يد' },
+  { icon:'🍳', name:'سوليتر', use:'صابون الكسرولات والحلل (يدوي)', category:'صابون' },
+  { icon:'🐟', name:'باز واي', use:'معالجة الصرف للسماك والجزار', category:'معالجة صرف' },
+  { icon:'✨', name:'رنز', use:'إزالة بقايا المياه من الأطباق', category:'مكمل غسيل' },
+  { icon:'🤖', name:'سوليد باور', use:'صابون ماكينة الغسيل (Dishwasher) كبسولة', category:'صابون ماكينة' },
+  { icon:'☕', name:'ديبيت', use:'إزالة بقع الشاي والقهوة', category:'مزيل بقع' },
+  { icon:'🪞', name:'كرومول', use:'ملمع استانلس ستيل', category:'ملمع' },
+  { icon:'🧴', name:'سيني تايزر', use:'معقم يد', category:'معقم' },
+  { icon:'🏥', name:'اتش بي / هيدروكسيد', use:'تطهير الترابيزات والتنظيف من القيء', category:'مطهر قوي' },
+  { icon:'🚰', name:'أوفاك', use:'تسليك مواسير الصرف', category:'تسليك صرف' },
+  { icon:'💡', name:'إيكو شاينا', use:'كبسولات الماكينة الصغيرة', category:'صابون ماكينة' },
+  { icon:'🥬', name:'كلور', use:'تنظيف وتعقيم الخضروات', category:'مطهر' },
+  { icon:'🪙', name:'هيليوز', use:'ملمع النحاس', category:'ملمع' },
+];
+
+let logs = [];
+let questionStats = {};
+
+// ════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  const user = users.find(x => x.username === u && x.password === p);
+  if (!user) {
+    document.getElementById('loginError').style.display = 'block';
+    return;
+  }
+  currentUser = user;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('userNameDisplay').textContent = user.name;
+  document.getElementById('userRoleDisplay').textContent = user.role === 'admin' ? '🔑 مشرف' : '👷 عامل';
+  document.getElementById('userAvatar').textContent = user.name[0];
+  // صلاحيات
+  const adminEls = document.querySelectorAll('.admin-only');
+  adminEls.forEach(el => el.style.display = user.role === 'admin' ? '' : 'none');
+  if (user.role === 'admin') renderDashboard();
+  renderMaterials();
+  renderUsers();
+  renderReports();
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('chatMessages').innerHTML = `<div class="welcomeMsg"><div class="wIcon">🧽</div><h3>مرحباً بك في Steward Pro!</h3><p>اسألني عن أي مادة تنظيف أو طريقة استخدامها<br>أو اضغط على الأزرار السريعة أدناه</p></div>`;
+  chatHistory = [];
+}
+
+// ════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════
+const pageTitles = {
+  chat: '💬 المساعد الذكي',
+  dashboard: '📊 لوحة التحكم',
+  materials: '🧴 المواد والكيماويات',
+  users: '👥 المستخدمين',
+  reports: '📈 التقارير',
+};
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.navItem').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.navItem').forEach(n => {
+    if (n.textContent.includes(pageTitles[id]?.slice(2, 6))) n.classList.add('active');
+  });
+  document.getElementById('pageTitle').textContent = pageTitles[id] || '';
+  if (id === 'dashboard') renderDashboard();
+  if (id === 'reports') renderReports();
+  closeSidebar();
+}
+
+// ════════════════════════════════════════
+// THEME
+// ════════════════════════════════════════
+function toggleTheme() {
+  isDark = !isDark;
+  document.body.classList.toggle('light', !isDark);
+  document.querySelector('.themeBtn').textContent = isDark ? '🌙' : '☀️';
+}
+
+// ════════════════════════════════════════
+// SIDEBAR MOBILE
+// ════════════════════════════════════════
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ════════════════════════════════════════
+// CHAT + GROQ
+// ════════════════════════════════════════
+function getTime() {
+  return new Date().toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' });
+}
+
+function addMsg(role, text) {
+  const box = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.className = `msg ${role}`;
+  d.innerHTML = `<div class="msgBubble">${text.replace(/\n/g,'<br>')}</div><div class="msgTime">${getTime()}</div>`;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+
+function showTyping() {
+  const box = document.getElementById('chatMessages');
+  const d = document.createElement('div');
+  d.id = 'typing';
+  d.className = 'msg bot';
+  d.innerHTML = `<div class="typingIndicator"><div class="typingDot"></div><div class="typingDot"></div><div class="typingDot"></div></div>`;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+
+function hideTyping() {
+  const t = document.getElementById('typing');
+  if (t) t.remove();
+}
+
+async function callGroq(messages) {
+  for (const model of GROQ_MODELS) {
+    try {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${GROQ_API_KEY}` },
+        body: JSON.stringify({ model, messages, max_tokens:800, temperature:0.4 })
+      });
+      if (!res.ok) { const e = await res.json(); console.warn(model, e); continue; }
+      const data = await res.json();
+      return { text: data.choices[0]?.message?.content || '', model };
+    } catch(e) { console.warn(model, e); }
+  }
+  return { text: '⏳ جميع النماذج مشغولة، حاول مجدداً.', model: '-' };
+}
+
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  // مسح رسالة الترحيب
+  const welcome = document.querySelector('.welcomeMsg');
+  if (welcome) welcome.remove();
+
+  addMsg('user', text);
+  document.getElementById('sendBtn').disabled = true;
+  showTyping();
+
+  chatHistory.push({ role:'user', content: text });
+  const messages = [
+    { role:'system', content: SYSTEM_PROMPT },
+    ...chatHistory.slice(-6)
+  ];
+
+  const { text: answer, model } = await callGroq(messages);
+  hideTyping();
+  addMsg('bot', answer);
+  chatHistory.push({ role:'assistant', content: answer });
+  document.getElementById('sendBtn').disabled = false;
+
+  // تسجيل
+  if (currentUser) {
+    currentUser.questions++;
+    const user = users.find(u => u.id === currentUser.id);
+    if (user) user.questions++;
+  }
+  logs.unshift({ user: currentUser?.name || '-', question: text, time: getTime(), model });
+  questionStats[text] = (questionStats[text] || 0) + 1;
+}
+
+function quickSend(text) {
+  document.getElementById('chatInput').value = text;
+  sendMessage();
+}
+
+// ════════════════════════════════════════
+// MATERIALS
+// ════════════════════════════════════════
+function renderMaterials(filter = '') {
+  const tb = document.getElementById('materialsTable');
+  const isAdmin = currentUser?.role === 'admin';
+  const filtered = materials.filter(m =>
+    m.name.includes(filter) || m.use.includes(filter) || m.category.includes(filter)
+  );
+  tb.innerHTML = filtered.map((m, i) => `
+    <tr>
+      <td style="font-size:22px;text-align:center">${m.icon}</td>
+      <td><strong>${m.name}</strong></td>
+      <td style="color:var(--text2);font-size:12px">${m.use}</td>
+      <td><span class="badge blue">${m.category}</span></td>
+      ${isAdmin ? `<td><div class="actionBtns">
+        <button class="iconBtn" onclick="editMaterial(${materials.indexOf(m)})" title="تعديل">✏️</button>
+        <button class="iconBtn del" onclick="deleteMaterial(${materials.indexOf(m)})" title="حذف">🗑️</button>
+      </div></td>` : ''}
+    </tr>
+  `).join('');
+}
+
+function filterMaterials(v) { renderMaterials(v); }
+
+function openAddMaterial() {
+  editingMaterialIndex = -1;
+  document.getElementById('materialModalTitle').textContent = '➕ إضافة مادة جديدة';
+  ['matIcon','matName','matUse','matCategory'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('materialModal').classList.add('open');
+}
+
+function editMaterial(i) {
+  editingMaterialIndex = i;
+  const m = materials[i];
+  document.getElementById('materialModalTitle').textContent = '✏️ تعديل المادة';
+  document.getElementById('matIcon').value = m.icon;
+  document.getElementById('matName').value = m.name;
+  document.getElementById('matUse').value = m.use;
+  document.getElementById('matCategory').value = m.category;
+  document.getElementById('materialModal').classList.add('open');
+}
+
+function saveMaterial() {
+  const m = {
+    icon: document.getElementById('matIcon').value || '🧴',
+    name: document.getElementById('matName').value,
+    use: document.getElementById('matUse').value,
+    category: document.getElementById('matCategory').value,
+  };
+  if (!m.name) return;
+  if (editingMaterialIndex >= 0) materials[editingMaterialIndex] = m;
+  else materials.push(m);
+  closeModal('materialModal');
+  renderMaterials();
+}
+
+function deleteMaterial(i) {
+  if (confirm('هل تريد حذف هذه المادة؟')) {
+    materials.splice(i, 1);
+    renderMaterials();
+  }
+}
+
+// ════════════════════════════════════════
+// USERS
+// ════════════════════════════════════════
+function renderUsers() {
+  const tb = document.getElementById('usersTable');
+  tb.innerHTML = users.map((u, i) => `
+    <tr>
+      <td><strong>${u.name}</strong></td>
+      <td style="color:var(--text2)">${u.username}</td>
+      <td><span class="badge ${u.role==='admin'?'yellow':'green'}">${u.role==='admin'?'🔑 مشرف':'👷 عامل'}</span></td>
+      <td><span class="badge blue">${u.questions} سؤال</span></td>
+      <td><div class="actionBtns">
+        <button class="iconBtn del" onclick="deleteUser(${i})" title="حذف">🗑️</button>
+      </div></td>
+    </tr>
+  `).join('');
+}
+
+function openAddUser() {
+  ['newUserName','newUsername','newUserPass'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('userModal').classList.add('open');
+}
+
+function saveUser() {
+  const name = document.getElementById('newUserName').value;
+  const username = document.getElementById('newUsername').value;
+  const password = document.getElementById('newUserPass').value;
+  const role = document.getElementById('newUserRole').value;
+  if (!name || !username || !password) return;
+  users.push({ id: Date.now(), name, username, password, role, questions: 0 });
+  closeModal('userModal');
+  renderUsers();
+}
+
+function deleteUser(i) {
+  if (users[i].username === 'admin') return alert('لا يمكن حذف المشرف الرئيسي');
+  if (confirm('هل تريد حذف هذا المستخدم؟')) {
+    users.splice(i, 1);
+    renderUsers();
+  }
+}
+
+// ════════════════════════════════════════
+// DASHBOARD & REPORTS
+// ════════════════════════════════════════
+function renderDashboard() {
+  const total = users.reduce((s,u) => s+u.questions, 0);
+  document.getElementById('totalQuestions').textContent = total;
+  document.getElementById('todayQuestions').textContent = logs.filter(l => true).length;
+
+  // أكثر الأسئلة
+  const qChart = document.getElementById('topQuestionsChart');
+  const topQ = Object.entries(questionStats).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxQ = topQ[0]?.[1] || 1;
+  qChart.innerHTML = topQ.length ? topQ.map(([q,c]) => `
+    <div class="barRow">
+      <div class="barLabel">${q.slice(0,16)}...</div>
+      <div class="barTrack"><div class="barFill" style="width:${c/maxQ*100}%">${c}</div></div>
+    </div>`).join('') : '<div style="color:var(--text2);font-size:13px;text-align:center;padding:20px">لا توجد بيانات بعد</div>';
+
+  // أكثر المستخدمين
+  const uList = document.getElementById('topUsersList');
+  const topU = [...users].sort((a,b)=>b.questions-a.questions).slice(0,5);
+  uList.innerHTML = topU.map((u,i) => `
+    <div class="topItem">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="topRank">${i+1}</div>
+        <div><div style="font-weight:700;font-size:13px">${u.name}</div>
+        <div style="font-size:11px;color:var(--text2)">${u.role==='admin'?'مشرف':'عامل'}</div></div>
+      </div>
+      <span class="badge blue">${u.questions} سؤال</span>
+    </div>`).join('');
+}
+
+function renderReports() {
+  // بالتصنيف
+  const cats = {};
+  materials.forEach(m => { cats[m.category] = (cats[m.category]||0) + 1; });
+  const catChart = document.getElementById('categoryChart');
+  const catEntries = Object.entries(cats);
+  const maxC = Math.max(...catEntries.map(e=>e[1]), 1);
+  catChart.innerHTML = catEntries.map(([c,n]) => `
+    <div class="barRow">
+      <div class="barLabel">${c}</div>
+      <div class="barTrack"><div class="barFill" style="width:${n/maxC*100}%">${n}</div></div>
+    </div>`).join('');
+
+  // المواد
+  const matChart = document.getElementById('materialsChart');
+  matChart.innerHTML = materials.slice(0,5).map(m => `
+    <div class="barRow">
+      <div class="barLabel">${m.icon} ${m.name}</div>
+      <div class="barTrack"><div class="barFill" style="width:60%">متاح</div></div>
+    </div>`).join('');
+
+  // السجل
+  const logsTable = document.getElementById('logsTable');
+  logsTable.innerHTML = logs.slice(0,20).map(l => `
+    <tr>
+      <td><strong>${l.user}</strong></td>
+      <td style="color:var(--text2);font-size:12px">${l.question.slice(0,50)}${l.question.length>50?'...':''}</td>
+      <td style="color:var(--text2);font-size:12px">${l.time}</td>
+      <td><span class="badge blue" style="font-size:10px">${l.model.split('/').pop().slice(0,15)}</span></td>
+    </tr>`).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text2);padding:20px">لا توجد محادثات بعد</td></tr>';
+}
+
+// ════════════════════════════════════════
+// MODAL
+// ════════════════════════════════════════
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// Enter للدخول
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') doLogin();
+});
+</script>
+</body>
+</html>
