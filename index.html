@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل مواد Ecolab</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --card: #1c2330;
+    --border: #30363d;
+    --eco-green: #00b894;
+    --eco-teal: #00cec9;
+    --accent: #fdcb6e;
+    --danger: #e17055;
+    --warning: #f39c12;
+    --safe: #00b894;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --badge-dish: #0984e3;
+    --badge-floor: #6c5ce7;
+    --badge-sanitize: #00b894;
+    --badge-degreaser: #e17055;
+    --badge-descale: #fdcb6e;
+    --badge-hand: #fd79a8;
+    --badge-other: #636e72;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #0d1117 0%, #1a2a1a 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 16px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .logo-badge {
+    background: var(--eco-green);
+    color: #000;
+    font-weight: 900;
+    font-size: 13px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+  }
+
+  .header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .header-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* SEARCH */
+  .search-box {
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 42px 10px 16px;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box input:focus {
+    border-color: var(--eco-green);
+  }
+
+  .search-box input::placeholder { color: var(--muted); }
+
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 16px;
+  }
+
+  /* FILTER TABS */
+  .filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 16px 4px;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+
+  .filter-btn {
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--eco-green);
+    border-color: var(--eco-green);
+    color: #000;
+    font-weight: 700;
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    display: flex;
+    gap: 12px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .stat-item { display: flex; align-items: center; gap: 4px; }
+  .stat-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  /* CARDS */
+  .cards-container {
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.15s, border-color 0.15s;
+    cursor: pointer;
+  }
+
+  .card:active { transform: scale(0.99); }
+
+  .card.expanded { border-color: var(--eco-green); }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .danger-strip {
+    width: 4px;
+    border-radius: 4px;
+    align-self: stretch;
+    flex-shrink: 0;
+    min-height: 40px;
+  }
+
+  .danger-high { background: var(--danger); }
+  .danger-med  { background: var(--warning); }
+  .danger-low  { background: var(--safe); }
+
+  .card-info { flex: 1; min-width: 0; }
+
+  .card-name-en {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--eco-teal);
+    letter-spacing: 0.3px;
+  }
+
+  .card-name-ar {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .card-desc {
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
+  .card-badges {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .badge-dish      { background: var(--badge-dish); }
+  .badge-floor     { background: var(--badge-floor); }
+  .badge-sanitize  { background: var(--badge-sanitize); color: #000; }
+  .badge-degreaser { background: var(--badge-degreaser); }
+  .badge-descale   { background: var(--badge-descale); color: #000; }
+  .badge-hand      { background: var(--badge-hand); color: #000; }
+  .badge-other     { background: var(--badge-other); }
+
+  .card-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .card.expanded .card-arrow { transform: rotate(180deg); color: var(--eco-green); }
+
+  /* EXPANDED DETAILS */
+  .card-details {
+    display: none;
+    border-top: 1px solid var(--border);
+    padding: 14px;
+    background: #131920;
+  }
+
+  .card.expanded .card-details { display: block; }
+
+  .detail-section {
+    margin-bottom: 14px;
+  }
+
+  .detail-section:last-child { margin-bottom: 0; }
+
+  .detail-label {
+    font-size: 11px;
+    color: var(--eco-green);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .detail-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .detail-value {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* DILUTION BOX */
+  .dilution-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dilution-icon { font-size: 22px; }
+
+  .dilution-text { color: var(--text); line-height: 1.5; }
+  .dilution-ratio { color: var(--accent); font-weight: 700; font-size: 15px; }
+
+  /* PPE ICONS */
+  .ppe-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .ppe-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 12px;
+    min-width: 64px;
+  }
+
+  .ppe-icon { font-size: 24px; }
+
+  .ppe-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* DANGER LEVEL */
+  .danger-row {
+    display: flex;
+    gap: 6px;
+  }
+
+  .danger-pill {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .danger-pill.high { background: #3d1a1a; color: var(--danger); border: 1px solid var(--danger); }
+  .danger-pill.med  { background: #3d2d0a; color: var(--warning); border: 1px solid var(--warning); }
+  .danger-pill.low  { background: #0a2d1a; color: var(--safe); border: 1px solid var(--safe); }
+
+  /* FIRST AID */
+  .aid-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .aid-item:last-child { border-bottom: none; }
+  .aid-emoji { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  /* EMPTY STATE */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    display: none;
+  }
+
+  .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; }
+
+  /* SECTION HEADER */
+  .section-header {
+    padding: 10px 16px 6px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* WARNING BANNER */
+  .warning-banner {
+    background: #1a1200;
+    border: 1px solid #3d2d00;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--warning);
+    margin: 10px 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <span class="logo-badge">ECOLAB</span>
+    <div>
+      <div class="header-title">دليل المواد الكيميائية</div>
+      <div class="header-sub">Marriott Hotel · قسم Stewarding</div>
+    </div>
+  </div>
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="ابحث عن مادة..." oninput="filterCards()">
+    <span class="search-icon">🔍</span>
+  </div>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filterCategory('all', this)">الكل</button>
+  <button class="filter-btn" onclick="filterCategory('dish', this)">غسيل الأطباق</button>
+  <button class="filter-btn" onclick="filterCategory('sanitize', this)">تعقيم وتطهير</button>
+  <button class="filter-btn" onclick="filterCategory('floor', this)">أرضيات</button>
+  <button class="filter-btn" onclick="filterCategory('descale', this)">إزالة الأملاح</button>
+  <button class="filter-btn" onclick="filterCategory('degreaser', this)">إزالة الشحوم</button>
+  <button class="filter-btn" onclick="filterCategory('hand', this)">العناية باليد</button>
+</div>
+
+<div class="warning-banner">
+  ⚠️ دائماً اقرأ تعليمات السلامة قبل الاستخدام وارتدِ معدات الحماية المطلوبة
+</div>
+
+<div class="stats-bar">
+  <span class="stat-item"><span class="stat-dot" style="background:var(--danger)"></span> خطورة عالية</span>
+  <span class="stat-item"><span class="stat-dot" style="background:var(--warning)"></span> خطورة متوسطة</span>
+  <span class="stat-item"><span class="stat-dot" style="background:var(--safe)"></span> آمن نسبياً</span>
+</div>
+
+<div class="section-header" id="countLabel">جميع المواد — 19 مادة</div>
+
+<div class="cards-container" id="cardsContainer"></div>
+<div class="empty-state" id="emptyState">
+  <div class="emoji">🔍</div>
+  <p>لا توجد نتائج للبحث</p>
+</div>
+
+<script>
+const chemicals = [
+  {
+    id: 1,
+    nameEn: "SOLID POWER XL",
+    nameAr: "سوليد باور اكس ال",
+    desc: "مادة منظف غسالات الأطباق الصلبة (أوتوماتيك)",
+    category: ["dish"],
+    danger: "high",
+    dilution: "0.07% – 0.4% (يوضع في الجهاز تلقائياً)",
+    dilutionNote: "لا يخفف يدوياً — يُستخدم عبر dispenser الغسالة فقط",
+    ppe: [
+      { icon: "🧤", label: "قفازات مطاط" },
+      { icon: "👓", label: "نظارة واقية" }
+    ],
+    usage: "يوضع في غسالة الأطباق الأوتوماتيك. لا يُستخدم يدوياً. فعّال ضد الدهون والبقايا الغذائية الصلبة.",
+    storage: "يُخزن في مكان بارد وجاف بعيداً عن المواد الحمضية. يُقفل بإحكام.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء لمدة 15 دقيقة على الأقل وأزل العدسات فوراً" },
+      { icon: "🖐️", text: "الجلد: اشطف بالماء والصابون جيداً" },
+      { icon: "😮", text: "الابتلاع: اشطف الفم ولا تستفز القيء — اتصل بالطوارئ فوراً" }
+    ],
+    hazard: "قلوي قوي — يسبب حروق الجلد والعين عند التركيز العالي"
+  },
+  {
+    id: 2,
+    nameEn: "SOLID BRILLIANCE",
+    nameAr: "سوليد برييلنس",
+    desc: "مادة مجفف غسالات الأطباق الصلبة",
+    category: ["dish"],
+    danger: "med",
+    dilution: "يُستخدم عبر dispenser الغسالة تلقائياً",
+    dilutionNote: "لا يخفف يدوياً",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👓", label: "نظارة واقية" }
+    ],
+    usage: "مادة شطف ومجفف للأطباق في غسالات الأطباق الأوتوماتيك. يمنع آثار المياه ويُلمّع الأطباق.",
+    storage: "بعيداً عن الحرارة والرطوبة.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء فوراً لعدة دقائق" },
+      { icon: "🖐️", text: "الجلد: اغسل بالماء والصابون" }
+    ],
+    hazard: "مهيج للجلد والعين"
+  },
+  {
+    id: 3,
+    nameEn: "SOLITAIRE",
+    nameAr: "سوليتير",
+    desc: "مادة الغسيل اليدوي للأواني",
+    category: ["dish"],
+    danger: "low",
+    dilution: "10–20 مل لكل 10 لتر ماء",
+    dilutionNote: "مناسب للاستخدام اليدوي المباشر",
+    ppe: [
+      { icon: "🧤", label: "قفازات" }
+    ],
+    usage: "سائل غسيل يدوي للأواني والأدوات. لطيف على اليدين. يُرغّد جيداً ويزيل الدهون.",
+    storage: "في درجة حرارة الغرفة بعيداً عن الشمس.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" },
+      { icon: "🖐️", text: "الجلد: اغسل بالماء" }
+    ],
+    hazard: "آمن نسبياً — يُسبب تهيجاً طفيفاً"
+  },
+  {
+    id: 4,
+    nameEn: "SOLID SILVER POWER",
+    nameAr: "سيلفر باور",
+    desc: "مادة نقع أدوات المائدة (السيلفر)",
+    category: ["dish"],
+    danger: "med",
+    dilution: "حسب تعليمات الجهاز",
+    dilutionNote: "يستخدم في حوض النقع",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👓", label: "نظارة واقية" },
+      { icon: "👃", label: "تهوية جيدة" }
+    ],
+    usage: "منتج متخصص لنقع وتنظيف أدوات المائدة الفضية والاستانلس ستيل. يزيل البقع والتلون.",
+    storage: "مكان جاف وبارد.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف فوراً بالماء" },
+      { icon: "🖐️", text: "الجلد: اغسل بالماء والصابون" }
+    ],
+    hazard: "مهيج معتدل"
+  },
+  {
+    id: 5,
+    nameEn: "SUPER TRUMP",
+    nameAr: "سوبر ترامب",
+    desc: "منظف غسالات الأطباق السائلة",
+    category: ["dish"],
+    danger: "high",
+    dilution: "يُضخ تلقائياً عبر الجهاز",
+    dilutionNote: "لا يُستخدم يدوياً — قلوي قوي",
+    ppe: [
+      { icon: "🧤", label: "قفازات مطاط" },
+      { icon: "👓", label: "نظارة واقية" }
+    ],
+    usage: "منظف سائل قوي لغسالات الأطباق التجارية. فعّال ضد الدهون والبروتينات الصلبة.",
+    storage: "بعيداً عن المواد الحمضية والحرارة.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف 15 دقيقة واطلب مساعدة طبية" },
+      { icon: "🖐️", text: "الجلد: أزل الملابس المتأثرة واغسل فوراً" },
+      { icon: "😮", text: "الابتلاع: لا تستفز القيء — اتصل بالطوارئ" }
+    ],
+    hazard: "قلوي قوي — خطر حروق"
+  },
+  {
+    id: 6,
+    nameEn: "RINSE DRY",
+    nameAr: "رينز دراي",
+    desc: "مادة مجفف غسالات الأطباق السائلة",
+    category: ["dish"],
+    danger: "med",
+    dilution: "يُجرعم تلقائياً عبر الغسالة",
+    dilutionNote: "لا يخفف يدوياً",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👓", label: "نظارة" }
+    ],
+    usage: "مادة شطف سائلة تمنع آثار المياه وتُسرّع التجفيف على الأطباق والكؤوس.",
+    storage: "بعيداً عن الحرارة.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" }
+    ],
+    hazard: "مهيج معتدل للجلد والعين"
+  },
+  {
+    id: 7,
+    nameEn: "OASIS 146",
+    nameAr: "أواسيس 146",
+    desc: "مطهر الأسطح — لا يحتاج شطف",
+    category: ["sanitize"],
+    danger: "med",
+    dilution: "0.25 – 0.67 أونصة لكل جالون ماء (≈ 2–5 مل / لتر)",
+    dilutionNote: "لا يحتاج شطف بعد الاستخدام على أسطح الطعام",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👓", label: "نظارة" }
+    ],
+    usage: "مطهر متعدد الأغراض مسجل EPA. يستخدم بالرش أو المسح أو في دلو المياه. فعّال ضد البكتيريا المسببة للتسمم الغذائي. مناسب لأسطح المطبخ والطاولات وأحواض الغسيل.",
+    storage: "في مكان بارد بعيداً عن الشمس.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء عدة دقائق" },
+      { icon: "😮", text: "الابتلاع: اشطف الفم واتصل بالطوارئ" }
+    ],
+    hazard: "يسبب حروق الجلد والعين عند التركيز الأصلي (غير المخفف)"
+  },
+  {
+    id: 8,
+    nameEn: "OASIS 133",
+    nameAr: "أواسيس 133",
+    desc: "منظف متعدد الأغراض",
+    category: ["sanitize"],
+    danger: "med",
+    dilution: "حسب السطح: 10–30 مل / لتر",
+    dilutionNote: "يخفف حسب نوع الاستخدام",
+    ppe: [
+      { icon: "🧤", label: "قفازات" }
+    ],
+    usage: "منظف ومعقم متعدد الأغراض. مناسب للأسطح الصلبة في المطبخ والمناطق العامة.",
+    storage: "بعيداً عن الحرارة والتجمد.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" },
+      { icon: "🖐️", text: "الجلد: اغسل بالماء" }
+    ],
+    hazard: "مهيج معتدل"
+  },
+  {
+    id: 9,
+    nameEn: "SANICHLOR",
+    nameAr: "سانيكلور",
+    desc: "مطهر الخضروات والفاكهة",
+    category: ["sanitize"],
+    danger: "med",
+    dilution: "50–100 جزء بالمليون (ppm) — تقريباً 5–10 مل / 10 لتر",
+    dilutionNote: "يُغمر المنتج لمدة دقيقتين ثم يُشطف بالماء النظيف",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "💨", label: "تهوية جيدة" }
+    ],
+    usage: "مطهر كلوري مخصص لتطهير الخضروات والفاكهة قبل التقديم. يقلل من الكائنات الدقيقة الضارة. يجب الشطف جيداً بعد الاستخدام.",
+    storage: "بعيداً عن الحرارة والضوء — قابل للاشتعال.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف فوراً 10 دقائق" },
+      { icon: "😮", text: "الابتلاع: لا تستفز القيء — اتصل بالطوارئ" },
+      { icon: "💨", text: "الاستنشاق: انتقل لمكان مفتوح" }
+    ],
+    hazard: "محلول كلوري — لا تخلطه مع مواد حمضية أو أمونيا"
+  },
+  {
+    id: 10,
+    nameEn: "ENFORCE",
+    nameAr: "إنفورس",
+    desc: "منظف الأرضيات",
+    category: ["floor"],
+    danger: "med",
+    dilution: "30–60 مل / 5 لتر ماء للأرضيات العادية",
+    dilutionNote: "للبقع الصعبة استخدم تركيز أعلى",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👞", label: "حذاء مقاوم للانزلاق" }
+    ],
+    usage: "منظف قوي للأرضيات يزيل الدهون والأوساخ الصعبة. مناسب لأرضيات المطبخ والمناطق عالية الحركة.",
+    storage: "في مكان جاف بعيداً عن التجمد.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" },
+      { icon: "🖐️", text: "الجلد: اغسل بالصابون والماء" }
+    ],
+    hazard: "مهيج معتدل — الأرضية تكون زلقة أثناء الاستخدام"
+  },
+  {
+    id: 11,
+    nameEn: "LIME-AWAY EXTRA",
+    nameAr: "لايم أواي إكسترا",
+    desc: "مزيل الأملاح والترسبات",
+    category: ["descale"],
+    danger: "high",
+    dilution: "يُستخدم مخففاً حسب شدة الترسبات — راجع الملصق",
+    dilutionNote: "حمضي قوي — لا تخلطه مع الكلور أبداً",
+    ppe: [
+      { icon: "🧤", label: "قفازات سميكة" },
+      { icon: "👓", label: "نظارة واقية" },
+      { icon: "👕", label: "ملابس واقية" },
+      { icon: "💨", label: "تهوية كافية" }
+    ],
+    usage: "مزيل الأملاح والترسبات الكلسية من الغسالات وأجهزة البخار والأسطح الاستانلس ستيل. يستعيد كفاءة الأجهزة ويوفر الطاقة.",
+    storage: "بعيداً عن المواد القلوية والكلور. يُقفل جيداً.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف 15 دقيقة على الأقل واطلب طواري فوراً" },
+      { icon: "🖐️", text: "الجلد: أزل الملابس واشطف بالماء فوراً" },
+      { icon: "😮", text: "الابتلاع: لا تستفز القيء — اتصل بالطوارئ فوراً" }
+    ],
+    hazard: "⛔ حمضي قوي — خطر حروق شديدة. لا تخلطه مع الكلور"
+  },
+  {
+    id: 12,
+    nameEn: "GREASSTRIP PLUS",
+    nameAr: "جريس ستريب بلاس",
+    desc: "مزيل الشحوم القوي",
+    category: ["degreaser"],
+    danger: "high",
+    dilution: "مخفف: 1:10 إلى 1:20 حسب الاستخدام",
+    dilutionNote: "للمحركات والمناطق الصناعية يُستخدم بتركيز أعلى",
+    ppe: [
+      { icon: "🧤", label: "قفازات سميكة" },
+      { icon: "👓", label: "نظارة واقية" },
+      { icon: "💨", label: "تهوية جيدة" }
+    ],
+    usage: "مزيل شحوم متخصص للمطابخ التجارية. يُستخدم على شفاطات الهواء والأفران والأسطح المطبخية شديدة الاتساخ.",
+    storage: "بعيداً عن المواد الحمضية والنار.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف فوراً بالماء" },
+      { icon: "🖐️", text: "الجلد: اغسل جيداً بالماء والصابون" },
+      { icon: "💨", text: "الاستنشاق: انتقل لمكان مفتوح" }
+    ],
+    hazard: "قلوي قوي — مهيج للجلد والعين والجهاز التنفسي"
+  },
+  {
+    id: 13,
+    nameEn: "AB CLEAN & SMOOTH",
+    nameAr: "أنتي باكتيريال كلين أند سموث",
+    desc: "صابون اليد المضاد للبكتيريا",
+    category: ["hand"],
+    danger: "low",
+    dilution: "جاهز للاستخدام — بدون تخفيف",
+    dilutionNote: "يُوضع على اليدين مباشرة",
+    ppe: [
+      { icon: "✅", label: "لا يحتاج PPE" }
+    ],
+    usage: "صابون يدين مضاد للبكتيريا. مناسب للاستخدام المتكرر في المطبخ والخدمة. يُنظف ويُرطب اليدين.",
+    storage: "في درجة حرارة الغرفة.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء إذا دخل العين" }
+    ],
+    hazard: "آمن — مهيج طفيف للعين فقط"
+  },
+  {
+    id: 14,
+    nameEn: "INSTANT HAND SANITIZER",
+    nameAr: "أنستانت هاند سانيتايزر",
+    desc: "معقم اليدين الفوري",
+    category: ["hand"],
+    danger: "low",
+    dilution: "جاهز للاستخدام — بدون شطف",
+    dilutionNote: "افرك اليدين حتى يجف تلقائياً",
+    ppe: [
+      { icon: "✅", label: "لا يحتاج PPE" }
+    ],
+    usage: "معقم يدين يحتوي على كحول. يقتل 99.9% من البكتيريا في 30 ثانية. يُستخدم بين المهام دون الحاجة للماء.",
+    storage: "بعيداً عن الحرارة والنار — قابل للاشتعال.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" },
+      { icon: "😮", text: "الابتلاع بكمية كبيرة: اتصل بالطوارئ" }
+    ],
+    hazard: "⚠️ قابل للاشتعال — بعيداً عن النار والحرارة"
+  },
+  {
+    id: 15,
+    nameEn: "DECARBONIZER MXP",
+    nameAr: "ديكاربونايزر",
+    desc: "مادة نقع الأواني المحروقة",
+    category: ["dish"],
+    danger: "high",
+    dilution: "يُخفف في حوض النقع حسب التعليمات",
+    dilutionNote: "يُنقع لساعات — لا يُستخدم مباشرة بلا تخفيف",
+    ppe: [
+      { icon: "🧤", label: "قفازات سميكة" },
+      { icon: "👓", label: "نظارة واقية" },
+      { icon: "💨", label: "تهوية" }
+    ],
+    usage: "مخصص لإزالة الترسبات والمحترقات الصعبة من الأواني والأدوات. يُنقع الأواني في المحلول لفترة محددة ثم يُشطف جيداً.",
+    storage: "مكان بارد وجاف مع قفل جيد.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف 15 دقيقة واطلب طواري" },
+      { icon: "🖐️", text: "الجلد: اشطف فوراً بالماء" },
+      { icon: "😮", text: "الابتلاع: اتصل بالطوارئ فوراً" }
+    ],
+    hazard: "خطر عالي — يسبب حروق كيميائية"
+  },
+  {
+    id: 16,
+    nameEn: "ECO CLIN TABS",
+    nameAr: "ايكوكلين تاب",
+    desc: "منظف ماكينات غسيل الأكواب",
+    category: ["dish"],
+    danger: "med",
+    dilution: "قرص واحد لكل دورة أو حسب تعليمات الجهاز",
+    dilutionNote: "أقراص جاهزة — لا تلمس بيدين مبللتين",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👓", label: "نظارة" }
+    ],
+    usage: "أقراص منظف لماكينات غسيل الأكواب. سهلة الاستخدام وموزونة بدقة. فعّالة ضد البقع والشحوم.",
+    storage: "في مكان جاف بعيداً عن الرطوبة.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" },
+      { icon: "🖐️", text: "الجلد: اغسل بالماء والصابون" }
+    ],
+    hazard: "مهيج معتدل"
+  },
+  {
+    id: 17,
+    nameEn: "CHROMOL",
+    nameAr: "كروومول",
+    desc: "ملمع المستلزم ستيل",
+    category: ["other"],
+    danger: "low",
+    dilution: "يُستخدم مباشرة بلا تخفيف — يُمسح بقطعة ناعمة",
+    dilutionNote: "امسح في اتجاه اللحام",
+    ppe: [
+      { icon: "🧤", label: "قفازات خفيفة" }
+    ],
+    usage: "ملمع وحافظ للأسطح الاستانلس ستيل. يُزيل البصمات والبقع ويُكوّن طبقة حماية. يُستخدم على الأجهزة والعربات والأسطح.",
+    storage: "بعيداً عن الحرارة.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" }
+    ],
+    hazard: "آمن نسبياً — تجنب استنشاق البخار"
+  },
+  {
+    id: 18,
+    nameEn: "DIP-IT XP",
+    nameAr: "ديب إت إكس بي",
+    desc: "مزيل بقع الشاي والقهوة",
+    category: ["dish"],
+    danger: "med",
+    dilution: "حسب كثافة البقع — عادة 1–2 ملعقة / لتر ماء ساخن",
+    dilutionNote: "الماء الساخن يزيد الفعالية",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👓", label: "نظارة" }
+    ],
+    usage: "منظف متخصص لإزالة بقع الشاي والقهوة من الأكواب والأطباق والفناجين. يُنقع أو يُفرك حسب البقعة.",
+    storage: "مكان جاف وبارد.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" },
+      { icon: "🖐️", text: "الجلد: اغسل بالماء والصابون" }
+    ],
+    hazard: "مهيج معتدل"
+  },
+  {
+    id: 19,
+    nameEn: "MIKRO QUAT",
+    nameAr: "مايكرو كوات",
+    desc: "مطهر ومزيل الروائح الكريهة",
+    category: ["sanitize", "floor"],
+    danger: "med",
+    dilution: "5–10 مل / لتر ماء للتطهير العام",
+    dilutionNote: "يُستخدم في صناديق القمامة والأماكن ذات الروائح",
+    ppe: [
+      { icon: "🧤", label: "قفازات" },
+      { icon: "👓", label: "نظارة" }
+    ],
+    usage: "مطهر رباعي الأمونيوم يقضي على الروائح الكريهة ويطهر الأسطح. فعّال في غرف القمامة ودورات المياه والمناطق الخدمية.",
+    storage: "بعيداً عن الحرارة.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء عدة دقائق" },
+      { icon: "🖐️", text: "الجلد: اغسل بالماء والصابون" }
+    ],
+    hazard: "مهيج للجلد والعين عند التركيز العالي"
+  },
+  {
+    id: 20,
+    nameEn: "PATHWAYS",
+    nameAr: "باثوايز",
+    desc: "معالج مياه الصرف",
+    category: ["other"],
+    danger: "low",
+    dilution: "حسب التعليمات — يُصب مباشرة في البالوعة",
+    dilutionNote: "يُستخدم دورياً للصيانة",
+    ppe: [
+      { icon: "🧤", label: "قفازات" }
+    ],
+    usage: "بكتيريا حية وإنزيمات تُحلّل الدهون والمواد العضوية في مواسير الصرف. يمنع انسداد المواسير ويقضي على الروائح.",
+    storage: "في مكان بارد — لا يُجمّد.",
+    firstAid: [
+      { icon: "👁️", text: "العين: اشطف بالماء" }
+    ],
+    hazard: "آمن — منتج بيولوجي طبيعي"
+  }
+];
+
+let activeCategory = 'all';
+
+function getDangerClass(d) {
+  return d === 'high' ? 'danger-high' : d === 'med' ? 'danger-med' : 'danger-low';
+}
+
+function getDangerLabel(d) {
+  return d === 'high' ? 'خطورة عالية' : d === 'med' ? 'خطورة متوسطة' : 'آمن نسبياً';
+}
+
+function getDangerPillClass(d) {
+  return d === 'high' ? 'high' : d === 'med' ? 'med' : 'low';
+}
+
+function getBadgeHTML(cats) {
+  const map = {
+    dish: ['badge-dish', 'غسيل أطباق'],
+    sanitize: ['badge-sanitize', 'تطهير'],
+    floor: ['badge-floor', 'أرضيات'],
+    descale: ['badge-descale', 'إزالة أملاح'],
+    degreaser: ['badge-degreaser', 'مزيل شحوم'],
+    hand: ['badge-hand', 'العناية باليد'],
+    other: ['badge-other', 'أخرى']
+  };
+  return cats.map(c => `<span class="badge ${map[c][0]}">${map[c][1]}</span>`).join('');
+}
+
+function renderCards(list) {
+  const container = document.getElementById('cardsContainer');
+  const empty = document.getElementById('emptyState');
+  const countLabel = document.getElementById('countLabel');
+
+  if (list.length === 0) {
+    container.innerHTML = '';
+    empty.style.display = 'block';
+    countLabel.textContent = 'لا توجد نتائج';
+    return;
+  }
+
+  empty.style.display = 'none';
+  countLabel.textContent = `${list.length} ${list.length === 1 ? 'مادة' : 'مواد'}`;
+
+  container.innerHTML = list.map(c => `
+    <div class="card" id="card-${c.id}" onclick="toggleCard(${c.id})">
+      <div class="card-header">
+        <div class="danger-strip ${getDangerClass(c.danger)}"></div>
+        <div class="card-info">
+          <div class="card-name-en">${c.nameEn}</div>
+          <div class="card-name-ar">${c.nameAr}</div>
+          <div class="card-desc">${c.desc}</div>
+          <div class="card-badges">${getBadgeHTML(c.category)}</div>
+        </div>
+        <div class="card-arrow">▼</div>
+      </div>
+      <div class="card-details">
+        <div class="detail-section">
+          <div class="detail-label">مستوى الخطورة</div>
+          <div class="danger-row">
+            <span class="danger-pill ${getDangerPillClass(c.danger)}">${getDangerLabel(c.danger)}</span>
+          </div>
+          ${c.hazard ? `<div class="detail-value" style="margin-top:8px;color:var(--warning)">${c.hazard}</div>` : ''}
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-label">نسبة التخفيف</div>
+          <div class="dilution-box">
+            <div class="dilution-icon">💧</div>
+            <div class="dilution-text">
+              <div class="dilution-ratio">${c.dilution}</div>
+              <div style="color:var(--muted);font-size:12px;margin-top:2px">${c.dilutionNote}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-label">معدات الحماية (PPE)</div>
+          <div class="ppe-row">
+            ${c.ppe.map(p => `<div class="ppe-item"><div class="ppe-icon">${p.icon}</div><div class="ppe-label">${p.label}</div></div>`).join('')}
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-label">طريقة الاستخدام</div>
+          <div class="detail-value">${c.usage}</div>
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-label">الإسعافات الأولية</div>
+          ${c.firstAid.map(a => `<div class="aid-item"><div class="aid-emoji">${a.icon}</div><div>${a.text}</div></div>`).join('')}
+        </div>
+
+        <div class="detail-section">
+          <div class="detail-label">التخزين</div>
+          <div class="detail-value">${c.storage}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleCard(id) {
+  const card = document.getElementById(`card-${id}`);
+  const wasExpanded = card.classList.contains('expanded');
+  document.querySelectorAll('.card.expanded').forEach(c => c.classList.remove('expanded'));
+  if (!wasExpanded) {
+    card.classList.add('expanded');
+    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+  }
+}
+
+function getFilteredList() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  return chemicals.filter(c => {
+    const matchCat = activeCategory === 'all' || c.category.includes(activeCategory);
+    const matchSearch = !query ||
+      c.nameEn.toLowerCase().includes(query) ||
+      c.nameAr.includes(query) ||
+      c.desc.includes(query);
+    return matchCat && matchSearch;
+  });
+}
+
+function filterCards() {
+  renderCards(getFilteredList());
+}
+
+function filterCategory(cat, btn) {
+  activeCategory = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterCards();
+}
+
+// Initial render
+renderCards(chemicals);
+</script>
+
+<div style="
+  margin: 28px 12px 0;
+  border-top: 1px solid #30363d;
+  padding-top: 18px;
+  text-align: center;
+">
+  <div style="font-size:12px;color:#8b949e;margin-bottom:10px;">تم التطوير بواسطة</div>
+  <div style="font-size:16px;font-weight:700;color:#00b894;margin-bottom:12px;">Samy Salama</div>
+  <a href="https://wa.me/201122901102" target="_blank" style="
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1a3d2b;
+    border: 1px solid #00b894;
+    color: #00b894;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.2s;
+  ">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#00b894">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    تواصل عبر واتساب
+  </a>
+  <div style="font-size:11px;color:#636e72;margin-top:14px;">+201122901102</div>
+</div>
+
+</body>
+</html>
