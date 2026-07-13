@@ -1,0 +1,3550 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="description" content="دليل احترافي متقدم للاستيوارد يشمل المواد الكيميائية والسلامة والتنظيف والمساعد الذكي بدون اتصال خارجي.">
+<title>دليل الاستيوارد — Marriott</title>
+
+<!-- تحميل مسبق للخط لتسريع أول رسم للصفحة -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap">
+
+<style>
+/* ==========================================================================
+   1. DESIGN TOKENS
+   ========================================================================== */
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --card: #1c2330;
+  --border: #30363d;
+  --green: #00b894;
+  --teal: #00cec9;
+  --accent: #fdcb6e;
+  --danger: #e17055;
+  --warning: #f39c12;
+  --safe: #00b894;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --nav-h: 62px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+}
+
+/* ==========================================================================
+   2. RESET & BASE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: calc(var(--nav-h) + 10px);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, rgba(0, 184, 148, .13), transparent 22%),
+    radial-gradient(circle at bottom left, rgba(0, 206, 201, .10), transparent 18%);
+}
+
+/* إخفاء بصري فقط - يبقى متاحاً لقارئ الشاشة */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* رابط تخطي المحتوى - أول عنصر يصل له مستخدم لوحة المفاتيح */
+.skip-link {
+  position: absolute;
+  right: 12px;
+  top: -100px;
+  background: var(--green);
+  color: #000;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  z-index: 1000;
+  transition: top .2s;
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* حالة تركيز واضحة لكل العناصر التفاعلية */
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   3. HEADER
+   ========================================================================== */
+.site-header {
+  background: linear-gradient(135deg, #0d1117 0%, #1a2a1a 50%, #0d1117 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 16px 14px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.logo-badge {
+  background: var(--green);
+  color: #000;
+  font-weight: 900;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+}
+.header-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+.header-sub {
+  font-size: 11px;
+  color: var(--muted);
+}
+.search-box {
+  position: relative;
+}
+.search-box label {
+  display: block;
+  margin-bottom: 4px;
+}
+.search-box input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 42px 10px 16px;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s;
+}
+.search-box input:focus {
+  border-color: var(--green);
+}
+.search-box input::placeholder {
+  color: var(--muted);
+}
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ==========================================================================
+   4. BOTTOM NAVIGATION
+   ========================================================================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  background: #161b22;
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 200;
+}
+.nav-btn {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: 'Cairo', sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  transition: color .2s;
+  padding: 8px 0;
+}
+.nav-btn[aria-current="page"] {
+  color: var(--green);
+}
+.nav-btn .nav-icon {
+  font-size: 22px;
+}
+.nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 3px;
+  background: var(--green);
+  border-radius: 0 0 3px 3px;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.nav-btn[aria-current="page"] .nav-indicator {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   5. TAB PANELS
+   ========================================================================== */
+.tab-panel {
+  display: none;
+  padding-bottom: 8px;
+}
+.tab-panel.active {
+  display: block;
+}
+
+/* ==========================================================================
+   6. FILTERS & STATS
+   ========================================================================== */
+.filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 16px 4px;
+  scrollbar-width: none;
+}
+.filters::-webkit-scrollbar {
+  display: none;
+}
+.filter-btn {
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.filter-btn[aria-pressed="true"],
+.filter-btn:hover {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+  font-weight: 700;
+}
+
+.warning-banner {
+  background: #1a1200;
+  border: 1px solid #3d2d00;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--warning);
+  margin: 10px 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stats-bar {
+  display: flex;
+  gap: 12px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--muted);
+  flex-wrap: wrap;
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.stat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.section-heading {
+  padding: 8px 16px 4px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   7. CHEMICAL CARDS
+   ========================================================================== */
+.cards-container {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chem-card {
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform .15s, border-color .15s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .08);
+}
+.chem-card:hover {
+  border-color: #3d4a52;
+  transform: translateY(-1px);
+}
+.chem-card:has(.card-toggle[aria-expanded="true"]) {
+  border-color: var(--green);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+}
+.danger-strip {
+  width: 4px;
+  border-radius: 4px;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-height: 40px;
+}
+.danger-high { background: var(--danger); }
+.danger-med { background: var(--warning); }
+.danger-low { background: var(--safe); }
+
+.card-toggle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  color: inherit;
+  text-align: right;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  padding: 0;
+}
+.card-info {
+  flex: 1;
+  min-width: 0;
+}
+.card-name-en {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal);
+}
+.card-name-ar {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.card-desc {
+  font-size: 13px;
+  color: var(--text);
+  margin-top: 4px;
+  font-weight: 600;
+}
+.card-badges {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+.badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #fff;
+}
+.badge-dish { background: #0984e3; }
+.badge-floor { background: #6c5ce7; }
+.badge-sanitize { background: var(--green); color: #000; }
+.badge-degreaser { background: var(--danger); }
+.badge-descale { background: var(--accent); color: #000; }
+.badge-hand { background: #fd79a8; color: #000; }
+.badge-other { background: #636e72; }
+
+.card-arrow {
+  color: var(--muted);
+  font-size: 18px;
+  transition: transform .3s;
+  flex-shrink: 0;
+}
+.card-toggle[aria-expanded="true"] .card-arrow {
+  transform: rotate(180deg);
+  color: var(--green);
+}
+.card-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.favorite-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s;
+}
+.favorite-btn[aria-pressed="true"] {
+  background: #2b1e05;
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.favorite-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.card-details {
+  border-top: 1px solid var(--border);
+  padding: 14px;
+  background: #131920;
+}
+.card-details[hidden] {
+  display: none;
+}
+.detail-section {
+  margin-bottom: 14px;
+}
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+.detail-label {
+  font-size: 11px;
+  color: var(--green);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.detail-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.detail-value {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.dilution-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dilution-icon {
+  font-size: 22px;
+}
+.dilution-ratio {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 15px;
+}
+.ppe-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ppe-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  min-width: 64px;
+}
+.ppe-icon { font-size: 24px; }
+.ppe-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.3;
+}
+.danger-pill {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.danger-pill.high { background: #3d1a1a; color: var(--danger); border: 1px solid var(--danger); }
+.danger-pill.med { background: #3d2d0a; color: var(--warning); border: 1px solid var(--warning); }
+.danger-pill.low { background: #0a2d1a; color: var(--safe); border: 1px solid var(--safe); }
+
+.aid-item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.aid-item:last-child { border-bottom: none; }
+.aid-emoji {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.copy-btn {
+  margin-top: 10px;
+  background: #10231c;
+  border: 1px dashed rgba(0, 184, 148, .45);
+  color: var(--green);
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.copy-btn:hover {
+  background: rgba(0, 184, 148, .12);
+}
+.mini-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  margin: 12px;
+}
+.empty-state[hidden] { display: none; }
+.empty-state .empty-icon {
+  font-size: 48px;
+}
+
+/* ==========================================================================
+   8. HERO / DASHBOARD (صفحة المواد)
+   ========================================================================== */
+.master-shell {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.hero-panel {
+  background: linear-gradient(135deg, rgba(0, 184, 148, .18), rgba(13, 17, 23, .96) 42%, rgba(0, 206, 201, .08));
+  border: 1px solid rgba(0, 184, 148, .35);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+  position: relative;
+  overflow: hidden;
+}
+.hero-panel::after {
+  content: '';
+  position: absolute;
+  inset: auto -40px -40px auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253, 203, 110, .22), transparent 65%);
+}
+.hero-kicker {
+  font-size: 11px;
+  letter-spacing: .8px;
+  color: var(--green);
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.hero-title {
+  font-size: 22px;
+  line-height: 1.4;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.hero-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 62ch;
+}
+.hero-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.quick-action {
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 9px 12px;
+  border-radius: 999px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.quick-action:hover {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+}
+.mini-note.hero-recommendation {
+  margin-top: 12px;
+  color: var(--text);
+}
+.context-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 184, 148, .1);
+  border: 1px solid rgba(0, 184, 148, .25);
+  color: var(--green);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.dashboard-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(0, 0, 0, .08));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+.dashboard-card .dash-label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.dashboard-card .dash-value {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--text);
+}
+.dashboard-card .dash-hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.6;
+}
+.dashboard-card.accent .dash-value { color: var(--green); }
+.dashboard-card.warn .dash-value { color: var(--warning); }
+.dashboard-card.danger .dash-value { color: var(--danger); }
+
+.toolbar-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 8px 12px 0;
+}
+.toolbar-title {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+}
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tool-btn {
+  background: #1c2330;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tool-btn:hover,
+.tool-btn[aria-pressed="true"] {
+  background: #13261f;
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* ==========================================================================
+   9. EDUCATION PAGE
+   ========================================================================== */
+.edu-page {
+  padding: 12px;
+}
+.edu-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.edu-section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+  background: none;
+  border: none;
+  color: inherit;
+  text-align: right;
+  font-family: 'Cairo', sans-serif;
+}
+.edu-section-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+}
+.edu-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  flex: 1;
+}
+.edu-section-arrow {
+  color: var(--muted);
+  font-size: 18px;
+  transition: transform .3s;
+}
+.edu-section-header[aria-expanded="true"] .edu-section-arrow {
+  transform: rotate(180deg);
+  color: var(--green);
+}
+.edu-section-body {
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.edu-section-body[hidden] {
+  display: none;
+}
+
+/* pH Scale */
+.ph-scale {
+  margin: 14px 0;
+}
+.ph-bar {
+  height: 28px;
+  border-radius: 14px;
+  background: linear-gradient(to left, #8e44ad, #c0392b, #e74c3c, #e67e22, #f39c12, #2ecc71, #27ae60, #3498db, #2980b9, #1abc9c, #16a085, #8e44ad, #6c3483, #4a235a);
+  position: relative;
+  margin-bottom: 8px;
+}
+.ph-numbers {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+  padding: 0 2px;
+}
+.ph-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  gap: 6px;
+}
+.ph-label {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  text-align: center;
+}
+.ph-label.acid { background: #3d1a1a; color: var(--danger); }
+.ph-label.neutral { background: #0a2d1a; color: var(--safe); }
+.ph-label.alkali { background: #1a1240; color: #a29bfe; }
+
+.ph-ref-list {
+  margin: 10px 0;
+}
+.ph-ref-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  background: var(--surface);
+}
+.ph-badge {
+  min-width: 52px;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.ph-ref-text {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* Cleaning Steps */
+.steps-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 12px 0;
+}
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  position: relative;
+}
+.step-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 20px;
+  top: 48px;
+  width: 2px;
+  height: calc(100% - 8px);
+  background: var(--border);
+}
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #000;
+  font-weight: 900;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+.step-content {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  flex: 1;
+  margin-bottom: 8px;
+}
+.step-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.step-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Temperature Table */
+.temp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.temp-table th {
+  background: var(--surface);
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 12px;
+}
+.temp-table td {
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.temp-low { background: #0a2d1a; color: #00b894; font-weight: 700; }
+.temp-mid { background: #1a2000; color: #f39c12; font-weight: 700; }
+.temp-high { background: #2d1a00; color: #e17055; font-weight: 700; }
+
+/* Info Cards */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+.info-card .ic-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+.info-card .ic-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.info-card .ic-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Equipment Cards */
+.equip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.equip-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.equip-steps {
+  list-style: none;
+}
+.equip-steps li {
+  font-size: 12px;
+  color: var(--text);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  line-height: 1.5;
+}
+.equip-steps li:last-child { border-bottom: none; }
+.equip-steps li::before {
+  content: '←';
+  color: var(--green);
+  flex-shrink: 0;
+}
+.chem-tag {
+  display: inline-block;
+  background: #1a2a1a;
+  color: var(--green);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin: 2px;
+}
+
+/* Contamination */
+.contam-card {
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.contam-bio { background: #1a0a0a; border: 1px solid #5d1a1a; }
+.contam-chem { background: #0a1a0a; border: 1px solid #1a5d1a; }
+.contam-phys { background: #0a0a1a; border: 1px solid #1a1a5d; }
+.contam-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.contam-bio .contam-title { color: #ff7675; }
+.contam-chem .contam-title { color: #55efc4; }
+.contam-phys .contam-title { color: #74b9ff; }
+.contam-desc {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.contam-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.contam-tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   10. SAFETY PAGE
+   ========================================================================== */
+.safety-page {
+  padding: 12px;
+}
+.safety-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.safety-block-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.safety-list {
+  list-style: none;
+}
+.safety-list li {
+  font-size: 13px;
+  color: var(--text);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  line-height: 1.6;
+}
+.safety-list li:last-child { border-bottom: none; }
+.safety-list li .s-icon {
+  flex-shrink: 0;
+  font-size: 16px;
+}
+.ppe-full-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+.ppe-full-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+}
+.ppe-full-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+.ppe-full-name {
+  font-size: 11px;
+  color: var(--text);
+  font-weight: 600;
+}
+.ppe-full-when {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.alert-box {
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.alert-danger { background: #2d0a0a; border: 1px solid var(--danger); color: #ff7675; }
+.alert-warning { background: #2d1a00; border: 1px solid var(--warning); color: var(--warning); }
+.alert-info { background: #0a1a2d; border: 1px solid #0984e3; color: #74b9ff; }
+
+/* ==========================================================================
+   11. AI CHAT PAGE
+   ========================================================================== */
+.ai-page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--nav-h) - 60px);
+}
+.ai-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ai-welcome {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d2a1a, #0a1a0a);
+  border: 1px solid var(--green);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 4px;
+}
+.ai-welcome::after {
+  content: '';
+  position: absolute;
+  left: -40px;
+  top: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(0, 184, 148, .16), transparent 65%);
+}
+.ai-welcome-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ai-welcome-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.ai-suggestions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 12px;
+}
+.ai-tip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text);
+}
+.ai-tip strong { color: var(--accent); }
+.ai-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ai-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  padding: 8px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .2s;
+  text-align: right;
+}
+.ai-chip:hover,
+.ai-chip:active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #000;
+  font-weight: 700;
+}
+.msg {
+  max-width: 85%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.msg-user {
+  align-self: flex-start;
+  background: #1a2a3a;
+  border: 1px solid #0984e3;
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.msg-ai {
+  align-self: flex-end;
+  background: #0d2a1a;
+  border: 1px solid var(--green);
+  color: var(--text);
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .16);
+}
+.msg-ai-label {
+  font-size: 10px;
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.msg-thinking {
+  align-self: flex-end;
+  background: #0d2a1a;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  border-bottom-right-radius: 4px;
+  padding: 14px 16px;
+}
+.thinking-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.thinking-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: bounce 1.2s infinite;
+}
+.thinking-dots span:nth-child(2) { animation-delay: .2s; }
+.thinking-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+}
+.ai-input-area {
+  padding: 10px 12px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+.ai-input-area label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+.ai-input {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  min-height: 44px;
+  max-height: 120px;
+  line-height: 1.5;
+  transition: border-color .2s;
+}
+.ai-input:focus {
+  border-color: var(--green);
+}
+.ai-input::placeholder {
+  color: var(--muted);
+}
+.ai-send {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--green);
+  border: none;
+  color: #000;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: opacity .2s;
+}
+.ai-send:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+.ai-clear {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 4px 12px 0;
+}
+.ai-clear:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* ==========================================================================
+   12. FLOATING CONTROLS & OVERLAYS
+   ========================================================================== */
+.floating-stack {
+  position: fixed;
+  left: 14px;
+  bottom: calc(var(--nav-h) + 16px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 300;
+}
+.floating-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 20px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
+  cursor: pointer;
+}
+.floating-btn.emergency {
+  background: linear-gradient(135deg, #2d0a0a, #4a1212);
+  color: #ffb2a8;
+  border-color: #7c2b22;
+}
+.floating-btn.top {
+  background: linear-gradient(135deg, #0b1d17, #15352a);
+  color: var(--green);
+  border-color: #225846;
+}
+.quick-sheet {
+  position: fixed;
+  inset: auto 12px calc(var(--nav-h) + 12px) 12px;
+  background: #11161d;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  z-index: 320;
+  padding: 16px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+  display: none;
+}
+.quick-sheet.open {
+  display: block;
+  animation: fadeUp .22s ease;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.quick-sheet-title {
+  font-size: 15px;
+  font-weight: 900;
+  color: #ffb2a8;
+  margin-bottom: 8px;
+}
+.quick-sheet-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.quick-sheet-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.quick-sheet-item strong { color: var(--accent); }
+.close-sheet {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #1d2630;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+.toast {
+  position: fixed;
+  right: 12px;
+  bottom: calc(var(--nav-h) + 18px);
+  background: #0f251d;
+  border: 1px solid var(--green);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 12px;
+  z-index: 350;
+  font-size: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: all .2s;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .22);
+}
+.toast.show {
+  opacity: 1;
+  transform: none;
+}
+
+/* ==========================================================================
+   13. SHARED / FOOTER / UTILITIES
+   ========================================================================== */
+.dev-footer {
+  margin: 20px 12px 0;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .01), rgba(255, 255, 255, .03));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 14px;
+}
+.dev-footer-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.dev-footer-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+.whatsapp-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1a3d2b;
+  border: 1px solid var(--green);
+  color: var(--green);
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+.dev-footer-phone {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.mt8 { margin-top: 8px; }
+.mt12 { margin-top: 12px; }
+.fw7 { font-weight: 700; }
+.text-green { color: var(--green); }
+.text-muted { color: var(--muted); font-size: 12px; }
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 12px 0;
+  border: none;
+}
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: #222b36;
+  border: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   13.5 HACCP & GOLDEN RULES (قسم سلامة الغذاء الجديد)
+   ========================================================================== */
+
+/* شبكة القواعد الذهبية المرقّمة */
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.rule-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  transition: border-color .2s, transform .15s;
+}
+.rule-card:hover {
+  border-color: var(--green);
+  transform: translateY(-1px);
+}
+.rule-number {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #000;
+  font-weight: 900;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rule-body {
+  flex: 1;
+  min-width: 0;
+}
+.rule-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 3px;
+  line-height: 1.5;
+}
+.rule-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* بطاقة درجات الحرارة السريعة (ساخن/بارد/تجميد) */
+.temp-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.temp-quick-card {
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.temp-quick-card.hot { background: #2d1200; border-color: var(--danger); }
+.temp-quick-card.cold { background: #001a2d; border-color: #0984e3; }
+.temp-quick-card.frozen { background: #0a1530; border-color: #74b9ff; }
+.temp-quick-icon { font-size: 26px; margin-bottom: 6px; }
+.temp-quick-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.temp-quick-value { font-size: 16px; font-weight: 900; }
+.temp-quick-card.hot .temp-quick-value { color: var(--danger); }
+.temp-quick-card.cold .temp-quick-value { color: #74b9ff; }
+.temp-quick-card.frozen .temp-quick-value { color: #a29bfe; }
+
+/* شارات مسببات الحساسية التسعة */
+.allergen-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.allergen-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text);
+}
+.allergen-badge .allergen-icon { font-size: 15px; }
+
+/* بطاقة تنبيه بنفسجي مخصصة لحالات الحساسية */
+.alert-purple {
+  background: #26123d;
+  border: 1px solid #a29bfe;
+  color: #cbb8ff;
+}
+
+/* ألواح التقطيع الملونة (Color-coded cutting boards) */
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.board-card {
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.board-swatch {
+  width: 34px;
+  height: 44px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.board-swatch.board-green { background: #2ecc71; }
+.board-swatch.board-red { background: #e74c3c; }
+.board-swatch.board-yellow { background: #f1c40f; }
+.board-swatch.board-blue { background: #3498db; }
+.board-swatch.board-brown { background: #8b5a2b; }
+.board-swatch.board-white { background: #f4f4f4; }
+.board-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.board-use {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+/* ترتيب الثلاجة من أعلى لأسفل */
+.fridge-order {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 12px 0;
+}
+.fridge-tier {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  position: relative;
+}
+.fridge-tier:first-child { border-radius: 10px 10px 0 0; }
+.fridge-tier:last-child { border-radius: 0 0 10px 10px; }
+.fridge-tier:not(:last-child) { border-bottom: none; }
+.fridge-tier-icon { font-size: 20px; flex-shrink: 0; }
+.fridge-tier-label { font-size: 13px; font-weight: 700; color: var(--text); }
+.fridge-tier-note { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.fridge-tier-arrow {
+  margin-inline-start: auto;
+  font-size: 11px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+/* بطاقات مبادئ HACCP السبعة */
+.haccp-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 12px 0;
+}
+.haccp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-inline-start: 4px solid var(--green);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.haccp-step {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(0,184,148,.12);
+  color: var(--green);
+  font-weight: 900;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0,184,148,.35);
+}
+.haccp-body { flex: 1; min-width: 0; }
+.haccp-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 4px;
+}
+.haccp-desc {
+  font-size: 12px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.haccp-example {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255,255,255,.03);
+  border-radius: 8px;
+  padding: 6px 10px;
+  line-height: 1.6;
+}
+.haccp-example strong { color: var(--accent); }
+
+/* شارة "جديد" صغيرة على عنوان القسم */
+.section-new-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #000;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-inline-start: 6px;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   14. RESPONSIVE
+   ========================================================================== */
+@media (min-width: 720px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    align-items: start;
+  }
+}
+
+@media (min-width: 1080px) {
+  .cards-container {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .master-shell,
+  .edu-page,
+  .safety-page {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-title { font-size: 19px; }
+  .dashboard-card .dash-value { font-size: 17px; }
+  .ai-suggestions { grid-template-columns: 1fr; }
+}
+
+@media print {
+  .bottom-nav, .site-header, .floating-stack, .ai-input-area,
+  .ai-clear, .search-box, .filters, .toolbar-panel, .skip-link {
+    display: none !important;
+  }
+  body { background: #fff; color: #000; padding: 0; }
+  .tab-panel { display: block !important; }
+  .chem-card, .edu-section, .safety-block, .dev-footer, .hero-panel, .dashboard-card {
+    break-inside: avoid;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+  }
+}
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
+<!-- ══════════════ HEADER ══════════════ -->
+<header class="site-header" id="mainHeader">
+  <div class="header-top">
+    <span class="logo-badge">ECOLAB</span>
+    <div>
+      <h1 class="header-title" id="pageTitle">دليل المواد الكيميائية</h1>
+      <p class="header-sub">Marriott Hotel · قسم Stewarding</p>
+    </div>
+  </div>
+  <div class="search-box" id="searchWrapper">
+    <label for="searchInput" class="visually-hidden">البحث في المواد الكيميائية</label>
+    <input type="search" id="searchInput" placeholder="ابحث عن مادة..." autocomplete="off">
+    <span class="search-icon" aria-hidden="true">🔍</span>
+  </div>
+</header>
+
+<main id="main-content">
+
+<!-- ══════════════ PAGE: CHEMICALS ══════════════ -->
+<section class="tab-panel active" id="page-chemicals" role="tabpanel" aria-labelledby="nav-chemicals">
+  <div class="filters" role="group" aria-label="تصفية حسب الفئة">
+    <button class="filter-btn" data-category="all" aria-pressed="true">الكل</button>
+    <button class="filter-btn" data-category="dish" aria-pressed="false">غسيل الأطباق</button>
+    <button class="filter-btn" data-category="sanitize" aria-pressed="false">تعقيم</button>
+    <button class="filter-btn" data-category="floor" aria-pressed="false">أرضيات</button>
+    <button class="filter-btn" data-category="descale" aria-pressed="false">إزالة الأملاح</button>
+    <button class="filter-btn" data-category="degreaser" aria-pressed="false">إزالة الشحوم</button>
+    <button class="filter-btn" data-category="hand" aria-pressed="false">العناية باليد</button>
+  </div>
+  <div class="warning-banner" role="note">
+    <span aria-hidden="true">⚠️</span>
+    <span>دائماً اقرأ تعليمات السلامة قبل الاستخدام وارتدِ معدات الحماية المطلوبة</span>
+  </div>
+  <div class="stats-bar">
+    <span class="stat-item"><span class="stat-dot" style="background:var(--danger)" aria-hidden="true"></span>خطورة عالية</span>
+    <span class="stat-item"><span class="stat-dot" style="background:var(--warning)" aria-hidden="true"></span>متوسطة</span>
+    <span class="stat-item"><span class="stat-dot" style="background:var(--safe)" aria-hidden="true"></span>آمن نسبياً</span>
+  </div>
+  <h2 class="section-heading" id="countLabel">جميع المواد — 19 مادة</h2>
+  <div class="cards-container" id="cardsContainer" aria-live="polite"></div>
+  <div class="empty-state" id="emptyState" hidden>
+    <div class="empty-icon" aria-hidden="true">🔍</div>
+    <p>لا توجد نتائج</p>
+  </div>
+  <footer class="dev-footer">
+    <div class="dev-footer-label">تم التطوير بواسطة</div>
+    <div class="dev-footer-name">Samy Salama</div>
+    <a href="https://wa.me/201122901102" target="_blank" rel="noopener noreferrer" class="whatsapp-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#00b894" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      تواصل عبر واتساب
+    </a>
+    <div class="dev-footer-phone">+201122901102</div>
+  </footer>
+</section>
+
+<!-- ══════════════ PAGE: EDUCATION ══════════════ -->
+<section class="tab-panel" id="page-education" role="tabpanel" aria-labelledby="nav-education" hidden>
+<div class="edu-page">
+
+  <!-- 1. علم النظافة -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="true" aria-controls="edu-body-1" id="edu-head-1">
+        <span class="edu-section-icon" aria-hidden="true">🔬</span>
+        <span class="edu-section-title">علم النظافة والتطهير</span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-1" role="region" aria-labelledby="edu-head-1">
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">👁️</div>
+          <div class="ic-title">اتساخات مرئية</div>
+          <div class="ic-desc">بقايا طعام، زيوت، أتربة، كرتون — تُرى بالعين المجردة</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">🦠</div>
+          <div class="ic-title">اتساخات غير مرئية</div>
+          <div class="ic-desc">داخل مسام الأسطح — تظهر فقط عند الدعك بالصابون الساخن</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">🌿</div>
+          <div class="ic-title">اتساخات عضوية</div>
+          <div class="ic-desc">من إنسان أو حيوان أو نبات — تُزال بالمنظفات القلوية</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">⛏️</div>
+          <div class="ic-title">اتساخات غير عضوية</div>
+          <div class="ic-desc">أملاح ومعادن وصدأ — تُزال بالمنظفات الحمضية</div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">مقياس pH — اختر المنظف الصحيح</h3>
+      <div class="ph-scale">
+        <div class="ph-bar" role="img" aria-label="مقياس pH من 1 إلى 14، من الحمضي إلى القلوي"></div>
+        <div class="ph-numbers" aria-hidden="true">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          <span style="color:var(--green);font-weight:700">7</span>
+          <span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span>
+        </div>
+        <div class="ph-labels">
+          <span class="ph-label acid">حمضي قوي<br>يُزيل الأملاح</span>
+          <span class="ph-label neutral">محايد pH 7<br>آمن تماماً</span>
+          <span class="ph-label alkali">قلوي قوي<br>يُزيل الدهون</span>
+        </div>
+      </div>
+
+      <ul class="ph-ref-list" style="list-style:none">
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#3d1a1a;color:var(--danger)">pH 2</span><span class="ph-ref-text">مادة حمضية لإزالة الأملاح والترسبات الكلسية</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#3d1a1a;color:var(--danger)">pH 3</span><span class="ph-ref-text">مادة حمضية مجففة للأطباق (Rinse Aid)</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#1a2d1a;color:var(--safe)">pH 7</span><span class="ph-ref-text">صابون مطهر لليدين — لطيف على الجلد</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#1a1a3d;color:#74b9ff">pH 7.1</span><span class="ph-ref-text">صابون أرضيات — قلويته خفيفة لا تؤثر على السطح</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#1a1a4d;color:#a29bfe">pH 7.3</span><span class="ph-ref-text">صابون أواني — حرارة المعالجة تزيد صعوبة الاتساخ</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#2d1a4d;color:#fd79a8">pH 11</span><span class="ph-ref-text">مادة قلوية لغلي فلاتر الزيوت + مزيلة للصبغات</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#3d0a3d;color:#ff7675">pH 12.5</span><span class="ph-ref-text">مادة رش قلوية للأفران والجريلات (GREASSTRIP)</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#3d0030;color:#ff4757">pH 13</span><span class="ph-ref-text">مادة قلوية لنقع المعدات + ماكينة غسيل الأطباق</span></li>
+        <li class="ph-ref-item"><span class="ph-badge" style="background:#2d0020;color:#ff6b81">pH 13.5</span><span class="ph-ref-text">مادة قلوية مسلك للبالوعات — خطر عالٍ ارتدِ قفازات</span></li>
+      </ul>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">الفرق بين التنظيف والتطهير والتعقيم</h3>
+      <div class="info-grid">
+        <div class="info-card" style="border-color:#0984e3">
+          <div class="ic-icon" aria-hidden="true">🧹</div>
+          <div class="ic-title" style="color:#74b9ff">التنظيف</div>
+          <div class="ic-desc">إزالة كل الاتساخات المرئية وغير المرئية — نظافة تامة للسطح</div>
+        </div>
+        <div class="info-card" style="border-color:var(--warning)">
+          <div class="ic-icon" aria-hidden="true">🧴</div>
+          <div class="ic-title" style="color:var(--warning)">التطهير</div>
+          <div class="ic-desc">تنظيف + قتل عدد كبير من البكتيريا حتى الحد المسموح — آمن للغذاء</div>
+        </div>
+        <div class="info-card" style="border-color:var(--green)">
+          <div class="ic-icon" aria-hidden="true">✅</div>
+          <div class="ic-title">التعقيم</div>
+          <div class="ic-desc">تنظيف + قتل جميع البكتيريا والجراثيم والأحياء الضارة تماماً</div>
+        </div>
+        <div class="info-card" style="border-color:var(--accent)">
+          <div class="ic-icon" aria-hidden="true">⚗️</div>
+          <div class="ic-title" style="color:var(--accent)">عناصر النظافة</div>
+          <div class="ic-desc">ماء 💧 + كيماوي 🧪 + حرارة 🌡️ + عامل ميكانيكي 🖐️ + وقت ⏱️</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. مراحل التنظيف -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-2" id="edu-head-2">
+        <span class="edu-section-icon" aria-hidden="true">📋</span>
+        <span class="edu-section-title">مراحل التنظيف الخمس</span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-2" role="region" aria-labelledby="edu-head-2" hidden>
+      <ol class="steps-flow" style="list-style:none">
+        <li class="step-item">
+          <div class="step-number" aria-hidden="true">1</div>
+          <div class="step-content">
+            <div class="step-title">🧽 التنظيف المبدئي — الأهم</div>
+            <div class="step-desc">إزالة بقايا الطعام والاتساخات المرئية يدوياً بالمقطع والفرشاة قبل أي كيماوي. يُوفّر الوقت والمال ويرفع جودة التنظيف. تنظيف الأطباق قبل دخول الماكينة إلزامي.</div>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-number" aria-hidden="true">2</div>
+          <div class="step-content">
+            <div class="step-title">🧪 التنظيف بمواد الكيماويات</div>
+            <div class="step-desc">استخدام كل عناصر النظافة معاً (ماء + حرارة + كيماوي + دعك + وقت) لإذابة الاتساخات تمهيداً للشطف.</div>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-number" aria-hidden="true">3</div>
+          <div class="step-content">
+            <div class="step-title">🚿 مرحلة الشطف</div>
+            <div class="step-desc">إزالة بقايا الاتساخات المذابة وبقايا مواد التنظيف بالماء النظيف. حرارة الشطف ≥ 55°م.</div>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-number" aria-hidden="true">4</div>
+          <div class="step-content">
+            <div class="step-title">🔬 التطهير</div>
+            <div class="step-desc">تقليل عدد البكتيريا إلى الحد المسموح به باستخدام المطهر. حرارة المطهر لا تزيد عن 30°م لضمان فاعليته. يُغير كل 4 ساعات.</div>
+          </div>
+        </li>
+        <li class="step-item">
+          <div class="step-number" aria-hidden="true">5</div>
+          <div class="step-content">
+            <div class="step-title">💨 التجفيف</div>
+            <div class="step-desc">المرحلة النهائية — توضع الأواني مقلوبة على الرفوف لتجف في الهواء. الأدوات ذات اليد تُعلّق على الحوامل. لا تُلمس الأدوات باليد بعد التنظيف.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 3. أنواع النظافة -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-3" id="edu-head-3">
+        <span class="edu-section-icon" aria-hidden="true">📅</span>
+        <span class="edu-section-title">أنواع النظافة الثلاثة</span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-3" role="region" aria-labelledby="edu-head-3" hidden>
+      <div class="equip-card" style="border-color:#0984e3">
+        <h4 class="equip-title" style="color:#74b9ff">⚡ 1 — نظافة وقتية (أثناء الشغل)</h4>
+        <ul class="equip-steps">
+          <li>تتم أثناء أوقات تصنيع الغذاء والمشروبات</li>
+          <li>لا تعوق حركة إنتاج الغذاء</li>
+          <li>لا تستخدم كيماويات شديدة التركيز أو ذات روائح</li>
+          <li>لا تؤثر على صحة العاملين بالمواد الغذائية</li>
+          <li>يجب استخدام علامات التنبيه والتحذير من الانزلاق</li>
+          <li>لا يحدث تلوث عرضي للمواد الغذائية</li>
+        </ul>
+      </div>
+      <div class="equip-card" style="border-color:var(--warning)">
+        <h4 class="equip-title" style="color:var(--warning)">📋 2 — نظافة عامة (بين الوجبات)</h4>
+        <ul class="equip-steps">
+          <li>يومياً بشكل منتظم أثناء توقف مؤقت لإنتاج الغذاء</li>
+          <li>بين الوجبات أو بين الورديات</li>
+          <li>تكون بقائمة متابعة (Checklist) لكل وردية</li>
+          <li>تحت إشراف رئيس الوردية</li>
+          <li>يراعى فيها عدم تداول المواد الغذائية</li>
+        </ul>
+      </div>
+      <div class="equip-card" style="border-color:var(--green)">
+        <h4 class="equip-title">🔥 3 — نظافة عميقة (يومية / أسبوعية / شهرية)</h4>
+        <ul class="equip-steps">
+          <li>توقف تام لحركة إنتاج الغذاء</li>
+          <li>تشمل جميع الأسطح وأماكن التخزين والطهي</li>
+          <li>غالباً تحدث في الوردية الليلية</li>
+          <li>الجزارة: نظافة عميقة فور انتهاء العمل يومياً</li>
+          <li>بجدول يومي وأسبوعي موقّع من المسؤول</li>
+          <li>تشمل السقف والإضاءة والتكييف والأهواد والفلاتر</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ماكينة غسيل الأطباق -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-4" id="edu-head-4">
+        <span class="edu-section-icon" aria-hidden="true">🍽️</span>
+        <span class="edu-section-title">ماكينة غسيل الأطباق — درجات الحرارة</span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-4" role="region" aria-labelledby="edu-head-4" hidden>
+      <table class="temp-table">
+        <caption class="visually-hidden">درجات حرارة ماكينة غسيل الأطباق حسب المرحلة</caption>
+        <tr>
+          <th scope="col">المرحلة</th>
+          <th scope="col">الحرارة</th>
+          <th scope="col">الهدف</th>
+        </tr>
+        <tr>
+          <th scope="row">غسيل أولي</th>
+          <td class="temp-low">30 – 40°م</td>
+          <td style="font-size:11px">تمهيدي فقط — لا كيماوي</td>
+        </tr>
+        <tr>
+          <th scope="row">غسيل كيميائي</th>
+          <td class="temp-mid">55 – 65°م</td>
+          <td style="font-size:11px">بالمادة القلوية — لا تتجاوز 65°</td>
+        </tr>
+        <tr>
+          <th scope="row">شطف نهائي</th>
+          <td class="temp-high">75 – 82°م</td>
+          <td style="font-size:11px">قتل البكتيريا + تجفيف</td>
+        </tr>
+        <tr>
+          <th scope="row">بدون مطهر</th>
+          <td class="temp-high">82°م ثابتة</td>
+          <td style="font-size:11px">30 ثانية على الأقل</td>
+        </tr>
+      </table>
+
+      <div class="alert-box alert-warning"><span aria-hidden="true">⚠️</span> <div>إذا زادت حرارة الغسيل الكيميائي عن 65° → بقايا منظف صعبة الإزالة تسبب تلوثاً كيميائياً. أبلغ المشرف فوراً.</div></div>
+      <div class="alert-box alert-warning"><span aria-hidden="true">⚠️</span> <div>إذا زادت حرارة الشطف النهائي عن 82° → بقايا مادة التجفيف الحمضية تلوّث الأدوات كيميائياً.</div></div>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">الحوض الثلاثي — الغسيل اليدوي</h3>
+      <ol class="steps-flow" style="list-style:none">
+        <li class="step-item">
+          <div class="step-number" style="background:var(--danger);font-size:12px" aria-hidden="true">نقع</div>
+          <div class="step-content"><div class="step-title">حوض النقع</div><div class="step-desc">الأواني شديدة الاتساخ والمحروقة — تُوضع في حوض النقع قبل الغسيل</div></div>
+        </li>
+        <li class="step-item">
+          <div class="step-number" style="background:#0984e3" aria-hidden="true">1</div>
+          <div class="step-content"><div class="step-title">غسيل — حرارة ≥ 73°م</div><div class="step-desc">بالمنظف القلوي مع الدعك الجيد</div></div>
+        </li>
+        <li class="step-item">
+          <div class="step-number" style="background:var(--warning);color:#000" aria-hidden="true">2</div>
+          <div class="step-content"><div class="step-title">شطف — 55°م</div><div class="step-desc">بالماء النظيف لإزالة بقايا المنظف</div></div>
+        </li>
+        <li class="step-item">
+          <div class="step-number" aria-hidden="true">3</div>
+          <div class="step-content"><div class="step-title">تطهير — أقل من 30°م</div><div class="step-desc">المطهر يُغير كل 4 ساعات. بدون مطهر: ماء ساخن 82°م لمدة 30 ثانية</div></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 5. نظافة المعدات -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-5" id="edu-head-5">
+        <span class="edu-section-icon" aria-hidden="true">⚙️</span>
+        <span class="edu-section-title">نظافة المعدات — كيفية التنظيف</span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-5" role="region" aria-labelledby="edu-head-5" hidden>
+      <div class="alert-box alert-danger"><span aria-hidden="true">🔴</span> <div><strong>قاعدة ذهبية:</strong> افصل الكهرباء (فرعي ورئيسي) أو أغلق الغاز قبل أي تنظيف لأي معدة كهربائية أو غازية.</div></div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🔥 فرن الحمل الهوائي (Convection Oven)</h4>
+        <ul class="equip-steps">
+          <li>افصل الكهرباء فرعي ورئيسي</li>
+          <li>أزل الرفوف والأجزاء القابلة للفك</li>
+          <li>رش المادة القلوية على الجدران الداخلية</li>
+          <li>اترك 10–15 دقيقة ثم امسح واشطف</li>
+          <li>⚠️ لا يصل الماء للوحة التحكم أبداً</li>
+        </ul>
+        <div><span class="chem-tag">مادة قلوية رش</span><span class="chem-tag">صابون جميع الأغراض</span></div>
+      </div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🥩 الجريلة (Grills)</h4>
+        <ul class="equip-steps">
+          <li>افصل الكهرباء + استخدم المقطع والفرشاة للتنظيف الأولي</li>
+          <li>رش مزيل الدهون على 40–50°م واترك 10–15 دقيقة</li>
+          <li>ماء ساخن وصابون ثم اشطف</li>
+          <li>استخدم مزيل الأملاح ثم اشطف</li>
+          <li>ضع المادة الزيتية للحماية من الصدأ</li>
+          <li>الشهرية (1 و15): فك جميع الأجزاء بالهندسة</li>
+        </ul>
+        <div><span class="chem-tag">مادة قلوية رش</span><span class="chem-tag">صابون</span><span class="chem-tag">مزيل أملاح</span></div>
+      </div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🍟 قالية الزيت (Dip Fryer)</h4>
+        <ul class="equip-steps">
+          <li>افصل الكهرباء وأزل الرواسب والبقايا</li>
+          <li>ضع الماء والمادة القلوية</li>
+          <li>وصّل الكهرباء واغلِ على 90°م لمدة 20 دقيقة</li>
+          <li>افصل وأفرغ المادة القلوية</li>
+          <li>استخدم الصابون ثم اشطف وجفف</li>
+          <li>الشهرية: يوم 2 و16 من كل شهر</li>
+        </ul>
+        <div><span class="chem-tag">مادة غلي فوارز الزيت</span><span class="chem-tag">صابون</span></div>
+      </div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🍳 البوتاجاز والبوتاجاز الحسي</h4>
+        <ul class="equip-steps">
+          <li>أغلق الغاز فرعي ورئيسي وافك جميع الأجزاء</li>
+          <li>نظف بمزيل الشحوم الرش ثم نقع الأجزاء المفكوكة</li>
+          <li>اشطف وجفف ثم ركب الأجزاء</li>
+          <li>الحسي: ماء ساخن قليل واسفنجة ناعمة فقط</li>
+          <li>الكهرباء: نظف في مكانها بمزيل الدهون + اسفنجة</li>
+        </ul>
+        <div><span class="chem-tag">مادة قلوية رش</span><span class="chem-tag">مادة نقع الأجزاء</span><span class="chem-tag">صابون</span></div>
+      </div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🌡️ البانماري (Bain-marie)</h4>
+        <ul class="equip-steps">
+          <li>افصل الكهرباء فرعي ورئيسي</li>
+          <li>أزل الاتساخات المرئية ثم ماء وصابون</li>
+          <li>اشطف ثم مزيل أملاح للسخانات</li>
+          <li>للسخانات المائية: سخّن المياه لتفكيك الأملاح</li>
+          <li>الصيانة من قِبل القسم الهندسي فقط</li>
+        </ul>
+        <div><span class="chem-tag">صابون</span><span class="chem-tag">مزيل أملاح</span></div>
+      </div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🔪 ماكينة تقطيع اللحوم والخضروات</h4>
+        <ul class="equip-steps">
+          <li>افصل الكهرباء وافك الأجزاء</li>
+          <li>نظف بالماء الساخن والصابون ثم اشطف</li>
+          <li>طهّر الأجزاء الثابتة في مكانها</li>
+          <li>الأجزاء المتحركة: انقعها في محلول مطهر</li>
+          <li>اتركها في المحلول حتى الاستخدام — لا تعيد التركيب بنفسك</li>
+        </ul>
+        <div><span class="chem-tag">صابون</span><span class="chem-tag">مطهر الأسطح</span></div>
+      </div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🏭 الأهواد والفلاتر (Hoods)</h4>
+        <ul class="equip-steps">
+          <li>فك الفلاتر يومياً بواسطة عامل النظافة</li>
+          <li>فك كشافات الإضاءة بواسطة الهندسة فقط</li>
+          <li>⚠️ لا تلمس حساسات ورشاشات جهاز الحريق</li>
+          <li>نقع الفلاتر في المادة القلوية 10 دقائق</li>
+          <li>نظف مجاري الزيوت وجفف قبل التركيب</li>
+          <li>رش المادة القلوية على الهود واترك 15–20 دقيقة</li>
+        </ul>
+        <div><span class="chem-tag">مادة قلوية رش</span><span class="chem-tag">مادة نقع الزيوت</span><span class="chem-tag">صابون</span></div>
+      </div>
+
+      <div class="equip-card">
+        <h4 class="equip-title">🥩 الجزارة — منطقة عالية الخطورة</h4>
+        <div class="alert-box alert-danger" style="margin:8px 0"><span aria-hidden="true">⛔</span> <div>البكتيريا تنمو بسرعة على اللحوم — التنظيف العميق فور انتهاء العمل إلزامي يومياً</div></div>
+        <ul class="equip-steps">
+          <li>قائمة تدقيق يومية لجميع الأسطح</li>
+          <li>جميع الأسطح: تنظيف عميق وتطهير يومياً</li>
+          <li>تغيير المطهر الخاص بالأدوات كل 4 ساعات</li>
+          <li>تنظيف الأرضيات والبالوعات كل 40 دقيقة</li>
+          <li>جميع السكاكين في محلول مطهر طوال اليوم</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. النظافة الشخصية -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-6" id="edu-head-6">
+        <span class="edu-section-icon" aria-hidden="true">🚿</span>
+        <span class="edu-section-title">النظافة الشخصية</span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-6" role="region" aria-labelledby="edu-head-6" hidden>
+      <div class="alert-box alert-info"><span aria-hidden="true">💡</span> <div>من الممكن أن تكون أنت مصدر التلوث للمادة الغذائية — اتبع هذه التعليمات يومياً</div></div>
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">🚿</div>
+          <div class="ic-title">الاستحمام يومياً</div>
+          <div class="ic-desc">قبل الذهاب للعمل — يُزيل الخلايا الميتة ويقلل البكتيريا</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">🪒</div>
+          <div class="ic-title">حلاقة الذقن يومياً</div>
+          <div class="ic-desc">يُعطي مظهراً صحياً ويعكس الاهتمام بالنظافة</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">👕</div>
+          <div class="ic-title">تغيير الملابس يومياً</div>
+          <div class="ic-desc">الملابس تنقل الميكروبات إلى الغذاء — ملابس العمل المخصصة فقط</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">🧢</div>
+          <div class="ic-title">غطاء الرأس إلزامي</div>
+          <div class="ic-desc">يحمي الأغذية من سقوط الشعر — الشعر يجب أن يكون قصيراً ونظيفاً</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">🧦</div>
+          <div class="ic-title">الجوارب القطنية</div>
+          <div class="ic-desc">قطن خالص لامتصاص العرق — تغيير يومي بعد العمل</div>
+        </div>
+        <div class="info-card">
+          <div class="ic-icon" aria-hidden="true">🦷</div>
+          <div class="ic-title">غسيل الأسنان يومياً</div>
+          <div class="ic-desc">النظافة الشخصية الكاملة تعكس احترافيتك في العمل</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. توفير المواد الكيميائية -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-7" id="edu-head-7">
+        <span class="edu-section-icon" aria-hidden="true">💡</span>
+        <span class="edu-section-title">توفير الكيماويات والطاقة والمياه</span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-7" role="region" aria-labelledby="edu-head-7" hidden>
+      <ul class="safety-list">
+        <li><span class="s-icon" aria-hidden="true">📏</span>استخدم المعيار المحدد فقط — الزيادة لا تُسرّع التنظيف</li>
+        <li><span class="s-icon" aria-hidden="true">🌡️</span>استخدم الحرارة الموصى بها فقط — رفعها يُهدر الطاقة</li>
+        <li><span class="s-icon" aria-hidden="true">📦</span>استخدم العبوات الأصلية دائماً مع بيانات المنتج</li>
+        <li><span class="s-icon" aria-hidden="true">🚫</span>لا تخفف المواد المحقونة يدوياً — يزيد الاستهلاك ويُقلل الفاعلية</li>
+        <li><span class="s-icon" aria-hidden="true">🔄</span>نقع الأواني: صيني ← أطباق ← أواني ← فلاتر ← شبك بالوعات</li>
+        <li><span class="s-icon" aria-hidden="true">🧴</span>استخدم البخاخات بدلاً من السكب — يوفر المادة ويزيد الفاعلية</li>
+        <li><span class="s-icon" aria-hidden="true">🔒</span>غطِّ أحواض النقع بعد الاستخدام للحفاظ على الحرارة</li>
+        <li><span class="s-icon" aria-hidden="true">🚫</span>ممنوع منعاً باتاً خلط المواد الكيميائية مع بعض</li>
+        <li><span class="s-icon" aria-hidden="true">🔧</span>صيانة المعدات وموارد المياه والصرف دورياً</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 8. القواعد الذهبية الـ 13 لسلامة الغذاء -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-8" id="edu-head-8">
+        <span class="edu-section-icon" aria-hidden="true">🏅</span>
+        <span class="edu-section-title">١٣ قاعدة ذهبية لسلامة الغذاء<span class="section-new-badge">جديد</span></span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-8" role="region" aria-labelledby="edu-head-8" hidden>
+
+      <div class="alert-box alert-info">
+        <span aria-hidden="true">📌</span>
+        <div>هذه القواعد ملخّص عملي سريع لأهم إجراءات سلامة الغذاء داخل المطبخ — احفظها واطبّقها يومياً في كل وردية.</div>
+      </div>
+
+      <h3 class="text-green" style="font-size:13px;margin:14px 0 10px">القواعد 1 – 6</h3>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">1</div>
+          <div class="rule-body">
+            <div class="rule-title">🧼 غسل اليدين</div>
+            <div class="rule-desc">كل 20 دقيقة لمدة 20 ثانية على الأقل، أو فور سماع جرس إنذار المطبخ.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">2</div>
+          <div class="rule-body">
+            <div class="rule-title">🌡️ درجات الحرارة الآمنة</div>
+            <div class="rule-desc">اعرف حدود الساخن والبارد والمجمّد — تفاصيلها في البطاقات بالأسفل.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">3</div>
+          <div class="rule-body">
+            <div class="rule-title">🥜 مسببات الحساسية التسعة</div>
+            <div class="rule-desc">تعرّف عليها جيداً بالإضافة لأي حساسية أخرى يُخبرك بها الضيف.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">4</div>
+          <div class="rule-body">
+            <div class="rule-title">🟣 حالات الحساسية</div>
+            <div class="rule-desc">استخدم لوح تقطيع وسكين بنفسجي اللون مخصصين فقط لتحضير طعام الضيوف المصابين بالحساسية.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">5</div>
+          <div class="rule-body">
+            <div class="rule-title">🏷️ الملصقات</div>
+            <div class="rule-desc">ضع ملصقاً على كل صنف غذائي يوضّح الاسم، تاريخ التحضير أو الفتح، وتاريخ الانتهاء.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">6</div>
+          <div class="rule-body">
+            <div class="rule-title">📅 الفحص اليومي</div>
+            <div class="rule-desc">تحقّق يومياً من مدة الصلاحية وتاريخ الانتهاء قبل بدء التشغيل في كل وردية.</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">القواعد 7 – 13</h3>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">7</div>
+          <div class="rule-body">
+            <div class="rule-title">🧤 ارتداء القفازات</div>
+            <div class="rule-desc">إلزامي عند التعامل مع الأطعمة الجاهزة للأكل (RTE) مباشرةً.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">8</div>
+          <div class="rule-body">
+            <div class="rule-title">❄️ إذابة التجميد</div>
+            <div class="rule-desc">داخل الثلاجة لمدة تصل حتى 3 أيام، أو تحت الماء البارد الجاري فقط.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">9</div>
+          <div class="rule-body">
+            <div class="rule-title">🧊 تبريد الطعام الساخن</div>
+            <div class="rule-desc">استخدم مبرّداً سريعاً (Blast Chiller) أو حمام ثلج — لا تترك الطعام الساخن يبرد ببطء.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">10</div>
+          <div class="rule-body">
+            <div class="rule-title">🚫 التلوث المتبادل</div>
+            <div class="rule-desc">لا تُخزّن الأطعمة النيئة فوق أو بجانب الأطعمة الجاهزة للأكل.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">11</div>
+          <div class="rule-body">
+            <div class="rule-title">🧊 ترتيب الثلاجة</div>
+            <div class="rule-desc">من الأعلى للأسفل بالترتيب الصحيح — التفاصيل في الجدول بالأسفل.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">12</div>
+          <div class="rule-body">
+            <div class="rule-title">🧽 منشفة الألياف الدقيقة</div>
+            <div class="rule-desc">حافظ بها على نظافة وتطهير السطح، واحفظها داخل محلول المطهر بين الاستخدامات.</div>
+          </div>
+        </div>
+        <div class="rule-card">
+          <div class="rule-number" aria-hidden="true">13</div>
+          <div class="rule-body">
+            <div class="rule-title">🎨 الألواح والسكاكين الملونة</div>
+            <div class="rule-desc">لون مخصص لكل نوع طعام — الجدول الكامل بالأسفل.</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">درجات الحرارة الآمنة (القاعدة 2)</h3>
+      <div class="temp-quick-grid">
+        <div class="temp-quick-card hot">
+          <div class="temp-quick-icon" aria-hidden="true">🔥</div>
+          <div class="temp-quick-label">ساخن</div>
+          <div class="temp-quick-value">أعلى من 60°م</div>
+        </div>
+        <div class="temp-quick-card cold">
+          <div class="temp-quick-icon" aria-hidden="true">🧊</div>
+          <div class="temp-quick-label">بارد</div>
+          <div class="temp-quick-value">أقل من 5°م</div>
+        </div>
+        <div class="temp-quick-card frozen">
+          <div class="temp-quick-icon" aria-hidden="true">❄️</div>
+          <div class="temp-quick-label">مجمّد</div>
+          <div class="temp-quick-value">−16° إلى −18°م</div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">مسببات الحساسية التسعة (القاعدة 3)</h3>
+      <div class="allergen-grid">
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🥛</span>الحليب</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🥚</span>البيض</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🐟</span>السمك</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🦐</span>المحاريات (القشريات)</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🌰</span>المكسرات</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🥜</span>الفول السوداني</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🌾</span>القمح</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🫘</span>فول الصويا</span>
+        <span class="allergen-badge"><span class="allergen-icon" aria-hidden="true">🌱</span>السمسم</span>
+      </div>
+      <div class="alert-box alert-purple">
+        <span aria-hidden="true">🟣</span>
+        <div><strong>القاعدة 4:</strong> في حالات الحساسية، استخدم دائماً لوح تقطيع وسكيناً بنفسجيين مخصصين لتحضير طعام الضيف — بالإضافة لأي حساسية أخرى يُخبرك بها الضيف مباشرة.</div>
+      </div>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">ترتيب الثلاجة من الأعلى للأسفل (القاعدة 11)</h3>
+      <div class="fridge-order">
+        <div class="fridge-tier">
+          <span class="fridge-tier-icon" aria-hidden="true">🥬</span>
+          <div><div class="fridge-tier-label">خضراوات</div><div class="fridge-tier-note">أعلى رف — لا تحتاج طهياً</div></div>
+          <span class="fridge-tier-arrow" aria-hidden="true">الأعلى</span>
+        </div>
+        <div class="fridge-tier">
+          <span class="fridge-tier-icon" aria-hidden="true">🐟</span>
+          <div><div class="fridge-tier-label">سمك</div><div class="fridge-tier-note">فوق اللحم والدجاج مباشرة</div></div>
+        </div>
+        <div class="fridge-tier">
+          <span class="fridge-tier-icon" aria-hidden="true">🥩</span>
+          <div><div class="fridge-tier-label">لحم</div><div class="fridge-tier-note">فوق الدجاج</div></div>
+        </div>
+        <div class="fridge-tier">
+          <span class="fridge-tier-icon" aria-hidden="true">🍗</span>
+          <div><div class="fridge-tier-label">دجاج</div><div class="fridge-tier-note">أدنى رف دائماً لتفادي التلوث المتبادل</div></div>
+          <span class="fridge-tier-arrow" aria-hidden="true">الأسفل</span>
+        </div>
+      </div>
+      <div class="mini-note">الترتيب من الأعلى للأسفل يمنع تنقيط سوائل اللحوم النيئة على الأطعمة الأقل نضجاً حرارياً — دجاج دائماً في القاع.</div>
+
+      <hr class="divider">
+      <h3 class="text-green" style="font-size:13px;margin-bottom:10px">الألواح والسكاكين الملونة (القاعدة 13)</h3>
+      <div class="board-grid">
+        <div class="board-card">
+          <div class="board-swatch board-green" aria-hidden="true"></div>
+          <div><div class="board-name">أخضر</div><div class="board-use">خضراوات وفاكهة</div></div>
+        </div>
+        <div class="board-card">
+          <div class="board-swatch board-red" aria-hidden="true"></div>
+          <div><div class="board-name">أحمر</div><div class="board-use">لحم نيء</div></div>
+        </div>
+        <div class="board-card">
+          <div class="board-swatch board-yellow" aria-hidden="true"></div>
+          <div><div class="board-name">أصفر</div><div class="board-use">دواجن نيئة</div></div>
+        </div>
+        <div class="board-card">
+          <div class="board-swatch board-blue" aria-hidden="true"></div>
+          <div><div class="board-name">أزرق</div><div class="board-use">سمك نيء</div></div>
+        </div>
+        <div class="board-card">
+          <div class="board-swatch board-brown" aria-hidden="true"></div>
+          <div><div class="board-name">بني</div><div class="board-use">طعام مطبوخ</div></div>
+        </div>
+        <div class="board-card">
+          <div class="board-swatch board-white" aria-hidden="true"></div>
+          <div><div class="board-name">أبيض</div><div class="board-use">خبز، جبن، وفاكهة حمضية</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. نظام HACCP -->
+  <div class="edu-section">
+    <h2>
+      <button class="edu-section-header" aria-expanded="false" aria-controls="edu-body-9" id="edu-head-9">
+        <span class="edu-section-icon" aria-hidden="true">🛡️</span>
+        <span class="edu-section-title">نظام HACCP — المبادئ السبعة<span class="section-new-badge">جديد</span></span>
+        <span class="edu-section-arrow" aria-hidden="true">▼</span>
+      </button>
+    </h2>
+    <div class="edu-section-body" id="edu-body-9" role="region" aria-labelledby="edu-head-9" hidden>
+
+      <div class="alert-box alert-info">
+        <span aria-hidden="true">🛡️</span>
+        <div><strong>HACCP</strong> اختصار لـ Hazard Analysis and Critical Control Points — نظام عالمي وقائي لضمان سلامة الغذاء عبر تحديد نقاط الخطر ومراقبتها قبل وصولها للضيف، بدل اكتشاف المشكلة بعد فوات الأوان.</div>
+      </div>
+
+      <div class="haccp-grid">
+        <div class="haccp-card">
+          <div class="haccp-step" aria-hidden="true">1</div>
+          <div class="haccp-body">
+            <div class="haccp-title">🔍 تحليل المخاطر (Hazard Analysis)</div>
+            <div class="haccp-desc">حدّد كل خطر محتمل بيولوجي أو كيميائي أو فيزيائي في كل مرحلة من مراحل تحضير الطعام.</div>
+            <div class="haccp-example"><strong>مثال:</strong> بقايا سلك معدني في أواني التنظيف — خطر فيزيائي يجب استبعاده تماماً.</div>
+          </div>
+        </div>
+        <div class="haccp-card">
+          <div class="haccp-step" aria-hidden="true">2</div>
+          <div class="haccp-body">
+            <div class="haccp-title">🎯 تحديد نقاط التحكم الحرجة (CCP)</div>
+            <div class="haccp-desc">حدّد النقاط اللي لو فشلت فيها الرقابة يتحول الخطر لمشكلة فعلية — مثل الطهي أو التبريد.</div>
+            <div class="haccp-example"><strong>مثال:</strong> درجة حرارة شطف ماكينة الأطباق النهائي هي نقطة تحكم حرجة لقتل البكتيريا.</div>
+          </div>
+        </div>
+        <div class="haccp-card">
+          <div class="haccp-step" aria-hidden="true">3</div>
+          <div class="haccp-body">
+            <div class="haccp-title">📏 وضع الحدود الحرجة (Critical Limits)</div>
+            <div class="haccp-desc">حدّد رقماً أو معياراً واضحاً يفصل بين الآمن وغير الآمن في كل نقطة تحكم.</div>
+            <div class="haccp-example"><strong>مثال:</strong> حرارة التبريد يجب أن تكون أقل من 5°م — أي رقم أعلى غير مقبول.</div>
+          </div>
+        </div>
+        <div class="haccp-card">
+          <div class="haccp-step" aria-hidden="true">4</div>
+          <div class="haccp-body">
+            <div class="haccp-title">📊 المراقبة (Monitoring)</div>
+            <div class="haccp-desc">راقب نقاط التحكم الحرجة بانتظام وسجّل النتائج لضمان الالتزام بالحدود الموضوعة.</div>
+            <div class="haccp-example"><strong>مثال:</strong> تسجيل حرارة الثلاجات والفريزرات في جدول متابعة كل وردية.</div>
+          </div>
+        </div>
+        <div class="haccp-card">
+          <div class="haccp-step" aria-hidden="true">5</div>
+          <div class="haccp-body">
+            <div class="haccp-title">🛠️ الإجراءات التصحيحية (Corrective Actions)</div>
+            <div class="haccp-desc">حدّد مسبقاً ماذا تفعل بالضبط إذا تجاوزت القراءة الحد الحرج.</div>
+            <div class="haccp-example"><strong>مثال:</strong> لو حرارة الثلاجة ارتفعت عن الحد المسموح، انقل الطعام فوراً وأبلغ المشرف الهندسي.</div>
+          </div>
+        </div>
+        <div class="haccp-card">
+          <div class="haccp-step" aria-hidden="true">6</div>
+          <div class="haccp-body">
+            <div class="haccp-title">✅ التحقق (Verification)</div>
+            <div class="haccp-desc">تأكد دورياً أن النظام كله يعمل فعلياً كما هو مخطط له، عبر مراجعات ومعايرة الأجهزة.</div>
+            <div class="haccp-example"><strong>مثال:</strong> معايرة الترمومتر أسبوعياً للتأكد من دقة قراءاته.</div>
+          </div>
+        </div>
+        <div class="haccp-card">
+          <div class="haccp-step" aria-hidden="true">7</div>
+          <div class="haccp-body">
+            <div class="haccp-title">🗂️ التوثيق وحفظ السجلات (Record Keeping)</div>
+            <div class="haccp-desc">وثّق كل خطوة سابقة بسجلات واضحة يمكن الرجوع لها عند التدقيق أو حدوث مشكلة.</div>
+            <div class="haccp-example"><strong>مثال:</strong> سجلات الحرارة اليومية وملصقات تاريخ التحضير والانتهاء (القاعدة 5 و6).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-note mt12">تطبيق هذه المبادئ السبعة يوميًا هو ما يحوّل "13 القاعدة الذهبية" من قائمة تذكيرية إلى نظام رقابة حقيقي مستمر داخل قسم Stewarding.</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ══════════════ PAGE: SAFETY ══════════════ -->
+<section class="tab-panel" id="page-safety" role="tabpanel" aria-labelledby="nav-safety" hidden>
+<div class="safety-page">
+
+  <!-- أنواع التلوث -->
+  <div class="safety-block">
+    <h2 class="safety-block-title"><span aria-hidden="true">🦠</span> أنواع التلوث الغذائي</h2>
+    <div class="contam-card contam-bio">
+      <h3 class="contam-title"><span aria-hidden="true">🦠</span> التلوث البيولوجي</h3>
+      <div class="contam-desc">كائنات حية مجهرية لا ترى بالعين المجردة. الأخطر على صحة الإنسان.</div>
+      <div class="contam-examples">
+        <span class="contam-tag" style="background:#3d1a1a;color:#ff7675">بكتيريا</span>
+        <span class="contam-tag" style="background:#3d1a1a;color:#ff7675">فطريات</span>
+        <span class="contam-tag" style="background:#3d1a1a;color:#ff7675">طفيليات</span>
+        <span class="contam-tag" style="background:#3d1a1a;color:#ff7675">فيروسات</span>
+      </div>
+    </div>
+    <div class="contam-card contam-chem">
+      <h3 class="contam-title"><span aria-hidden="true">⚗️</span> التلوث الكيميائي</h3>
+      <div class="contam-desc">مواد كيميائية لا يجب وجودها في الطعام أو على الأسطح الملامسة له.</div>
+      <div class="contam-examples">
+        <span class="contam-tag" style="background:#0a3d1a;color:#55efc4">مواد تنظيف</span>
+        <span class="contam-tag" style="background:#0a3d1a;color:#55efc4">مبيدات حشرات</span>
+        <span class="contam-tag" style="background:#0a3d1a;color:#55efc4">مطهرات غير آمنة</span>
+      </div>
+    </div>
+    <div class="contam-card contam-phys">
+      <h3 class="contam-title"><span aria-hidden="true">🔩</span> التلوث الفيزيائي (الطبيعي)</h3>
+      <div class="contam-desc">أجسام غريبة في المادة الغذائية. السلك المستخدم في تنظيف الأواني ممنوع استخدامه لهذا السبب.</div>
+      <div class="contam-examples">
+        <span class="contam-tag" style="background:#0a0a3d;color:#74b9ff">زجاج</span>
+        <span class="contam-tag" style="background:#0a0a3d;color:#74b9ff">خشب</span>
+        <span class="contam-tag" style="background:#0a0a3d;color:#74b9ff">معادن</span>
+        <span class="contam-tag" style="background:#0a0a3d;color:#74b9ff">بلاستيك</span>
+        <span class="contam-tag" style="background:#0a0a3d;color:#74b9ff">شعر</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- الاحتياطات الأمنية -->
+  <div class="safety-block">
+    <h2 class="safety-block-title"><span aria-hidden="true">⚡</span> الاحتياطات الأمنية</h2>
+    <div class="alert-box alert-danger"><span aria-hidden="true">🔴</span> <div><strong>قانون لا استثناء فيه:</strong> افصل الكهرباء (فرعي + رئيسي) أو أغلق الغاز قبل أي تنظيف</div></div>
+    <ul class="safety-list">
+      <li><span class="s-icon" aria-hidden="true">🔌</span>فصل الكهرباء فرعي ورئيسي قبل التعامل مع أي معدة كهربائية</li>
+      <li><span class="s-icon" aria-hidden="true">🔥</span>إغلاق الغاز فرعي ورئيسي قبل التعامل مع معدات الغاز</li>
+      <li><span class="s-icon" aria-hidden="true">🪜</span>السلم في المناطق العالية: استخدم السلم الزوجي فقط — ربط طرفيه معاً</li>
+      <li><span class="s-icon" aria-hidden="true">👓</span>عند نظافة الأفران: قفاز + نظارة + مريلة + غطاء رأس إلزامي</li>
+      <li><span class="s-icon" aria-hidden="true">⚠️</span>عند نظافة الأرضيات: لوحات التحذير "احذر الانزلاق" إلزامية</li>
+      <li><span class="s-icon" aria-hidden="true">🧤</span>عند غلي الأدوات ونقع المعدات: استخدم القفاز الحراري</li>
+      <li><span class="s-icon" aria-hidden="true">💧</span>عند إضافة كيماوي للماء: أضف الماء البارد للكيماوي — لا العكس أبداً</li>
+      <li><span class="s-icon" aria-hidden="true">🚫</span>ممنوع منعاً باتاً خلط أي مادتين كيميائيتين مع بعض</li>
+    </ul>
+  </div>
+
+  <!-- معدات الحماية الشخصية -->
+  <div class="safety-block">
+    <h2 class="safety-block-title"><span aria-hidden="true">🦺</span> معدات الحماية الشخصية (PPE)</h2>
+    <div class="ppe-full-grid">
+      <div class="ppe-full-item">
+        <div class="ppe-full-icon" aria-hidden="true">🧤</div>
+        <div class="ppe-full-name">قفازات مطاط</div>
+        <div class="ppe-full-when">كل الكيماويات</div>
+      </div>
+      <div class="ppe-full-item">
+        <div class="ppe-full-icon" aria-hidden="true">👓</div>
+        <div class="ppe-full-name">نظارة واقية</div>
+        <div class="ppe-full-when">كيماويات عالية</div>
+      </div>
+      <div class="ppe-full-item">
+        <div class="ppe-full-icon" aria-hidden="true">😷</div>
+        <div class="ppe-full-name">كمامة</div>
+        <div class="ppe-full-when">مواد متطايرة</div>
+      </div>
+      <div class="ppe-full-item">
+        <div class="ppe-full-icon" aria-hidden="true">👔</div>
+        <div class="ppe-full-name">مريلة واقية</div>
+        <div class="ppe-full-when">الأفران والجريلات</div>
+      </div>
+      <div class="ppe-full-item">
+        <div class="ppe-full-icon" aria-hidden="true">👢</div>
+        <div class="ppe-full-name">حذاء مقاوم</div>
+        <div class="ppe-full-when">الأرضيات والمطابخ</div>
+      </div>
+      <div class="ppe-full-item">
+        <div class="ppe-full-icon" aria-hidden="true">🧢</div>
+        <div class="ppe-full-name">غطاء الرأس</div>
+        <div class="ppe-full-when">جميع الأوقات</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- إسعافات أولية سريعة -->
+  <div class="safety-block">
+    <h2 class="safety-block-title"><span aria-hidden="true">🚑</span> إسعافات أولية — كيماويات</h2>
+    <div class="alert-box alert-info"><span aria-hidden="true">💡</span> في حالة أي حادث: ابلغ المشرف فوراً واطلب المساعدة الطبية</div>
+    <ul class="safety-list">
+      <li><span class="s-icon" aria-hidden="true">👁️</span><div><strong>العين:</strong> اشطف بالماء الجاري النظيف لمدة 15 دقيقة على الأقل — أزل العدسات فوراً إن وجدت</div></li>
+      <li><span class="s-icon" aria-hidden="true">🖐️</span><div><strong>الجلد:</strong> أزل الملابس المتأثرة واشطف بالماء والصابون جيداً</div></li>
+      <li><span class="s-icon" aria-hidden="true">😮</span><div><strong>الابتلاع:</strong> اشطف الفم — لا تستفز القيء — اتصل بالطوارئ فوراً</div></li>
+      <li><span class="s-icon" aria-hidden="true">💨</span><div><strong>الاستنشاق:</strong> انتقل لمكان مفتوح فوراً — هواء نقي — اطلب مساعدة طبية</div></li>
+      <li><span class="s-icon" aria-hidden="true">🚫</span><div><strong>ممنوع:</strong> خلط مواد حمضية مع الكلور — ينتج غاز سام</div></li>
+    </ul>
+  </div>
+
+  <!-- مكافحة الحشرات -->
+  <div class="safety-block">
+    <h2 class="safety-block-title"><span aria-hidden="true">🪲</span> مكافحة الحشرات</h2>
+    <ul class="safety-list">
+      <li><span class="s-icon" aria-hidden="true">📅</span>ضع جدول المكافحة بناءً على مواعيد توقف إنتاج الغذاء</li>
+      <li><span class="s-icon" aria-hidden="true">🚪</span>إخلاء الأماكن من المواد الغذائية والأدوات قبل الرش</li>
+      <li><span class="s-icon" aria-hidden="true">🔍</span>إبلاغ عن أي شقوق أو فتحات يمكن أن تحتوي حشرات</li>
+      <li><span class="s-icon" aria-hidden="true">🌀</span>نظافة ستائر الهواء الهوائية للحد من الحشرات الطائرة</li>
+      <li><span class="s-icon" aria-hidden="true">🧹</span>بعد الرش: إزالة آثار المبيدات من الأسطح + تنظيف وتطهير</li>
+    </ul>
+  </div>
+
+  <footer class="dev-footer">
+    <div class="dev-footer-label">تم التطوير بواسطة</div>
+    <div class="dev-footer-name">Samy Salama</div>
+    <a href="https://wa.me/201122901102" target="_blank" rel="noopener noreferrer" class="whatsapp-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#00b894" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      تواصل عبر واتساب
+    </a>
+    <div class="dev-footer-phone">+201122901102</div>
+  </footer>
+</div>
+</section>
+
+<!-- ══════════════ PAGE: AI ASSISTANT ══════════════ -->
+<section class="tab-panel" id="page-ai" role="tabpanel" aria-labelledby="nav-ai" hidden>
+  <div class="ai-page">
+    <h2 class="visually-hidden">مساعد الاستيوارد الذكي</h2>
+    <div class="ai-messages" id="aiMessages" aria-live="polite" role="log">
+      <div class="ai-welcome">
+        <div class="ai-welcome-title"><span aria-hidden="true">🤖</span> مساعد الاستيوارد الذكي</div>
+        <div class="ai-welcome-desc">اسألني عن المواد الكيميائية أو تنظيف المعدات أو السلامة. النسخة الجديدة شغالة بدون اتصال خارجي وبترد من نفس قاعدة المعرفة الموجودة داخل الدليل.</div>
+        <div class="context-badge"><span aria-hidden="true">🟢</span> Offline Expert Mode · ردود عملية سريعة</div>
+        <div class="ai-suggestions">
+          <div class="ai-tip"><strong>تشخيص مشكلة:</strong> مثل بقع المياه، الدهون المحروقة، ضعف التنظيف.</div>
+          <div class="ai-tip"><strong>Checklists:</strong> اطلب جدول وردية أو نظافة عميقة أو خطوات أمان.</div>
+        </div>
+        <div class="ai-chips" role="group" aria-label="أسئلة مقترحة">
+          <button class="ai-chip" data-chip>عندي دهون محروقة على الجريلة، إيه أعمل؟</button>
+          <button class="ai-chip" data-chip>الأطباق بتطلع بقع مياه بعد الماكينة</button>
+          <button class="ai-chip" data-chip>إيه الفرق بين التطهير والتعقيم؟</button>
+          <button class="ai-chip" data-chip>إيه المادة الصح لتنظيف الفرن الهوائي؟</button>
+          <button class="ai-chip" data-chip>عايز checklist تنظيف وردية صباحية</button>
+          <button class="ai-chip" data-chip>ماكينة الأطباق مش بتنظف كويس، ليه؟</button>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:left;padding:0 12px;">
+      <button class="ai-clear" id="clearChatBtn"><span aria-hidden="true">🗑️</span> مسح المحادثة</button>
+    </div>
+    <form class="ai-input-area" id="aiForm">
+      <label for="aiInput">اكتب سؤالك للمساعد</label>
+      <textarea class="ai-input" id="aiInput" placeholder="اكتب سؤالك هنا..." rows="1"></textarea>
+      <button type="submit" class="ai-send" id="aiSendBtn" aria-label="إرسال السؤال">➤</button>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════ BOTTOM NAV ══════════════ -->
+<nav class="bottom-nav" aria-label="التنقل الرئيسي">
+  <button class="nav-btn" data-page="chemicals" id="nav-chemicals" aria-current="page">
+    <div class="nav-indicator" aria-hidden="true"></div>
+    <span class="nav-icon" aria-hidden="true">🧪</span>
+    <span>المواد</span>
+  </button>
+  <button class="nav-btn" data-page="education" id="nav-education">
+    <div class="nav-indicator" aria-hidden="true"></div>
+    <span class="nav-icon" aria-hidden="true">📚</span>
+    <span>التعليم</span>
+  </button>
+  <button class="nav-btn" data-page="safety" id="nav-safety">
+    <div class="nav-indicator" aria-hidden="true"></div>
+    <span class="nav-icon" aria-hidden="true">⚠️</span>
+    <span>السلامة</span>
+  </button>
+  <button class="nav-btn" data-page="ai" id="nav-ai">
+    <div class="nav-indicator" aria-hidden="true"></div>
+    <span class="nav-icon" aria-hidden="true">🤖</span>
+    <span>مساعد AI</span>
+  </button>
+</nav>
+
+<script>
+'use strict';
+
+/* ==========================================================================
+   1. DATA: قاعدة بيانات المواد الكيميائية
+   ========================================================================== */
+const chemicals = [
+  {id:1,nameEn:"SOLID POWER XL",nameAr:"سوليد باور اكس ال",desc:"منظف غسالات الأطباق الصلبة (أوتوماتيك)",category:["dish"],danger:"high",dilution:"0.07%–0.4% (تلقائي عبر dispenser)",dilutionNote:"لا يخفف يدوياً — Dispenser الغسالة فقط",ppe:[{icon:"🧤",label:"قفازات مطاط"},{icon:"👓",label:"نظارة واقية"}],usage:"يوضع في غسالة الأطباق الأوتوماتيك. فعّال ضد الدهون والبقايا الصلبة.",storage:"بارد وجاف — بعيداً عن المواد الحمضية.",firstAid:[{icon:"👁️",text:"العين: اشطف 15 دقيقة وأزل العدسات فوراً"},{icon:"🖐️",text:"الجلد: ماء وصابون جيداً"},{icon:"😮",text:"الابتلاع: لا تستفز القيء — اتصل بالطوارئ"}],hazard:"قلوي قوي — حروق الجلد والعين عند التركيز العالي"},
+  {id:2,nameEn:"SOLID BRILLIANCE",nameAr:"سوليد برييلنس",desc:"مجفف غسالات الأطباق الصلبة",category:["dish"],danger:"med",dilution:"تلقائي عبر Dispenser الغسالة",dilutionNote:"لا يخفف يدوياً",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👓",label:"نظارة"}],usage:"مادة شطف ومجفف للأطباق — يمنع آثار المياه ويُلمّع.",storage:"بعيداً عن الحرارة والرطوبة.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء فوراً"},{icon:"🖐️",text:"الجلد: ماء وصابون"}],hazard:"مهيج للجلد والعين"},
+  {id:3,nameEn:"SOLITAIRE",nameAr:"سوليتير",desc:"مادة الغسيل اليدوي للأواني",category:["dish"],danger:"low",dilution:"10–20 مل لكل 10 لتر ماء",dilutionNote:"مناسب للاستخدام اليدوي المباشر",ppe:[{icon:"🧤",label:"قفازات"}],usage:"سائل غسيل يدوي لطيف — يُرغّد جيداً ويزيل الدهون.",storage:"درجة حرارة الغرفة — بعيداً عن الشمس.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"},{icon:"🖐️",text:"الجلد: اغسل بالماء"}],hazard:"آمن نسبياً — تهيج طفيف"},
+  {id:4,nameEn:"SOLID SILVER POWER",nameAr:"سيلفر باور",desc:"مادة نقع أدوات المائدة (السيلفر)",category:["dish"],danger:"med",dilution:"حسب تعليمات الجهاز في حوض النقع",dilutionNote:"يستخدم في حوض النقع",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👓",label:"نظارة"},{icon:"💨",label:"تهوية"}],usage:"متخصص لنقع وتنظيف أدوات المائدة الفضية والاستانلس ستيل.",storage:"مكان جاف وبارد.",firstAid:[{icon:"👁️",text:"العين: اشطف فوراً بالماء"},{icon:"🖐️",text:"الجلد: ماء وصابون"}],hazard:"مهيج معتدل"},
+  {id:5,nameEn:"SUPER TRUMP",nameAr:"سوبر ترامب",desc:"منظف غسالات الأطباق السائلة",category:["dish"],danger:"high",dilution:"يُضخ تلقائياً عبر الجهاز",dilutionNote:"لا يُستخدم يدوياً — قلوي قوي جداً",ppe:[{icon:"🧤",label:"قفازات مطاط"},{icon:"👓",label:"نظارة"}],usage:"منظف سائل قوي لغسالات الأطباق التجارية.",storage:"بعيداً عن المواد الحمضية والحرارة.",firstAid:[{icon:"👁️",text:"العين: اشطف 15 دقيقة + طواري"},{icon:"🖐️",text:"الجلد: أزل الملابس واغسل فوراً"},{icon:"😮",text:"الابتلاع: لا تستفز القيء — طواري"}],hazard:"قلوي قوي — خطر حروق"},
+  {id:6,nameEn:"RINSE DRY",nameAr:"رينز دراي",desc:"مجفف غسالات الأطباق السائلة",category:["dish"],danger:"med",dilution:"يُجرعم تلقائياً عبر الغسالة",dilutionNote:"لا يخفف يدوياً",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👓",label:"نظارة"}],usage:"مادة شطف سائلة — تمنع آثار المياه وتُسرّع التجفيف.",storage:"بعيداً عن الحرارة.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"}],hazard:"مهيج معتدل للجلد والعين"},
+  {id:7,nameEn:"OASIS 146",nameAr:"أواسيس 146",desc:"مطهر الأسطح — لا يحتاج شطف",category:["sanitize"],danger:"med",dilution:"2–5 مل / لتر ماء",dilutionNote:"لا يحتاج شطف بعد الاستخدام على أسطح الطعام",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👓",label:"نظارة"}],usage:"مطهر متعدد الأغراض. يُستخدم بالرش أو المسح. فعّال ضد البكتيريا المسببة للتسمم الغذائي.",storage:"بارد — بعيداً عن الشمس.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء دقيقتين"},{icon:"😮",text:"الابتلاع: اشطف الفم + طواري"}],hazard:"يُسبب حروق الجلد والعين عند التركيز الأصلي"},
+  {id:8,nameEn:"OASIS 133",nameAr:"أواسيس 133",desc:"منظف ومعقم متعدد الأغراض",category:["sanitize"],danger:"med",dilution:"10–30 مل / لتر حسب نوع الاستخدام",dilutionNote:"يخفف حسب السطح والاستخدام",ppe:[{icon:"🧤",label:"قفازات"}],usage:"منظف ومعقم متعدد الأغراض لأسطح المطبخ.",storage:"بعيداً عن الحرارة والتجمد.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"},{icon:"🖐️",text:"الجلد: اغسل بالماء"}],hazard:"مهيج معتدل"},
+  {id:9,nameEn:"SANICHLOR",nameAr:"سانيكلور",desc:"مطهر الخضروات والفاكهة",category:["sanitize"],danger:"med",dilution:"50–100 ppm ≈ 5–10 مل / 10 لتر",dilutionNote:"غمر المنتج دقيقتين ثم شطف بالماء النظيف إلزامي",ppe:[{icon:"🧤",label:"قفازات"},{icon:"💨",label:"تهوية جيدة"}],usage:"مطهر كلوري لتطهير الخضروات والفاكهة — يجب الشطف جيداً بعد الاستخدام.",storage:"بعيداً عن الحرارة والضوء.",firstAid:[{icon:"👁️",text:"العين: اشطف فوراً 10 دقائق"},{icon:"😮",text:"الابتلاع: لا تستفز القيء — طواري"},{icon:"💨",text:"الاستنشاق: انتقل لمكان مفتوح"}],hazard:"⛔ لا تخلطه مع مواد حمضية أو أمونيا — غاز سام"},
+  {id:10,nameEn:"ENFORCE",nameAr:"إنفورس",desc:"منظف الأرضيات",category:["floor"],danger:"med",dilution:"30–60 مل / 5 لتر ماء",dilutionNote:"للبقع الصعبة: تركيز أعلى",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👞",label:"حذاء مقاوم"}],usage:"منظف قوي للأرضيات — يزيل الدهون والأوساخ الصعبة في المطابخ.",storage:"مكان جاف — بعيداً عن التجمد.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"},{icon:"🖐️",text:"الجلد: ماء وصابون"}],hazard:"مهيج معتدل — الأرضية زلقة أثناء الاستخدام"},
+  {id:11,nameEn:"LIME-AWAY EXTRA",nameAr:"لايم أواي إكسترا",desc:"مزيل الأملاح والترسبات الكلسية",category:["descale"],danger:"high",dilution:"حسب شدة الترسبات — راجع ملصق المنتج",dilutionNote:"⛔ حمضي قوي — لا تخلطه مع الكلور أبداً",ppe:[{icon:"🧤",label:"قفازات سميكة"},{icon:"👓",label:"نظارة"},{icon:"👕",label:"ملابس واقية"},{icon:"💨",label:"تهوية كافية"}],usage:"يزيل الأملاح والترسبات الكلسية من الغسالات وأجهزة البخار والاستانلس ستيل.",storage:"بعيداً عن القلويات والكلور — مُقفل جيداً.",firstAid:[{icon:"👁️",text:"العين: اشطف 15 دقيقة + طواري فوراً"},{icon:"🖐️",text:"الجلد: أزل الملابس + اشطف فوراً"},{icon:"😮",text:"الابتلاع: لا تستفز القيء — طواري فوراً"}],hazard:"⛔ حمضي قوي — حروق شديدة. لا تخلطه مع الكلور"},
+  {id:12,nameEn:"GREASSTRIP PLUS",nameAr:"جريس ستريب بلاس",desc:"مزيل الشحوم القوي للأفران والجريلات",category:["degreaser"],danger:"high",dilution:"1:10 إلى 1:20 حسب الاستخدام",dilutionNote:"للمناطق الصناعية: تركيز أعلى",ppe:[{icon:"🧤",label:"قفازات سميكة"},{icon:"👓",label:"نظارة"},{icon:"💨",label:"تهوية جيدة"}],usage:"مزيل شحوم متخصص للمطابخ التجارية — شفاطات الهواء والأفران والأسطح شديدة الاتساخ. pH 12.5",storage:"بعيداً عن المواد الحمضية والنار.",firstAid:[{icon:"👁️",text:"العين: اشطف فوراً بالماء"},{icon:"🖐️",text:"الجلد: ماء وصابون جيداً"},{icon:"💨",text:"الاستنشاق: هواء نقي"}],hazard:"قلوي قوي pH 12.5 — مهيج للجلد والعين والجهاز التنفسي"},
+  {id:13,nameEn:"AB CLEAN & SMOOTH",nameAr:"أنتي باكتيريال كلين أند سموث",desc:"صابون اليد المضاد للبكتيريا",category:["hand"],danger:"low",dilution:"جاهز للاستخدام — بدون تخفيف",dilutionNote:"يُوضع على اليدين مباشرة",ppe:[{icon:"✅",label:"لا يحتاج PPE"}],usage:"صابون يدين مضاد للبكتيريا. مناسب للاستخدام المتكرر في المطبخ والخدمة.",storage:"درجة حرارة الغرفة.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء إذا دخل"}],hazard:"آمن — مهيج طفيف للعين فقط"},
+  {id:14,nameEn:"INSTANT HAND SANITIZER",nameAr:"أنستانت هاند سانيتايزر",desc:"معقم اليدين الفوري",category:["hand"],danger:"low",dilution:"جاهز للاستخدام — بدون شطف",dilutionNote:"افرك اليدين حتى يجف تلقائياً",ppe:[{icon:"✅",label:"لا يحتاج PPE"}],usage:"معقم يدين كحولي — يقتل 99.9% من البكتيريا في 30 ثانية. بدون ماء.",storage:"⚠️ بعيداً عن الحرارة والنار — قابل للاشتعال.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"},{icon:"😮",text:"الابتلاع بكمية كبيرة: طواري"}],hazard:"⚠️ قابل للاشتعال — بعيداً عن النار والحرارة"},
+  {id:15,nameEn:"DECARBONIZER MXP",nameAr:"ديكاربونايزر",desc:"مادة نقع الأواني المحروقة",category:["dish"],danger:"high",dilution:"يُخفف في حوض النقع حسب التعليمات",dilutionNote:"لا يُستخدم مباشرة بدون تخفيف",ppe:[{icon:"🧤",label:"قفازات سميكة"},{icon:"👓",label:"نظارة"},{icon:"💨",label:"تهوية"}],usage:"لإزالة الترسبات والمحترقات الصعبة من الأواني — نقع ثم شطف جيد.",storage:"بارد وجاف — مُقفل.",firstAid:[{icon:"👁️",text:"العين: اشطف 15 دقيقة + طواري"},{icon:"🖐️",text:"الجلد: اشطف فوراً"},{icon:"😮",text:"الابتلاع: طواري فوراً"}],hazard:"خطر عالٍ — يُسبب حروق كيميائية"},
+  {id:16,nameEn:"ECO CLIN TABS",nameAr:"ايكوكلين تاب",desc:"منظف ماكينات غسيل الأكواب (أقراص)",category:["dish"],danger:"med",dilution:"قرص واحد لكل دورة أو حسب تعليمات الجهاز",dilutionNote:"⚠️ لا تلمس الأقراص بيدين مبللتين",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👓",label:"نظارة"}],usage:"أقراص منظفة لماكينات غسيل الأكواب — موزونة بدقة وسهلة الاستخدام.",storage:"مكان جاف بعيداً عن الرطوبة.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"},{icon:"🖐️",text:"الجلد: ماء وصابون"}],hazard:"مهيج معتدل"},
+  {id:17,nameEn:"CHROMOL",nameAr:"كروومول",desc:"ملمع الاستانلس ستيل",category:["other"],danger:"low",dilution:"مباشر بدون تخفيف — امسح بقطعة ناعمة",dilutionNote:"امسح في اتجاه خطوط اللحام",ppe:[{icon:"🧤",label:"قفازات خفيفة"}],usage:"ملمع وحافظ للأسطح الاستانلس ستيل — يُزيل البصمات ويكوّن طبقة حماية.",storage:"بعيداً عن الحرارة.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"}],hazard:"آمن نسبياً — تجنب استنشاق البخار"},
+  {id:18,nameEn:"DIP-IT XP",nameAr:"ديب إت إكس بي",desc:"مزيل بقع الشاي والقهوة",category:["dish"],danger:"med",dilution:"1–2 ملعقة / لتر ماء ساخن",dilutionNote:"الماء الساخن يزيد الفاعلية",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👓",label:"نظارة"}],usage:"متخصص لإزالة بقع الشاي والقهوة من الأكواب والفناجين والأطباق.",storage:"مكان جاف وبارد.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"},{icon:"🖐️",text:"الجلد: ماء وصابون"}],hazard:"مهيج معتدل"},
+  {id:19,nameEn:"MIKRO QUAT",nameAr:"مايكرو كوات",desc:"مطهر ومزيل الروائح الكريهة",category:["sanitize","floor"],danger:"med",dilution:"5–10 مل / لتر ماء",dilutionNote:"للبالوعات وأماكن الروائح",ppe:[{icon:"🧤",label:"قفازات"},{icon:"👓",label:"نظارة"}],usage:"مطهر رباعي الأمونيوم — يقضي على الروائح ويطهر. فعّال في غرف القمامة ودورات المياه.",storage:"بعيداً عن الحرارة.",firstAid:[{icon:"👁️",text:"العين: اشطف دقيقتين"},{icon:"🖐️",text:"الجلد: ماء وصابون"}],hazard:"مهيج للجلد والعين عند التركيز العالي"},
+  {id:20,nameEn:"PATHWAYS",nameAr:"باثوايز",desc:"معالج مياه الصرف الصحي",category:["other"],danger:"low",dilution:"حسب التعليمات — يُصب مباشرة في البالوعة",dilutionNote:"يُستخدم دورياً للصيانة الوقائية",ppe:[{icon:"🧤",label:"قفازات"}],usage:"بكتيريا حية وإنزيمات تُحلّل الدهون في مواسير الصرف — يمنع الانسداد ويقضي على الروائح.",storage:"بارد — لا يُجمّد.",firstAid:[{icon:"👁️",text:"العين: اشطف بالماء"}],hazard:"آمن — منتج بيولوجي طبيعي"}
+];
+
+const categoryMeta = {
+  all: { label: 'الكل' },
+  dish: { label: 'غسيل أطباق' },
+  sanitize: { label: 'تطهير' },
+  floor: { label: 'أرضيات' },
+  descale: { label: 'إزالة أملاح' },
+  degreaser: { label: 'مزيل شحوم' },
+  hand: { label: 'العناية باليد' },
+  other: { label: 'أخرى' }
+};
+
+const badgeMeta = {
+  dish: ['badge-dish', 'غسيل أطباق'],
+  sanitize: ['badge-sanitize', 'تطهير'],
+  floor: ['badge-floor', 'أرضيات'],
+  descale: ['badge-descale', 'إزالة أملاح'],
+  degreaser: ['badge-degreaser', 'مزيل شحوم'],
+  hand: ['badge-hand', 'العناية باليد'],
+  other: ['badge-other', 'أخرى']
+};
+
+/* ==========================================================================
+   2. STATE
+   ========================================================================== */
+const STORAGE_KEYS = {
+  category: 'steward.activeCategory',
+  search: 'steward.search',
+  page: 'steward.page',
+  favorites: 'steward.favorites',
+  favoritesOnly: 'steward.favoritesOnly'
+};
+
+const appState = {
+  activeCategory: localStorage.getItem(STORAGE_KEYS.category) || 'all',
+  search: localStorage.getItem(STORAGE_KEYS.search) || '',
+  page: localStorage.getItem(STORAGE_KEYS.page) || 'chemicals',
+  favorites: new Set(JSON.parse(localStorage.getItem(STORAGE_KEYS.favorites) || '[]')),
+  favoritesOnly: localStorage.getItem(STORAGE_KEYS.favoritesOnly) === '1'
+};
+
+function saveState() {
+  localStorage.setItem(STORAGE_KEYS.category, appState.activeCategory);
+  localStorage.setItem(STORAGE_KEYS.search, appState.search);
+  localStorage.setItem(STORAGE_KEYS.page, appState.page);
+  localStorage.setItem(STORAGE_KEYS.favoritesOnly, appState.favoritesOnly ? '1' : '0');
+  localStorage.setItem(STORAGE_KEYS.favorites, JSON.stringify([...appState.favorites]));
+}
+
+/* ==========================================================================
+   3. UTILITIES
+   ========================================================================== */
+function normalizeText(value = '') {
+  return value
+    .toLowerCase()
+    .replace(/[أإآ]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/ؤ/g, 'و')
+    .replace(/ئ/g, 'ي')
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getDangerClass(level) {
+  return level === 'high' ? 'danger-high' : level === 'med' ? 'danger-med' : 'danger-low';
+}
+function getDangerLabel(level) {
+  return level === 'high' ? 'خطورة عالية' : level === 'med' ? 'خطورة متوسطة' : 'آمن نسبياً';
+}
+function getDangerPillClass(level) {
+  return level === 'high' ? 'high' : level === 'med' ? 'med' : 'low';
+}
+function getBadgeHTML(categoryList) {
+  return categoryList
+    .map(cat => `<span class="badge ${badgeMeta[cat][0]}">${badgeMeta[cat][1]}</span>`)
+    .join('');
+}
+
+let toastTimer = null;
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function copyText(text, successMessage = 'تم النسخ') {
+  navigator.clipboard?.writeText(text)
+    .then(() => showToast(successMessage))
+    .catch(() => showToast('تعذر النسخ على هذا الجهاز'));
+}
+
+/* ==========================================================================
+   4. CHEMICALS: FILTERING & RENDERING
+   ========================================================================== */
+function getFilteredChemicals() {
+  const query = normalizeText(appState.search);
+  return chemicals.filter(chemical => {
+    const matchesCategory = appState.activeCategory === 'all' || chemical.category.includes(appState.activeCategory);
+    const matchesFavorites = !appState.favoritesOnly || appState.favorites.has(chemical.id);
+    const haystack = normalizeText([
+      chemical.nameEn, chemical.nameAr, chemical.desc,
+      chemical.usage, chemical.hazard, chemical.category.join(' ')
+    ].join(' '));
+    const matchesSearch = !query || haystack.includes(query);
+    return matchesCategory && matchesFavorites && matchesSearch;
+  });
+}
+
+function renderCards(list) {
+  const container = document.getElementById('cardsContainer');
+  const emptyState = document.getElementById('emptyState');
+  const countLabel = document.getElementById('countLabel');
+  const categoryLabel = categoryMeta[appState.activeCategory]?.label || 'الكل';
+
+  if (list.length === 0) {
+    container.innerHTML = '';
+    emptyState.hidden = false;
+    countLabel.textContent = 'لا توجد نتائج مطابقة';
+    return;
+  }
+
+  emptyState.hidden = true;
+  countLabel.textContent = `${categoryLabel} — ${list.length} مادة${appState.favoritesOnly ? ' · المفضلة فقط' : ''}`;
+
+  container.innerHTML = list.map(chemical => {
+    const isFavorite = appState.favorites.has(chemical.id);
+    return `
+    <article class="chem-card" id="card-${chemical.id}">
+      <div class="card-header">
+        <div class="danger-strip ${getDangerClass(chemical.danger)}" aria-hidden="true"></div>
+        <button class="card-toggle" data-toggle-id="${chemical.id}" aria-expanded="false" aria-controls="details-${chemical.id}">
+          <span class="card-info">
+            <span class="card-name-en">${chemical.nameEn}</span>
+            <span class="card-name-ar">${chemical.nameAr}</span>
+            <span class="card-desc">${chemical.desc}</span>
+            <span class="card-badges">${getBadgeHTML(chemical.category)}</span>
+          </span>
+        </button>
+        <div class="card-top-actions">
+          <button class="favorite-btn" data-favorite-id="${chemical.id}" aria-pressed="${isFavorite}" aria-label="${isFavorite ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة'}: ${chemical.nameAr}">★</button>
+          <span class="card-arrow" aria-hidden="true">▼</span>
+        </div>
+      </div>
+      <div class="card-details" id="details-${chemical.id}" hidden>
+        <div class="detail-section">
+          <div class="detail-label">مستوى الخطورة</div>
+          <div><span class="danger-pill ${getDangerPillClass(chemical.danger)}">${getDangerLabel(chemical.danger)}</span></div>
+          ${chemical.hazard ? `<div class="detail-value" style="margin-top:8px;color:var(--warning)">${chemical.hazard}</div>` : ''}
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">نسبة التخفيف</div>
+          <div class="dilution-box">
+            <div class="dilution-icon" aria-hidden="true">💧</div>
+            <div>
+              <div class="dilution-ratio">${chemical.dilution}</div>
+              <div style="color:var(--muted);font-size:12px;margin-top:2px">${chemical.dilutionNote}</div>
+            </div>
+          </div>
+          <button class="copy-btn" data-copy-id="${chemical.id}">نسخ تعليمات الاستخدام السريع</button>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">معدات الحماية (PPE)</div>
+          <div class="ppe-row">${chemical.ppe.map(p => `<div class="ppe-item"><div class="ppe-icon" aria-hidden="true">${p.icon}</div><div class="ppe-label">${p.label}</div></div>`).join('')}</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">طريقة الاستخدام</div>
+          <div class="detail-value">${chemical.usage}</div>
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">الإسعافات الأولية</div>
+          ${chemical.firstAid.map(a => `<div class="aid-item"><div class="aid-emoji" aria-hidden="true">${a.icon}</div><div>${a.text}</div></div>`).join('')}
+        </div>
+        <div class="detail-section">
+          <div class="detail-label">التخزين</div>
+          <div class="detail-value">${chemical.storage}</div>
+          <div class="mini-note">افتح البطاقة ثم انسخ التعليمات المختصرة لاستخدامها في التدريب السريع.</div>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+function copyCardFormula(id) {
+  const chemical = chemicals.find(c => c.id === id);
+  if (!chemical) return;
+  copyText(
+    `${chemical.nameAr} / ${chemical.nameEn}\nالاستخدام: ${chemical.usage}\nالتخفيف: ${chemical.dilution}\nالتحذير: ${chemical.hazard}`,
+    'تم نسخ بطاقة المادة'
+  );
+}
+
+function toggleCard(id) {
+  const toggleBtn = document.querySelector(`[data-toggle-id="${id}"]`);
+  const details = document.getElementById(`details-${id}`);
+  const wasExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+
+  document.querySelectorAll('.card-toggle[aria-expanded="true"]').forEach(btn => {
+    btn.setAttribute('aria-expanded', 'false');
+    document.getElementById(btn.getAttribute('aria-controls')).hidden = true;
+  });
+
+  if (!wasExpanded) {
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    details.hidden = false;
+    setTimeout(() => toggleBtn.closest('.chem-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
+  }
+}
+
+function toggleFavorite(id) {
+  appState.favorites.has(id) ? appState.favorites.delete(id) : appState.favorites.add(id);
+  saveState();
+  renderCards(getFilteredChemicals());
+  updateDashboard();
+  updateToolbarState();
+  showToast(appState.favorites.has(id) ? 'تمت الإضافة للمفضلة' : 'تم الحذف من المفضلة');
+}
+
+function filterCards() {
+  appState.search = document.getElementById('searchInput').value.trim();
+  saveState();
+  renderCards(getFilteredChemicals());
+  updateDashboard();
+}
+
+function filterCategory(category, btn) {
+  appState.activeCategory = category;
+  document.querySelectorAll('.filter-btn').forEach(b => b.setAttribute('aria-pressed', 'false'));
+  if (btn) btn.setAttribute('aria-pressed', 'true');
+  saveState();
+  renderCards(getFilteredChemicals());
+  updateDashboard();
+}
+
+function setFavoritesOnly(value) {
+  appState.favoritesOnly = value;
+  saveState();
+  renderCards(getFilteredChemicals());
+  updateDashboard();
+  updateToolbarState();
+}
+
+function resetFilters() {
+  appState.search = '';
+  appState.activeCategory = 'all';
+  appState.favoritesOnly = false;
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.filter-btn').forEach((b, i) => b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false'));
+  saveState();
+  renderCards(getFilteredChemicals());
+  updateDashboard();
+  updateToolbarState();
+  showToast('تمت إعادة الضبط');
+}
+
+function updateToolbarState() {
+  document.getElementById('favToggleBtn')?.setAttribute('aria-pressed', String(appState.favoritesOnly));
+}
+
+function updateDashboard() {
+  const list = getFilteredChemicals();
+  const high = list.filter(x => x.danger === 'high').length;
+  const med = list.filter(x => x.danger === 'med').length;
+
+  document.getElementById('dashVisible').textContent = list.length;
+  document.getElementById('dashHigh').textContent = high;
+  document.getElementById('dashMed').textContent = med;
+  document.getElementById('dashFav').textContent = appState.favorites.size;
+
+  const recommendation = high > 0
+    ? 'راجع الـ PPE قبل التعامل مع المواد عالية الخطورة.'
+    : med > 0
+      ? 'معظم النتائج تحتاج التزام بإرشادات التخفيف.'
+      : 'الوضع آمن نسبياً في النتائج الحالية.';
+  document.getElementById('heroRecommendation').textContent = recommendation;
+
+  document.getElementById('quickSearchHint').textContent = appState.search
+    ? `نتائج البحث الحالية: ${appState.search}`
+    : 'ابحث بالاسم العربي أو الإنجليزي أو المشكلة التشغيلية.';
+}
+
+/* ==========================================================================
+   5. NAVIGATION (تبديل الصفحات)
+   ========================================================================== */
+const pageTitles = {
+  chemicals: 'دليل المواد الكيميائية',
+  education: 'المادة التعليمية',
+  safety: 'السلامة والحماية',
+  ai: 'مساعد الاستيوارد الذكي'
+};
+const pageSubtitles = {
+  chemicals: 'بحث سريع + مفضلة + نسخ تعليمات',
+  education: 'شرح عملي مبسّط للورديات والتشغيل',
+  safety: 'قواعد الحماية والطوارئ والإسعافات',
+  ai: 'مساعد تشغيلي داخلي بدون اتصال خارجي'
+};
+
+function switchPage(name) {
+  document.querySelectorAll('.tab-panel').forEach(panel => { panel.hidden = true; panel.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.removeAttribute('aria-current'));
+
+  const targetPanel = document.getElementById('page-' + name);
+  targetPanel.hidden = false;
+  targetPanel.classList.add('active');
+
+  document.getElementById('nav-' + name)?.setAttribute('aria-current', 'page');
+
+  document.getElementById('pageTitle').textContent = pageTitles[name];
+  document.querySelector('.header-sub').textContent = pageSubtitles[name];
+
+  const searchWrapper = document.getElementById('searchWrapper');
+  searchWrapper.style.display = name === 'chemicals' ? 'block' : 'none';
+
+  appState.page = name;
+  saveState();
+  window.scrollTo(0, 0);
+}
+
+/* ==========================================================================
+   6. EDUCATION ACCORDION
+   ========================================================================== */
+function toggleEduSection(header) {
+  const section = header.closest('.edu-section');
+  const body = document.getElementById(header.getAttribute('aria-controls'));
+  const isOpen = header.getAttribute('aria-expanded') === 'true';
+
+  document.querySelectorAll('.edu-section-header[aria-expanded="true"]').forEach(h => {
+    h.setAttribute('aria-expanded', 'false');
+    document.getElementById(h.getAttribute('aria-controls')).hidden = true;
+  });
+
+  if (!isOpen) {
+    header.setAttribute('aria-expanded', 'true');
+    body.hidden = false;
+  }
+}
+
+/* ==========================================================================
+   7. OFFLINE AI ASSISTANT (مساعد بدون اتصال خارجي)
+   ========================================================================== */
+let chatHistory = [];
+let isThinking = false;
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function addMessage(role, text) {
+  const messages = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  if (role === 'user') {
+    div.className = 'msg msg-user';
+    div.textContent = text;
+  } else {
+    div.className = 'msg msg-ai';
+    div.innerHTML = `<div class="msg-ai-label"><span aria-hidden="true">🤖</span> مساعد الاستيوارد</div>${text.replace(/\n/g, '<br>')}`;
+  }
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+  return div;
+}
+
+function showThinking() {
+  const messages = document.getElementById('aiMessages');
+  const div = document.createElement('div');
+  div.className = 'msg-thinking';
+  div.id = 'thinkingBubble';
+  div.innerHTML = `<div class="msg-ai-label"><span aria-hidden="true">🤖</span> يحلل السؤال...</div><div class="thinking-dots" aria-hidden="true"><span></span><span></span><span></span></div>`;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeThinking() {
+  document.getElementById('thinkingBubble')?.remove();
+}
+
+function findChemicalFromText(text) {
+  const normalized = normalizeText(text);
+  return chemicals.find(c =>
+    normalized.includes(normalizeText(c.nameAr)) ||
+    normalized.includes(normalizeText(c.nameEn)) ||
+    normalizeText(c.nameEn).split(' ').some(part => part.length > 3 && normalized.includes(part.toLowerCase()))
+  );
+}
+
+function buildChecklist(type) {
+  if (type === 'morning') {
+    return `Checklist وردية صباحية:
+1) تفقد الـ PPE واللوحات التحذيرية.
+2) تجهيز أحواض الغسيل والتطهير بالتراكيز الصحيحة.
+3) تنظيف أولي للأسطح والأرضيات قبل بدء التشغيل.
+4) فحص ماكينة الأطباق ودرجات الحرارة.
+5) التأكد من توافر الصابون والمطهرات والورق.
+6) تسجيل أي نقص أو تسريب وإبلاغ المشرف.`;
+  }
+  if (type === 'deep') {
+    return `Checklist نظافة عميقة:
+1) وقف التشغيل تماماً.
+2) فصل الكهرباء والغاز.
+3) فك الأجزاء القابلة للفك.
+4) تنظيف مبدئي ثم منظف مناسب ثم شطف ثم تطهير ثم تجفيف.
+5) تنظيف الأهواد والفلاتر والبالوعات والزوايا المخفية.
+6) توقيع المسؤول بعد الفحص النهائي.`;
+  }
+  return `Checklist سريعة:
+1) تنظيف مبدئي.
+2) اختيار المادة الصحيحة.
+3) الالتزام بالتخفيف.
+4) ارتداء الـ PPE.
+5) شطف/تطهير حسب الحالة.
+6) تجفيف وتسجيل الملاحظات.`;
+}
+
+function answerFromKnowledge(text) {
+  const normalized = normalizeText(text);
+  const matchedChemical = findChemicalFromText(text);
+
+  if (/checklist|جدول|قائمه|تشك ليست/.test(normalized)) {
+    if (/صباح|morning/.test(normalized)) return buildChecklist('morning');
+    if (/عميق|شهري|اسبوعي|deep/.test(normalized)) return buildChecklist('deep');
+    return buildChecklist('general');
+  }
+
+  if (/بقع|مياه|water spot|spot/.test(normalized)) {
+    return `لو الأطباق بتطلع عليها بقع مياه:
+1) راجع مادة الشطف/التجفيف مثل SOLID BRILLIANCE أو RINSE DRY.
+2) تأكد إن الشطف النهائي بين 75 و82°م.
+3) لو الحرارة أعلى من 82° ممكن يحصل تلوث كيميائي وبقايا مادة التجفيف.
+4) افحص عسر المياه وتراكم الأملاح واستخدم مزيل أملاح عند الحاجة.`;
+  }
+
+  if (/جريله|grill|دهون|محروق|burn/.test(normalized)) {
+    return `للدهون المحروقة على الجريلة:
+1) افصل المصدر الكهربائي أو الغاز.
+2) اعمل تنظيف مبدئي بالمقطع والفرشاة.
+3) استخدم GREASSTRIP PLUS على حرارة 40–50°م لمدة 10–15 دقيقة.
+4) اشطف ثم لو فيه ترسبات استخدم مزيل أملاح مناسب.
+5) ارتدِ قفازات سميكة + نظارة + تهوية جيدة.`;
+  }
+
+  if (/p\s*h|ph|حموض|قلوي|حمضي/.test(normalized)) {
+    return `اختيار المادة حسب pH:
+- الحمضي: لإزالة الأملاح والترسبات.
+- المحايد: آمن ولطيف مثل بعض أنواع صابون اليد.
+- القلوي: أفضل لإزالة الدهون والزيوت.
+ممنوع خلط المواد المختلفة خصوصاً الحمضي مع الكلور.`;
+  }
+
+  if (/تعقيم|تطهير|تنظيف/.test(normalized) && /فرق|ايه/.test(normalized)) {
+    return `الفرق باختصار:
+- التنظيف: إزالة الأوساخ المرئية وغير المرئية.
+- التطهير: تنظيف + تقليل البكتيريا للحد الآمن.
+- التعقيم: أعلى مستوى ويستهدف القضاء الكامل على الميكروبات.`;
+  }
+
+  if (/ماكينه|غساله|غسيل الاطباق/.test(normalized) && /مش بتنضف|ضعيف|ضعيفه|ليه/.test(normalized)) {
+    return `لو ماكينة الأطباق مش بتنظف كويس:
+1) راجع التنظيف المبدئي قبل دخول الأطباق.
+2) تأكد من مادة الغسيل ومادة الشطف.
+3) افحص درجات الحرارة: غسيل 55–65°م وشطف نهائي 75–82°م.
+4) افحص الذراع الرشاش والفلاتر وترسبات الأملاح.
+5) تأكد إن الجرعات تلقائية ومفيش انسداد في خطوط الضخ.`;
+  }
+
+  if (/طوارئ|عين|جلد|ابتلاع|استنشاق/.test(normalized)) {
+    return `إسعافات أولية سريعة:
+- العين: شطف 15 دقيقة على الأقل.
+- الجلد: إزالة التلوث وغسل جيد بالماء والصابون.
+- الابتلاع: لا تستفز القيء واطلب الطوارئ.
+- الاستنشاق: هواء نقي فوراً ومساعدة طبية.
+مع أي حادث لازم تبلغ المشرف فوراً.`;
+  }
+
+  if (matchedChemical) {
+    return `${matchedChemical.nameAr} / ${matchedChemical.nameEn}
+الاستخدام: ${matchedChemical.usage}
+التخفيف: ${matchedChemical.dilution}
+الخطورة: ${getDangerLabel(matchedChemical.danger)}
+التحذير: ${matchedChemical.hazard}
+التخزين: ${matchedChemical.storage}`;
+  }
+
+  const firstWord = normalized.split(' ')[0] || '';
+  const topMatches = chemicals.filter(c =>
+    normalizeText([c.nameAr, c.nameEn, c.desc, c.usage, c.hazard].join(' ')).includes(firstWord)
+  ).slice(0, 3);
+
+  if (topMatches.length) {
+    const lines = topMatches.map((c, i) => `${i + 1}) ${c.nameAr} — ${c.desc}`).join('\n');
+    return `أقرب مواد مرتبطة بسؤالك:\n${lines}\n\nلو تحب، اكتب اسم المعدة أو المشكلة وسأعطيك خطوات أدق.`;
+  }
+
+  return 'ممكن أوضحها لك فوراً. اكتب اسم المادة أو المشكلة التشغيلية نفسها، مثلاً: بقع مياه، دهون محروقة، نظافة وردية صباحية، أو اسم المادة الكيميائية.';
+}
+
+async function sendMessage() {
+  if (isThinking) return;
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  isThinking = true;
+  document.getElementById('aiSendBtn').disabled = true;
+
+  addMessage('user', text);
+  chatHistory.push({ role: 'user', content: text });
+  showThinking();
+
+  await new Promise(resolve => setTimeout(resolve, 550));
+
+  removeThinking();
+  const reply = answerFromKnowledge(text);
+  chatHistory.push({ role: 'assistant', content: reply });
+  addMessage('ai', reply);
+
+  isThinking = false;
+  document.getElementById('aiSendBtn').disabled = false;
+}
+
+function sendChip(chipText) {
+  document.getElementById('aiInput').value = chipText;
+  sendMessage();
+}
+
+function clearChat() {
+  chatHistory = [];
+  const messages = document.getElementById('aiMessages');
+  const welcome = messages.querySelector('.ai-welcome');
+  messages.innerHTML = '';
+  if (welcome) messages.appendChild(welcome);
+  showToast('تم مسح المحادثة');
+}
+
+/* ==========================================================================
+   8. DYNAMIC UI: HERO / TOOLBAR / FLOATING CONTROLS
+   ========================================================================== */
+function createDynamicUI() {
+  const chemicalsPage = document.getElementById('page-chemicals');
+  const filters = chemicalsPage.querySelector('.filters');
+
+  const hero = document.createElement('div');
+  hero.className = 'master-shell';
+  hero.innerHTML = `
+    <section class="hero-panel">
+      <p class="hero-kicker">Stewarding Control Center</p>
+      <h2 class="hero-title">دليل تشغيل احترافي للاستيوارد داخل الموبايل</h2>
+      <p class="hero-desc">نسخة مطوّرة تركّز على السرعة في التشغيل اليومي: بحث أدق، مفضلة، نسخ تعليمات المواد، مساعد داخلي بدون اتصال خارجي، وتثبيت آخر حالة استخدام.</p>
+      <p class="context-badge" id="quickSearchHint">ابحث بالاسم العربي أو الإنجليزي أو المشكلة التشغيلية.</p>
+      <div class="hero-actions">
+        <button type="button" class="quick-action" id="heroSearchBtn">🔍 بحث فوري</button>
+        <button type="button" class="quick-action" id="heroAiBtn">🤖 افتح المساعد</button>
+        <button type="button" class="quick-action" id="heroSafetyBtn">⚠️ الطوارئ والسلامة</button>
+        <button type="button" class="quick-action" id="heroPrintBtn">🖨️ طباعة سريعة</button>
+      </div>
+      <p class="mini-note hero-recommendation" id="heroRecommendation"></p>
+    </section>
+    <section class="dashboard-grid" aria-label="لوحة إحصاءات المواد">
+      <div class="dashboard-card accent"><div class="dash-label">المواد الظاهرة الآن</div><div class="dash-value" id="dashVisible">0</div><div class="dash-hint">يتغير تلقائياً حسب البحث والفلاتر</div></div>
+      <div class="dashboard-card danger"><div class="dash-label">عالية الخطورة</div><div class="dash-value" id="dashHigh">0</div><div class="dash-hint">تحتاج PPE كامل ومراجعة دقيقة</div></div>
+      <div class="dashboard-card warn"><div class="dash-label">متوسطة الخطورة</div><div class="dash-value" id="dashMed">0</div><div class="dash-hint">التخفيف السليم مهم جداً</div></div>
+      <div class="dashboard-card"><div class="dash-label">المفضلة المحفوظة</div><div class="dash-value" id="dashFav">0</div><div class="dash-hint">تُحفظ تلقائياً على نفس الجهاز</div></div>
+    </section>`;
+  chemicalsPage.insertBefore(hero, filters);
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'toolbar-panel';
+  toolbar.innerHTML = `
+    <div class="toolbar-title">أوامر سريعة</div>
+    <div class="toolbar-actions">
+      <button type="button" class="tool-btn" id="favToggleBtn" aria-pressed="false">★ المفضلة فقط</button>
+      <button type="button" class="tool-btn" id="resetFiltersBtn">↺ إعادة الضبط</button>
+      <button type="button" class="tool-btn" id="copyMorningBtn">📋 نسخ وردية صباحية</button>
+      <button type="button" class="tool-btn" id="copyDeepBtn">🧼 نسخ نظافة عميقة</button>
+    </div>`;
+  filters.insertAdjacentElement('afterend', toolbar);
+
+  const floatingStack = document.createElement('div');
+  floatingStack.className = 'floating-stack';
+  floatingStack.innerHTML = `
+    <button type="button" class="floating-btn emergency" id="emergencyBtn" aria-haspopup="dialog" aria-controls="emergencySheet" aria-label="فتح دليل الطوارئ السريع">🚨</button>
+    <button type="button" class="floating-btn top" id="scrollTopBtn" aria-label="العودة لأعلى الصفحة">↑</button>`;
+  document.body.appendChild(floatingStack);
+
+  const sheet = document.createElement('div');
+  sheet.className = 'quick-sheet';
+  sheet.id = 'emergencySheet';
+  sheet.setAttribute('role', 'dialog');
+  sheet.setAttribute('aria-labelledby', 'emergencySheetTitle');
+  sheet.setAttribute('aria-modal', 'false');
+  sheet.innerHTML = `
+    <p class="quick-sheet-title" id="emergencySheetTitle">دليل الطوارئ السريع</p>
+    <div class="quick-sheet-grid">
+      <div class="quick-sheet-item"><strong>العين:</strong> شطف 15 دقيقة على الأقل وأزل العدسات فوراً.</div>
+      <div class="quick-sheet-item"><strong>الجلد:</strong> انزع الملابس الملوثة واغسل بالماء والصابون.</div>
+      <div class="quick-sheet-item"><strong>الابتلاع:</strong> لا تستفز القيء واطلب الطوارئ.</div>
+      <div class="quick-sheet-item"><strong>الخلط الممنوع:</strong> الحمضي + الكلور = غاز سام.</div>
+    </div>
+    <button type="button" class="close-sheet" id="closeEmergencyBtn">إغلاق</button>`;
+  document.body.appendChild(sheet);
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.id = 'toast';
+  toast.setAttribute('role', 'status');
+  toast.setAttribute('aria-live', 'polite');
+  document.body.appendChild(toast);
+}
+
+function toggleEmergencySheet(forceState) {
+  const sheet = document.getElementById('emergencySheet');
+  const shouldOpen = typeof forceState === 'boolean' ? forceState : !sheet.classList.contains('open');
+  sheet.classList.toggle('open', shouldOpen);
+  if (shouldOpen) document.getElementById('closeEmergencyBtn')?.focus();
+}
+
+/* ==========================================================================
+   9. EVENT BINDING (تفويض الأحداث بدل onclick داخل HTML)
+   ========================================================================== */
+function bindEvents() {
+  // شريط البحث
+  document.getElementById('searchInput').addEventListener('input', filterCards);
+
+  // أزرار الفلترة
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => filterCategory(btn.dataset.category, btn));
+  });
+
+  // بطاقات المواد الكيميائية: تفويض الأحداث (event delegation)
+  document.getElementById('cardsContainer').addEventListener('click', e => {
+    const favoriteBtn = e.target.closest('[data-favorite-id]');
+    if (favoriteBtn) {
+      toggleFavorite(Number(favoriteBtn.dataset.favoriteId));
+      return;
+    }
+    const copyBtn = e.target.closest('[data-copy-id]');
+    if (copyBtn) {
+      copyCardFormula(Number(copyBtn.dataset.copyId));
+      return;
+    }
+    const toggleBtn = e.target.closest('[data-toggle-id]');
+    if (toggleBtn) {
+      toggleCard(Number(toggleBtn.dataset.toggleId));
+    }
+  });
+
+  // شريط التنقل السفلي
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchPage(btn.dataset.page));
+  });
+
+  // أكورديون صفحة التعليم
+  document.querySelectorAll('.edu-section-header').forEach(header => {
+    header.addEventListener('click', () => toggleEduSection(header));
+  });
+
+  // مساعد الذكاء الاصطناعي
+  document.getElementById('aiForm').addEventListener('submit', e => {
+    e.preventDefault();
+    sendMessage();
+  });
+  const aiInput = document.getElementById('aiInput');
+  aiInput.addEventListener('input', () => autoResize(aiInput));
+  aiInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  document.getElementById('clearChatBtn').addEventListener('click', clearChat);
+  document.querySelectorAll('[data-chip]').forEach(chip => {
+    chip.addEventListener('click', () => sendChip(chip.textContent));
+  });
+
+  // عناصر الواجهة الديناميكية (هيرو/تولبار/طوارئ)
+  document.getElementById('heroSearchBtn').addEventListener('click', () => document.getElementById('searchInput').focus());
+  document.getElementById('heroAiBtn').addEventListener('click', () => switchPage('ai'));
+  document.getElementById('heroSafetyBtn').addEventListener('click', () => switchPage('safety'));
+  document.getElementById('heroPrintBtn').addEventListener('click', () => window.print());
+
+  document.getElementById('favToggleBtn').addEventListener('click', () => setFavoritesOnly(!appState.favoritesOnly));
+  document.getElementById('resetFiltersBtn').addEventListener('click', resetFilters);
+  document.getElementById('copyMorningBtn').addEventListener('click', () => copyText(buildChecklist('morning'), 'تم نسخ checklist الصباحية'));
+  document.getElementById('copyDeepBtn').addEventListener('click', () => copyText(buildChecklist('deep'), 'تم نسخ checklist النظافة العميقة'));
+
+  document.getElementById('emergencyBtn').addEventListener('click', () => toggleEmergencySheet());
+  document.getElementById('closeEmergencyBtn').addEventListener('click', () => toggleEmergencySheet(false));
+  document.getElementById('scrollTopBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // اختصارات لوحة المفاتيح
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') toggleEmergencySheet(false);
+    if (e.altKey && e.key === '1') switchPage('chemicals');
+    if (e.altKey && e.key === '2') switchPage('education');
+    if (e.altKey && e.key === '3') switchPage('safety');
+    if (e.altKey && e.key === '4') switchPage('ai');
+  });
+}
+
+/* ==========================================================================
+   10. INITIALIZATION
+   ========================================================================== */
+function restoreUIState() {
+  document.getElementById('searchInput').value = appState.search;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.setAttribute('aria-pressed', btn.dataset.category === appState.activeCategory ? 'true' : 'false');
+  });
+  switchPage(appState.page);
+}
+
+function init() {
+  createDynamicUI();
+  bindEvents();
+  restoreUIState();
+  renderCards(getFilteredChemicals());
+  updateDashboard();
+  updateToolbarState();
+}
+
+init();
+</script>
+</body>
+</html>
