@@ -1,0 +1,941 @@
+/* ==========================================================================
+   COMPONENTS.CSS
+   دليل الاستيوارد — Marriott | مكتبة المكوّنات القابلة لإعادة الاستخدام
+   ==========================================================================
+   كل مكوّن هنا:
+     • مستقل تماماً عن الصفحة التي يظهر بها (لا افتراضات خاصة بصفحة معيّنة)
+     • يستهلك توكنز دلالية فقط (--surface-*, --brand-*, --content-*..)
+       ولا يشير إطلاقاً إلى primitive tokens (--primitive-steel-900 ممنوع هنا)
+     • يوفر كل الحالات التفاعلية: default / hover / active / focus-visible /
+       disabled / loading (حيثما ينطبق)
+     • يتبع تسمية BEM: .block, .block__element, .block--modifier
+     • حركاته مبنية على transform و opacity فقط (GPU-friendly)
+     • حجم الهدف اللمسي 44×44px كحد أدنى لأي عنصر تفاعلي
+
+   تنظيم الملف:
+     1. الأزرار (Buttons)
+     2. حقول الإدخال (Form Controls)
+     3. البطاقات (Cards)
+     4. الشارات والحبوب (Badges & Pills)
+     5. الرقاقات القابلة للنقر (Chips)
+     6. شريط التنقل السفلي (Bottom Navigation)
+     7. الزر العائم (FAB)
+     8. الرأس اللاصق (Sticky Header)
+     9. التوست (Toast Messages)
+     10. النوافذ المنبثقة (Modal / Sheet)
+     11. القوائم السياقية (Context Menu)
+     12. الهيكل العظمي للتحميل (Skeleton Loading)
+     13. المؤشرات الدائرية والتقدم (Progress)
+   ========================================================================== */
+
+/* ==========================================================================
+   1. الأزرار (Buttons)
+   ========================================================================== */
+.btn {
+  --_btn-bg: var(--surface-raised);
+  --_btn-fg: var(--content-primary);
+  --_btn-border: var(--border-subtle);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  min-width: 44px;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  border: var(--border-width-thin) solid var(--_btn-border);
+  background-color: var(--_btn-bg);
+  color: var(--_btn-fg);
+  font-family: var(--font-family-base);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
+}
+.btn:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+.btn:focus-visible {
+  outline: var(--border-width-thick) solid var(--brand-secondary);
+  outline-offset: 2px;
+}
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  pointer-events: none;
+}
+
+/* -- تأثير التموّج عند النقر (Ripple) — طبقة زائفة متحركة بـ transform/opacity فقط -- */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle, currentColor 10%, transparent 10.5%) center/0% 0% no-repeat;
+  opacity: 0;
+  z-index: -1;
+}
+.btn--ripple-active::after {
+  animation: btn-ripple var(--duration-slow) var(--ease-decelerate);
+}
+@keyframes btn-ripple {
+  0%   { background-size: 0% 0%; opacity: 0.25; }
+  100% { background-size: 300% 300%; opacity: 0; }
+}
+
+/* -- تعديلات الزر (Modifiers) -- */
+.btn--primary {
+  --_btn-bg: var(--brand-primary);
+  --_btn-fg: var(--content-on-accent);
+  --_btn-border: var(--brand-primary);
+  font-weight: var(--weight-bold);
+}
+.btn--primary:hover {
+  --_btn-bg: var(--brand-primary-hover);
+  box-shadow: var(--glow-brand);
+}
+
+.btn--danger {
+  --_btn-bg: transparent;
+  --_btn-fg: var(--status-danger);
+  --_btn-border: var(--status-danger);
+}
+.btn--danger:hover {
+  --_btn-bg: var(--status-danger);
+  --_btn-fg: var(--content-on-accent);
+}
+
+.btn--ghost {
+  --_btn-bg: transparent;
+  --_btn-border: transparent;
+}
+.btn--ghost:hover {
+  --_btn-bg: var(--surface-raised);
+}
+
+.btn--icon {
+  padding: var(--space-2);
+  border-radius: var(--radius-full);
+  aspect-ratio: 1 / 1;
+}
+
+.btn--sm {
+  min-height: 36px;
+  padding: var(--space-1) var(--space-3);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+
+.btn--full {
+  width: 100%;
+}
+
+/* -- حالة التحميل: يستبدل المحتوى بمؤشر دوّار دون تغيير أبعاد الزر -- */
+.btn--loading {
+  color: transparent !important;
+  pointer-events: none;
+}
+.btn--loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  color: var(--_btn-fg);
+  animation: btn-spin var(--duration-slower) linear infinite;
+}
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   2. حقول الإدخال (Form Controls)
+   ========================================================================== */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+.field__label {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+  font-weight: var(--weight-medium);
+}
+.field__control-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.field__input,
+.field__textarea {
+  width: 100%;
+  min-height: 44px;
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  color: var(--content-primary);
+  font-family: var(--font-family-base);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
+}
+.field__input::placeholder,
+.field__textarea::placeholder {
+  color: var(--content-muted);
+}
+.field__input:hover,
+.field__textarea:hover {
+  border-color: var(--border-strong);
+}
+.field__input:focus-visible,
+.field__textarea:focus-visible {
+  border-color: var(--brand-secondary);
+  box-shadow: var(--glow-brand);
+  outline: none;
+}
+.field__input:disabled,
+.field__textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.field__icon {
+  position: absolute;
+  inset-inline-start: var(--space-3);
+  color: var(--content-muted);
+  pointer-events: none;
+  display: flex;
+}
+.field__input--with-icon {
+  padding-inline-start: var(--space-10);
+}
+.field__textarea {
+  min-height: 44px;
+  max-height: 160px;
+}
+
+/* -- مفتاح التبديل (Toggle Switch) — لصفحة الإعدادات، لكنه مكوّن عام -- */
+.switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 48px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.switch__input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+.switch__track {
+  position: absolute;
+  inset: 0;
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+.switch__thumb {
+  position: absolute;
+  top: 3px;
+  inset-inline-start: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background-color: var(--content-secondary);
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+.switch__input:checked ~ .switch__track {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+.switch__input:checked ~ .switch__thumb {
+  transform: translateX(20px);
+  background-color: var(--content-on-accent);
+}
+[dir='rtl'] .switch__input:checked ~ .switch__thumb {
+  transform: translateX(-20px);
+}
+.switch__input:focus-visible ~ .switch__track {
+  outline: var(--border-width-thick) solid var(--brand-secondary);
+  outline-offset: 2px;
+}
+.switch__input:disabled ~ .switch__track {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   3. البطاقات (Cards)
+   ==========================================================================
+   المكوّن الأكثر استخداماً في التطبيق (المواد الكيميائية، الدروس، لوحة
+   التحكم). مبني بمنطق "حاوية + رأس + جسم قابل للطي" قابل لإعادة التركيب.
+   ========================================================================== */
+.card {
+  container-type: inline-size; /* يفعّل استعلامات الحاوية للأبناء */
+  position: relative;
+  background-color: var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--elevation-1);
+  transition: transform var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
+}
+.card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--elevation-2);
+  transform: translateY(-2px);
+}
+.card--expanded {
+  border-color: var(--brand-primary);
+}
+.card--glass {
+  background-color: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+.card__accent-strip {
+  position: absolute;
+  inset-inline-start: 0;
+  top: var(--space-3);
+  bottom: var(--space-3);
+  width: 4px;
+  border-radius: var(--radius-full);
+}
+.card__accent-strip--danger  { background-color: var(--status-danger); }
+.card__accent-strip--warning { background-color: var(--status-warning); }
+.card__accent-strip--safe    { background-color: var(--status-safe); }
+
+.card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  min-height: 44px;
+}
+
+.card__toggle {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: none;
+  border: none;
+  color: inherit;
+  text-align: inherit;
+  font-family: inherit;
+  padding: 0;
+}
+.card__toggle:focus-visible {
+  outline: var(--border-width-thick) solid var(--brand-secondary);
+  outline-offset: 4px;
+  border-radius: var(--radius-xs);
+}
+
+.card__title-group {
+  flex: 1;
+  min-width: 0;
+}
+.card__title {
+  font-family: var(--font-family-mono);
+  font-size: calc(var(--text-md) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  color: var(--brand-secondary);
+  letter-spacing: var(--tracking-label);
+}
+.card__subtitle {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-muted);
+  margin-top: var(--space-1);
+}
+.card__description {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  color: var(--content-primary);
+  font-weight: var(--weight-semibold);
+  margin-top: var(--space-1);
+}
+
+.card__chevron {
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+.card__toggle[aria-expanded='true'] .card__chevron {
+  transform: rotate(180deg);
+}
+
+.card__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-base) var(--ease-standard);
+}
+.card__body[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.card__body-inner {
+  overflow: hidden;
+  padding: 0 var(--space-4) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.card__section-label {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--content-muted);
+  font-weight: var(--weight-bold);
+}
+.card__section-value {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  color: var(--content-primary);
+}
+
+.card__actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* -- تخطيط استجابي عبر استعلام الحاوية بدلاً من الفيوبورت -- */
+@supports (container-type: inline-size) {
+  @container (min-width: 420px) {
+    .card__body-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .card__section--full {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+/* ==========================================================================
+   4. الشارات والحبوب (Badges & Pills)
+   ========================================================================== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.badge--neutral {
+  background-color: var(--surface-raised);
+  color: var(--content-secondary);
+  border: var(--border-width-thin) solid var(--border-subtle);
+}
+.badge--brand {
+  background-color: color-mix(in srgb, var(--brand-primary) 18%, transparent);
+  color: var(--brand-primary);
+}
+.badge--danger {
+  background-color: color-mix(in srgb, var(--status-danger) 18%, transparent);
+  color: var(--status-danger);
+}
+.badge--warning {
+  background-color: color-mix(in srgb, var(--status-warning) 18%, transparent);
+  color: var(--status-warning);
+}
+
+/* -- حبة الحالة (Status Pill) لمستوى الخطورة، تحمل نقطة + نص -- */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+}
+.status-pill__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+.status-pill__dot--danger  { background-color: var(--status-danger); }
+.status-pill__dot--warning { background-color: var(--status-warning); }
+.status-pill__dot--safe    { background-color: var(--status-safe); }
+
+/* ==========================================================================
+   5. الرقاقات القابلة للنقر (Chips) — فلاتر الفئات، اقتراحات الذكاء الاصطناعي
+   ========================================================================== */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  background-color: var(--surface-raised);
+  color: var(--content-secondary);
+  font-family: var(--font-family-base);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+}
+.chip:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+.chip:active {
+  transform: translateY(0);
+}
+.chip:focus-visible {
+  outline: var(--border-width-thick) solid var(--brand-secondary);
+  outline-offset: 2px;
+}
+.chip[aria-pressed='true'] {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  font-weight: var(--weight-bold);
+}
+.chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   6. شريط التنقل السفلي (Bottom Navigation)
+   ========================================================================== */
+.bottom-nav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-bottom-nav);
+  display: flex;
+  height: var(--nav-height);
+  padding-bottom: env(safe-area-inset-bottom, 0); /* دعم الأجهزة ذات الحافة السفلية */
+  background-color: var(--surface-raised);
+  border-top: var(--border-width-thin) solid var(--border-subtle);
+}
+.bottom-nav__item {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: 44px;
+  background: none;
+  border: none;
+  color: var(--content-muted);
+  font-family: var(--font-family-base);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.bottom-nav__item[aria-current='page'] {
+  color: var(--brand-primary);
+}
+.bottom-nav__item:focus-visible {
+  outline: var(--border-width-thick) solid var(--brand-secondary);
+  outline-offset: -2px;
+}
+.bottom-nav__icon {
+  font-size: calc(var(--text-xl) * var(--font-scale));
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+.bottom-nav__item[aria-current='page'] .bottom-nav__icon {
+  transform: translateY(-2px) scale(1.05);
+}
+.bottom-nav__indicator {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 32px;
+  height: 3px;
+  background-color: var(--brand-primary);
+  border-radius: 0 0 var(--radius-xs) var(--radius-xs);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+.bottom-nav__item[aria-current='page'] .bottom-nav__indicator {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ==========================================================================
+   7. الزر العائم (Floating Action Button)
+   ========================================================================== */
+.fab {
+  position: fixed;
+  z-index: var(--z-fab);
+  bottom: calc(var(--nav-height) + var(--space-4));
+  inset-inline-end: var(--space-4);
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: var(--radius-full);
+  background-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--text-xl) * var(--font-scale));
+  box-shadow: var(--elevation-3);
+  transition: transform var(--duration-base) var(--ease-spring),
+              box-shadow var(--duration-fast) var(--ease-standard);
+}
+.fab:hover {
+  transform: scale(1.06);
+  box-shadow: var(--elevation-4);
+}
+.fab:active {
+  transform: scale(0.96);
+}
+.fab:focus-visible {
+  outline: var(--border-width-thick) solid var(--brand-secondary);
+  outline-offset: 3px;
+}
+.fab--danger {
+  background-color: var(--status-danger);
+}
+.fab--hidden {
+  transform: scale(0);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   8. الرأس اللاصق (Sticky Header)
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky-header);
+  min-height: var(--header-height);
+  padding: var(--space-4);
+  background-color: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-bottom: var(--border-width-thin) solid var(--border-subtle);
+}
+.site-header__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.site-header__logo {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-black);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  letter-spacing: var(--tracking-label);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+}
+.site-header__title {
+  font-size: calc(var(--text-lg) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.site-header__subtitle {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+
+/* ==========================================================================
+   9. التوست (Toast Messages)
+   ========================================================================== */
+.toast-region {
+  position: fixed;
+  z-index: var(--z-toast);
+  bottom: calc(var(--nav-height) + var(--space-4));
+  inset-inline: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  pointer-events: none;
+}
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 100%;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-full);
+  background-color: var(--surface-overlay);
+  color: var(--content-primary);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  box-shadow: var(--elevation-3);
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  transition: transform var(--duration-base) var(--ease-decelerate),
+              opacity var(--duration-base) var(--ease-decelerate);
+}
+.toast--visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.toast--success { border-inline-start: 3px solid var(--status-safe); }
+.toast--error   { border-inline-start: 3px solid var(--status-danger); }
+
+/* ==========================================================================
+   10. النوافذ المنبثقة (Modal / Bottom Sheet)
+   ==========================================================================
+   يُستخدم لصفحة الطوارئ (Emergency Sheet)، وأي محتوى منبثق آخر مستقبلاً.
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  background-color: var(--surface-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+.modal-overlay--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet {
+  position: fixed;
+  z-index: var(--z-modal);
+  inset-inline: 0;
+  bottom: 0;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  border-top: var(--border-width-thin) solid var(--border-subtle);
+  box-shadow: var(--elevation-4);
+  transform: translateY(100%);
+  transition: transform var(--duration-slow) var(--ease-decelerate);
+}
+.sheet--visible {
+  transform: translateY(0);
+}
+.sheet__grabber {
+  width: 40px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--border-strong);
+  margin: var(--space-3) auto;
+  flex-shrink: 0;
+}
+.sheet__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4) var(--space-3);
+  border-bottom: var(--border-width-thin) solid var(--border-subtle);
+}
+.sheet__title {
+  font-size: calc(var(--text-lg) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.sheet__body {
+  overflow-y: auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* -- نافذة مركزية (للأجهزة الأعرض / اختيار مستقبلي) -- */
+.modal {
+  position: fixed;
+  z-index: var(--z-modal);
+  top: 50%;
+  inset-inline-start: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: min(92vw, 480px);
+  max-height: 85vh;
+  overflow-y: auto;
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-xl);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  box-shadow: var(--elevation-4);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--duration-base) var(--ease-decelerate),
+              opacity var(--duration-base) var(--ease-decelerate);
+}
+.modal--visible {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   11. القوائم السياقية (Context Menu)
+   ========================================================================== */
+.context-menu {
+  position: absolute;
+  z-index: var(--z-dropdown);
+  min-width: 180px;
+  padding: var(--space-2);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--elevation-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  opacity: 0;
+  transform: scale(0.95);
+  transform-origin: top;
+  pointer-events: none;
+  transition: transform var(--duration-fast) var(--ease-decelerate),
+              opacity var(--duration-fast) var(--ease-decelerate);
+}
+.context-menu--visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+.context-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: none;
+  border: none;
+  color: var(--content-primary);
+  font-family: var(--font-family-base);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  text-align: inherit;
+  width: 100%;
+}
+.context-menu__item:hover,
+.context-menu__item:focus-visible {
+  background-color: var(--surface-card);
+  outline: none;
+}
+.context-menu__item--danger {
+  color: var(--status-danger);
+}
+
+/* ==========================================================================
+   12. الهيكل العظمي للتحميل (Skeleton Loading)
+   ========================================================================== */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-md);
+}
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--content-primary) 8%, transparent),
+    transparent
+  );
+  animation: skeleton-sweep 1.6s var(--ease-standard) infinite;
+}
+@keyframes skeleton-sweep {
+  100% { transform: translateX(100%); }
+}
+.skeleton--text {
+  height: 1em;
+  width: 100%;
+}
+.skeleton--title {
+  height: 1.4em;
+  width: 60%;
+}
+.skeleton--card {
+  height: 88px;
+  width: 100%;
+  border-radius: var(--radius-lg);
+}
+.skeleton--circle {
+  border-radius: var(--radius-full);
+  aspect-ratio: 1 / 1;
+}
+
+/* ==========================================================================
+   13. المؤشرات الدائرية والتقدم (Progress)
+   ========================================================================== */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-raised);
+  overflow: hidden;
+}
+.progress-bar__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background-color: var(--brand-primary);
+  transform-origin: left;
+  transition: transform var(--duration-slow) var(--ease-decelerate);
+}
+[dir='rtl'] .progress-bar__fill {
+  transform-origin: right;
+}
+
+/* -- حلقة تقدم دائرية (لبطاقات الدروس/الاختبارات) -- */
+.progress-ring {
+  --_progress: 0; /* قيمة 0 إلى 100 تُضبط من JS عبر style inline كخاصية مخصصة */
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  background: conic-gradient(
+    var(--brand-primary) calc(var(--_progress) * 1%),
+    var(--surface-raised) 0
+  );
+  transition: background var(--duration-slow) var(--ease-standard);
+}
+.progress-ring__inner {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-card);
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}

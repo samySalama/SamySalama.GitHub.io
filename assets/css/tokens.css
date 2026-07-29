@@ -1,0 +1,340 @@
+/* ==========================================================================
+   TOKENS.CSS
+   دليل الاستيوارد — Marriott | نظام تصميم (Design Tokens)
+   ==========================================================================
+   هذا الملف هو "مصدر الحقيقة الوحيد" لكل قيمة تصميم في التطبيق:
+   ألوان، مسافات، خطوط، زوايا، ظلال، حركة، وطبقات (z-index).
+
+   القاعدة: لا يوجد أي قيمة "سحرية" (magic number) في أي ملف CSS آخر.
+   كل قيمة تصميم يجب أن تُكتب هنا مرة واحدة وتُستخدم عبر var(--token-name).
+
+   يدعم هذا الملف وضعين: فاتح (light) وداكن (dark) عبر [data-theme="..."]
+   الوضع الداكن هو الافتراضي ليحافظ على الهوية البصرية الحالية للتطبيق
+   (الصناعية / الفولاذية) التي اعتاد عليها المستخدمون.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. الخطوط (Typography Source)
+   ==========================================================================
+   نُبقي على خط Cairo كخط أساسي (عربي + لاتيني) للحفاظ على الهوية الحالية،
+   ونضيف JetBrains Mono كخط ثانوي وحيد الاستخدام لعناصر "شريط اللاصق"
+   الصناعية (أسماء المواد الكيميائية بالإنجليزية، الأكواد، الشارات).
+
+   ملاحظة أداء مهمة:
+   تحميل الخطوط لا يتم هنا عبر @import (وهذا مقصود). @import داخل CSS
+   يوقف عرض الصفحة (render-blocking) بشكل إضافي لأن المتصفح يجب أن يكتشف
+   ويُحمّل التبعية قبل إكمال تحليل باقي الـ CSS. بدلاً من ذلك، يتم تحميل
+   الخطوط عبر <link rel="preconnect"> و <link rel="preload"> في <head>
+   الخاص بـ index.html، مما يسمح للمتصفح باكتشاف الطلب مبكراً (Early
+   Discovery) ويُحسّن درجة Lighthouse Performance بشكل ملموس.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------------
+     2. المقاييس الأساسية (Primitive Scale) — لا تُستخدم مباشرة في المكوّنات،
+        هي فقط "خامات" تُبنى منها التوكنز الدلالية (Semantic Tokens) بالأسفل.
+     ------------------------------------------------------------------------ */
+
+  /* -- الألوان الأساسية: الأخضر (هوية Marriott / Ecolab) -- */
+  --primitive-green-50:  #e6faf5;
+  --primitive-green-100: #b3f0e0;
+  --primitive-green-300: #4dd6b8;
+  --primitive-green-500: #00b894;
+  --primitive-green-600: #00997d;
+  --primitive-green-700: #00785f;
+  --primitive-green-900: #00453a;
+
+  /* -- الألوان الأساسية: التركواز (مساعد الذكاء الاصطناعي) -- */
+  --primitive-teal-300: #66e0db;
+  --primitive-teal-500: #00cec9;
+  --primitive-teal-700: #00a19c;
+
+  /* -- ألوان الخطر الصناعي (Hazard) -- */
+  --primitive-hazard-orange-300: #ffb366;
+  --primitive-hazard-orange-500: #f39c12;
+  --primitive-hazard-orange-700: #c2780a;
+  --primitive-red-300:  #ff9d85;
+  --primitive-red-500:  #e17055;
+  --primitive-red-700:  #b5502f;
+
+  /* -- الألوان المحايدة: الفولاذ (Steel) للوضع الداكن -- */
+  --primitive-steel-950: #0a0d11;
+  --primitive-steel-900: #0d1117;
+  --primitive-steel-800: #131920;
+  --primitive-steel-700: #161b22;
+  --primitive-steel-600: #1c2330;
+  --primitive-steel-500: #232b3a;
+  --primitive-steel-400: #30363d;
+  --primitive-steel-300: #4a5158;
+  --primitive-steel-200: #8b949e;
+  --primitive-steel-100: #c9d1d9;
+  --primitive-steel-50:  #e6edf3;
+
+  /* -- الألوان المحايدة: للوضع الفاتح -- */
+  --primitive-paper-50:  #ffffff;
+  --primitive-paper-100: #f7f8fa;
+  --primitive-paper-200: #eef0f3;
+  --primitive-paper-300: #e2e5ea;
+  --primitive-paper-400: #cdd2d9;
+  --primitive-paper-600: #6b7280;
+  --primitive-paper-800: #2d3339;
+  --primitive-paper-900: #12161b;
+
+  /* ------------------------------------------------------------------------
+     3. المسافات (Spacing Scale) — مبنية على وحدة أساسية 4px
+     ------------------------------------------------------------------------ */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ------------------------------------------------------------------------
+     4. زوايا الاستدارة (Radius Scale)
+     ------------------------------------------------------------------------ */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-full: 999px;
+
+  /* ------------------------------------------------------------------------
+     5. المقاييس الطباعية (Type Scale) — نسبة 1.2 (Minor Third)
+     ------------------------------------------------------------------------ */
+  --font-family-base: 'Cairo', 'Segoe UI', sans-serif;
+  --font-family-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 14px;
+  --text-md: 15px;
+  --text-lg: 17px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-black: 900;
+
+  --tracking-label: 0.06em;   /* تباعد الحروف لنمط "شريط اللاصق" الصناعي */
+
+  /* ------------------------------------------------------------------------
+     6. الحركة والانتقالات (Motion)
+     ------------------------------------------------------------------------ */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ease-accelerate: cubic-bezier(0.3, 0, 1, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 340ms;
+  --duration-slower: 500ms;
+
+  /* ------------------------------------------------------------------------
+     7. طبقات الواجهة (Z-Index Scale) — قيمة مركزية موحّدة لمنع تعارض الطبقات
+     ------------------------------------------------------------------------ */
+  --z-base: 0;
+  --z-card-hover: 5;
+  --z-sticky-header: 100;
+  --z-bottom-nav: 200;
+  --z-fab: 250;
+  --z-dropdown: 300;
+  --z-overlay: 400;
+  --z-modal: 500;
+  --z-toast: 600;
+  --z-splash: 900;
+  --z-skip-link: 1000;
+
+  /* ------------------------------------------------------------------------
+     8. الأبعاد الهيكلية (Layout Dimensions)
+     ------------------------------------------------------------------------ */
+  --header-height: 64px;
+  --nav-height: 64px;
+  --fab-size: 56px;
+  --container-max-width: 720px; /* يمنع تمدد التطبيق بشكل غير مريح على الأجهزة اللوحية */
+
+  /* ------------------------------------------------------------------------
+     9. أوزان الظل (Elevation — تُبنى من قيم داكنة ثابتة، تُستخدم في الوضعين)
+     ------------------------------------------------------------------------ */
+  --elevation-0: none;
+  --elevation-1: 0 1px 2px rgba(0, 0, 0, 0.14), 0 1px 3px rgba(0, 0, 0, 0.10);
+  --elevation-2: 0 2px 6px rgba(0, 0, 0, 0.16), 0 4px 10px rgba(0, 0, 0, 0.10);
+  --elevation-3: 0 6px 16px rgba(0, 0, 0, 0.18), 0 10px 24px rgba(0, 0, 0, 0.12);
+  --elevation-4: 0 12px 28px rgba(0, 0, 0, 0.22), 0 18px 40px rgba(0, 0, 0, 0.14);
+
+  /* ------------------------------------------------------------------------
+     10. سُمك الحدود والزجاجية (Borders & Glass)
+     ------------------------------------------------------------------------ */
+  --border-width-thin: 1px;
+  --border-width-thick: 2px;
+  --glass-blur: 18px;
+  --glass-saturate: 160%;
+}
+
+/* ==========================================================================
+   11. التوكنز الدلالية — الوضع الداكن (الافتراضي)
+   ==========================================================================
+   هذه هي القيم التي تستخدمها المكوّنات فعلياً (مثال: var(--surface-page)،
+   وليس var(--primitive-steel-900) مباشرة). هذا يسمح بتبديل الوضع بالكامل
+   بتغيير القيم هنا فقط، دون لمس أي ملف CSS آخر.
+   ========================================================================== */
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* -- الخلفيات -- */
+  --surface-page: var(--primitive-steel-900);
+  --surface-sunken: var(--primitive-steel-950);
+  --surface-raised: var(--primitive-steel-700);
+  --surface-card: var(--primitive-steel-600);
+  --surface-overlay: rgba(10, 13, 17, 0.72);
+  --surface-glass: rgba(28, 35, 48, 0.55);
+
+  /* -- الحدود -- */
+  --border-subtle: var(--primitive-steel-400);
+  --border-strong: var(--primitive-steel-300);
+
+  /* -- النصوص -- */
+  --content-primary: var(--primitive-steel-50);
+  --content-secondary: var(--primitive-steel-200);
+  --content-muted: var(--primitive-steel-300);
+  --content-on-accent: #04140f; /* نص داكن فوق خلفية خضراء زاهية */
+  --content-on-hazard: #1a0f00; /* نص داكن فوق خلفية برتقالية زاهية */
+
+  /* -- الألوان الدلالية (Semantic Brand & Status) -- */
+  --brand-primary: var(--primitive-green-500);
+  --brand-primary-hover: var(--primitive-green-300);
+  --brand-primary-active: var(--primitive-green-600);
+  --brand-secondary: var(--primitive-teal-500);
+
+  --status-safe: var(--primitive-green-500);
+  --status-warning: var(--primitive-hazard-orange-500);
+  --status-danger: var(--primitive-red-500);
+  --status-info: var(--primitive-teal-500);
+
+  /* -- لهجة الخطر الصناعي (Label-Maker / Hazard Tape) -- */
+  --hazard-tape-bg: repeating-linear-gradient(
+    135deg,
+    var(--primitive-hazard-orange-500) 0 14px,
+    var(--primitive-steel-950) 14px 28px
+  );
+
+  /* -- الظلال المتوهجة (Glow) لعناصر تفاعلية مميزة -- */
+  --glow-brand: 0 0 0 3px rgba(0, 184, 148, 0.22);
+  --glow-danger: 0 0 0 3px rgba(225, 112, 85, 0.25);
+
+  /* -- خلفية الصفحة المزخرفة (Ambient Gradient) -- */
+  --ambient-gradient:
+    radial-gradient(circle at 100% 0%, rgba(0, 184, 148, 0.12), transparent 24%),
+    radial-gradient(circle at 0% 100%, rgba(0, 206, 201, 0.09), transparent 20%);
+}
+
+/* ==========================================================================
+   12. التوكنز الدلالية — الوضع الفاتح
+   ==========================================================================
+   يُفعَّل عبر [data-theme="light"] على وسم <html>، تُدار الحالة من settings.js
+   ========================================================================== */
+[data-theme='light'] {
+  color-scheme: light;
+
+  --surface-page: var(--primitive-paper-100);
+  --surface-sunken: var(--primitive-paper-200);
+  --surface-raised: var(--primitive-paper-50);
+  --surface-card: var(--primitive-paper-50);
+  --surface-overlay: rgba(18, 22, 27, 0.45);
+  --surface-glass: rgba(255, 255, 255, 0.6);
+
+  --border-subtle: var(--primitive-paper-300);
+  --border-strong: var(--primitive-paper-400);
+
+  --content-primary: var(--primitive-paper-900);
+  --content-secondary: var(--primitive-paper-800);
+  --content-muted: var(--primitive-paper-600);
+  --content-on-accent: #04140f;
+  --content-on-hazard: #1a0f00;
+
+  --brand-primary: var(--primitive-green-600);
+  --brand-primary-hover: var(--primitive-green-500);
+  --brand-primary-active: var(--primitive-green-700);
+  --brand-secondary: var(--primitive-teal-700);
+
+  --status-safe: var(--primitive-green-600);
+  --status-warning: var(--primitive-hazard-orange-700);
+  --status-danger: var(--primitive-red-700);
+  --status-info: var(--primitive-teal-700);
+
+  --hazard-tape-bg: repeating-linear-gradient(
+    135deg,
+    var(--primitive-hazard-orange-500) 0 14px,
+    var(--primitive-paper-900) 14px 28px
+  );
+
+  --glow-brand: 0 0 0 3px rgba(0, 153, 125, 0.18);
+  --glow-danger: 0 0 0 3px rgba(181, 80, 47, 0.20);
+
+  --ambient-gradient:
+    radial-gradient(circle at 100% 0%, rgba(0, 184, 148, 0.08), transparent 24%),
+    radial-gradient(circle at 0% 100%, rgba(0, 206, 201, 0.06), transparent 20%);
+}
+
+/* ==========================================================================
+   13. دعم تفضيلات النظام (لأول تحميل قبل قراءة تفضيل المستخدم من localStorage)
+   ========================================================================== */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']):not([data-theme='light']) {
+    color-scheme: light;
+    --surface-page: var(--primitive-paper-100);
+    --surface-sunken: var(--primitive-paper-200);
+    --surface-raised: var(--primitive-paper-50);
+    --surface-card: var(--primitive-paper-50);
+    --surface-overlay: rgba(18, 22, 27, 0.45);
+    --surface-glass: rgba(255, 255, 255, 0.6);
+    --border-subtle: var(--primitive-paper-300);
+    --border-strong: var(--primitive-paper-400);
+    --content-primary: var(--primitive-paper-900);
+    --content-secondary: var(--primitive-paper-800);
+    --content-muted: var(--primitive-paper-600);
+    --brand-primary: var(--primitive-green-600);
+    --brand-primary-hover: var(--primitive-green-500);
+    --brand-primary-active: var(--primitive-green-700);
+    --brand-secondary: var(--primitive-teal-700);
+    --status-safe: var(--primitive-green-600);
+    --status-warning: var(--primitive-hazard-orange-700);
+    --status-danger: var(--primitive-red-700);
+    --status-info: var(--primitive-teal-700);
+  }
+}
+
+/* ==========================================================================
+   14. تخصيصات لحجم الخط (يتحكم بها المستخدم من صفحة الإعدادات)
+   ==========================================================================
+   settings.js يضيف السمة data-font-size على <html> بثلاث قيم ممكنة.
+   كل المكوّنات يجب أن تستخدم وحدات rem أو var(--text-*) الأساسية
+   حتى تتجاوب تلقائياً مع تغيّر --font-scale.
+   ========================================================================== */
+:root {
+  --font-scale: 1;
+}
+[data-font-size='small']  { --font-scale: 0.9; }
+[data-font-size='medium'] { --font-scale: 1;   }
+[data-font-size='large']  { --font-scale: 1.15; }
+[data-font-size='xlarge'] { --font-scale: 1.3;  }
