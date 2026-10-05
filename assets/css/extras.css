@@ -1,0 +1,80 @@
+/* ==========================================================================
+   EXTRAS.CSS — أنماط إضافات v2.1 (الاختبارات + تنبيه المرجعية + زر الفتح)
+   توكنز دلالية فقط، بنفس قواعد components.css / views.css
+   ========================================================================== */
+
+/* -- اختبار الوحدة -- */
+.quiz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+.quiz__best {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+.quiz__questions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.quiz__question {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.quiz__prompt {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-relaxed);
+}
+.quiz__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.quiz__feedback {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+  line-height: var(--leading-relaxed);
+}
+.quiz__feedback[hidden] {
+  display: none;
+}
+.quiz__result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+/* -- تنبيه المرجعية أسفل التطبيق -- */
+.app-disclaimer {
+  margin: var(--space-4);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  color: var(--content-muted);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  line-height: var(--leading-relaxed);
+  text-align: center;
+}
+
+/* -- زر «افتح البطاقة» في ردود المساعد -- */
+.ai-message__open-card {
+  margin-top: var(--space-2);
+}
+
+/* -- شريط أدوات المساعد -- */
+.ai-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-1) var(--space-4) 0;
+}
+
+/* -- إخفاء تنبيه المرجعية في شاشة المحادثة (تملأ الشاشة) -- */
+main:has([data-view='ai']:not([hidden])) ~ .app-disclaimer {
+  display: none;
+}
