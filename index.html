@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  index.html — دليل الاستيوارد | Marriott Stewarding Guide
+  ============================================================================
+  هذا هو "الصدفة" (Shell) الوحيدة للتطبيق بالكامل. لا يحتوي هذا الملف على
+  أي محتوى تطبيقي فعلي (لا مواد كيميائية، لا محتوى تعليمي، لا حوار ذكاء
+  اصطناعي) — كل ذلك يُبنى ديناميكياً بواسطة وحدات JavaScript من داخل
+  حاويات <section class="view"> الفارغة أدناه. هذا يحقق قاعدة "لا تكرار
+  للكود" (DRY) ويجعل كل عرض مسؤولاً عن نفسه بالكامل عبر ملفه في assets/js.
+
+  لا يوجد هنا أي CSS مضمّن (inline) ولا أي JavaScript مضمّن — بالكامل عبر
+  ملفات خارجية مرتبطة، تحقيقاً لقاعدة "no inline CSS/JS" الصارمة للمشروع.
+  ============================================================================
+-->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="دليل مرجعي شامل لقسم الاستيوارد بفندق Marriott — مواد كيميائية، سلامة غذاء، تعليم HACCP، ومساعد ذكي، يعمل بالكامل بدون إنترنت.">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+  <title>دليل الاستيوارد — Marriott</title>
+
+  <!-- ==========================================================================
+       PWA: الأيقونات والبيان (Manifest)
+       ========================================================================== -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="دليل الاستيوارد">
+
+  <!-- ==========================================================================
+       تحميل الخطوط: preconnect + preload لتفادي حجب العرض (render-blocking)
+       الناتج عن @import داخل CSS — أداء أفضل ودرجة Lighthouse أعلى.
+       ========================================================================== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+  >
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+  >
+
+  <!-- ==========================================================================
+       طبقات التصميم — بالترتيب: توكنز → أساسي → مكوّنات → تخطيطات الصفحات
+       ========================================================================== -->
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/views.css">
+</head>
+<body>
+
+  <!-- رابط تخطي المحتوى — أول عنصر يصل له مستخدم لوحة المفاتيح -->
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
+  <!-- ==========================================================================
+       شاشة البداية (Splash Screen) — تُخفى تلقائياً بعد تهيئة app.js
+       ========================================================================== -->
+  <div class="splash-screen" id="splashScreen" aria-hidden="true">
+    <div class="splash-screen__logo">STEWARD GUIDE</div>
+    <div class="splash-screen__spinner"></div>
+  </div>
+
+  <!-- مؤشر وضع عدم الاتصال — يظهر/يختفي تلقائياً حسب حالة الشبكة -->
+  <div class="offline-banner" id="offlineBanner" role="status">
+    <span aria-hidden="true">📡</span> أنت الآن بدون اتصال — التطبيق يعمل بكامل بياناته المحفوظة محلياً
+  </div>
+
+  <!-- ==========================================================================
+       الرأس اللاصق (Sticky Header)
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="site-header__row">
+      <span class="site-header__logo" aria-hidden="true">STW</span>
+      <div>
+        <div class="site-header__title">دليل الاستيوارد</div>
+        <div class="site-header__subtitle">Marriott Stewarding Guide</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       المحتوى الرئيسي — ستة عروض، كل واحد فارغ ويُملأ ديناميكياً من ملفه
+       المخصص في assets/js/. السمة hidden تُدار بالكامل من router.js.
+       ========================================================================== -->
+  <main id="main-content">
+
+    <section class="view" data-view="dashboard" hidden></section>
+
+    <section class="view" data-view="chemicals" hidden></section>
+
+    <section class="view" data-view="education" hidden>
+      <div class="view-header">
+        <div class="view-header__eyebrow">التعليم</div>
+        <h1 class="view-header__title">أكاديمية سلامة الغذاء</h1>
+      </div>
+    </section>
+
+    <section class="view" data-view="safety" hidden>
+      <div class="view-header">
+        <div class="view-header__eyebrow">السلامة</div>
+        <h1 class="view-header__title">السلامة والطوارئ</h1>
+      </div>
+    </section>
+
+    <section class="view" data-view="ai" hidden></section>
+
+    <section class="view" data-view="settings" hidden>
+      <div class="view-header">
+        <div class="view-header__eyebrow">الإعدادات</div>
+        <h1 class="view-header__title">تفضيلات التطبيق</h1>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       شريط التنقل السفلي — ستة عناصر تطابق العروض الستة أعلاه بالضبط
+       ========================================================================== -->
+  <nav class="bottom-nav" aria-label="التنقل الرئيسي">
+    <button class="bottom-nav__item" type="button" data-nav-target="dashboard" aria-current="page">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
+      <span>الرئيسية</span>
+    </button>
+    <button class="bottom-nav__item" type="button" data-nav-target="chemicals" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🧪</span>
+      <span>المواد</span>
+    </button>
+    <button class="bottom-nav__item" type="button" data-nav-target="education" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">📚</span>
+      <span>التعليم</span>
+    </button>
+    <button class="bottom-nav__item" type="button" data-nav-target="safety" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🚨</span>
+      <span>السلامة</span>
+    </button>
+    <button class="bottom-nav__item" type="button" data-nav-target="ai" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🤖</span>
+      <span>المساعد</span>
+    </button>
+    <button class="bottom-nav__item" type="button" data-nav-target="settings" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">⚙️</span>
+      <span>الإعدادات</span>
+    </button>
+  </nav>
+
+  <!-- منطقة التوست — تُملأ ديناميكياً من showToast في utils.js -->
+  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+
+  <!-- ==========================================================================
+       نقطة الدخول الوحيدة للجافاسكريبت — كل شيء آخر يُحمَّل عبر import
+       ========================================================================== -->
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
