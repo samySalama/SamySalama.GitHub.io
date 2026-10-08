@@ -1,0 +1,596 @@
+/* ==========================================================================
+   EXTRAS.CSS — أنماط إضافات v2.1 (الاختبارات + تنبيه المرجعية + زر الفتح)
+   توكنز دلالية فقط، بنفس قواعد components.css / views.css
+   ========================================================================== */
+
+/* -- اختبار الوحدة -- */
+.quiz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-top: var(--space-2);
+}
+.quiz__best {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+.quiz__questions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.quiz__question {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.quiz__prompt {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-relaxed);
+}
+.quiz__options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.quiz__feedback {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+  line-height: var(--leading-relaxed);
+}
+.quiz__feedback[hidden] {
+  display: none;
+}
+.quiz__result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-start;
+}
+
+/* -- تنبيه المرجعية أسفل التطبيق -- */
+.app-disclaimer {
+  margin: var(--space-4);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  color: var(--content-muted);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  line-height: var(--leading-relaxed);
+  text-align: center;
+}
+
+/* -- زر «افتح البطاقة» في ردود المساعد -- */
+.ai-message__open-card {
+  margin-top: var(--space-2);
+}
+
+/* -- شريط أدوات المساعد -- */
+.ai-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--space-1) var(--space-4) 0;
+}
+
+/* -- إخفاء تنبيه المرجعية في شاشة المحادثة (تملأ الشاشة) -- */
+main:has([data-view='ai']:not([hidden])) ~ .app-disclaimer {
+  display: none;
+}
+
+/* ==========================================================================
+   تدقيق الواجهة (Web Interface Guidelines) — إصلاحات الإتاحة والتجربة
+   ========================================================================== */
+
+/* -- 1) تباين الألوان (WCAG AA ≥ 4.5:1) --
+   قبل: content-muted داكن = 1.96:1 على البطاقات | فاتح: brand-primary = 3.4:1،
+   brand-secondary = 3.0:1، status-warning = 3.3:1 كنصوص. */
+:root,
+[data-theme='dark'] {
+  --content-secondary: #c9d1d9;
+  --content-muted: #8b949e;
+}
+[data-theme='light'] {
+  --content-muted: #5b6270;
+  --brand-primary: #00785f;
+  --brand-primary-hover: #00695c;
+  --brand-primary-active: #00574c;
+  --brand-secondary: #007473;
+  --status-warning: #8a5200;
+  --content-on-accent: #ffffff;
+}
+[data-theme='light'] .step-item__number--warning {
+  color: #ffffff;
+}
+
+/* -- 2) المناطق الآمنة (نوتش iPhone مع black-translucent + شريط التنقل) -- */
+:root {
+  --header-height: calc(64px + env(safe-area-inset-top, 0px));
+  --nav-height: calc(64px + env(safe-area-inset-bottom, 0px));
+}
+.site-header {
+  padding-top: calc(var(--space-4) + env(safe-area-inset-top, 0px));
+}
+
+/* -- 3) الرأس والشريط اللاصقان لا يغطيان العنصر المُركَّز أو المُمرَّر إليه -- */
+html {
+  scroll-padding-top: calc(var(--header-height) + var(--space-4));
+  scroll-padding-bottom: calc(var(--nav-height) + var(--space-4));
+}
+.card {
+  scroll-margin-top: calc(var(--header-height) + 140px);
+}
+main:focus {
+  outline: none;
+}
+
+/* -- 4) اللمس: لا تأخير نقرتين، ولا hover «عالق» بعد اللمس -- */
+button,
+a,
+.chip,
+input,
+textarea,
+[role='button'] {
+  touch-action: manipulation;
+}
+html {
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--brand-primary) 18%, transparent);
+}
+@media (hover: none) {
+  .card:hover,
+  .chip:hover,
+  .btn:hover,
+  .quick-action:hover,
+  .dashboard-card:hover {
+    transform: none;
+  }
+}
+.ai-messages {
+  overscroll-behavior: contain;
+}
+
+/* -- 5) الحركة: خيار «تقليل الحركة» اليدوي يُطفئ كل الحركات (لا --duration-base فقط)
+      ونبض SOS لا يدوم أكثر من ~5 ثوانٍ (WCAG 2.2.2) -- */
+[data-reduced-motion='true'] *,
+[data-reduced-motion='true'] *::before,
+[data-reduced-motion='true'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+.emergency-sos__button {
+  animation-iteration-count: 2;
+}
+
+/* -- 6) الطباعة والمحتوى -- */
+h1,
+h2,
+h3,
+.hero-panel__title,
+.view-header__title {
+  text-wrap: balance;
+}
+.data-table td,
+.data-table th,
+.dashboard-card__value {
+  font-variant-numeric: tabular-nums;
+}
+/* نطاقات الحرارة (55 – 65°م) تُعرض بترتيب رقمي صحيح داخل واجهة RTL */
+.data-table td[data-temp] {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.card__title,
+.card__description {
+  overflow-wrap: anywhere;
+}
+
+/* -- 7) نص «جرّب كلمة بحث أخرى» كان مخفياً عن المبصرين -- */
+.empty-state .u-visually-hidden {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  clip: auto;
+  overflow: visible;
+  white-space: normal;
+}
+
+/* -- 8) أرقام الطوارئ صارت روابط اتصال -- */
+a.emergency-contact {
+  text-decoration: none;
+}
+a.emergency-contact:hover {
+  border-color: var(--status-danger);
+}
+
+/* ==========================================================================
+   v2.2 — شريط التنقل كروابط، زر الطوارئ الدائم، إشعار التحديث
+   ========================================================================== */
+
+/* -- التنقل السفلي صار <a> حقيقية (فتح بتبويب جديد، مشاركة الرابط) -- */
+a.bottom-nav__item,
+a.bottom-nav__item:hover {
+  text-decoration: none;
+}
+
+/* -- زر طوارئ عائم دائم (يستخدم أنماط .fab/.fab--danger الموجودة) -- */
+a.fab {
+  text-decoration: none;
+}
+/* يُخفى حيث يتعارض مع المحتوى: المحادثة، السلامة نفسها، الإعدادات */
+main:has([data-view='ai']:not([hidden])) ~ .fab--sos,
+main:has([data-view='safety']:not([hidden])) ~ .fab--sos,
+main:has([data-view='settings']:not([hidden])) ~ .fab--sos {
+  display: none;
+}
+
+/* -- إشعار التحديث -- */
+.update-banner {
+  position: fixed;
+  z-index: var(--z-toast);
+  inset-inline: var(--space-4);
+  bottom: calc(var(--nav-height) + var(--space-4));
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--brand-primary);
+  box-shadow: var(--elevation-3);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+.update-banner span {
+  flex: 1;
+}
+@media print {
+  .update-banner {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   v2.3 — حاسبة التخفيف + حوكمة المحتوى
+   ========================================================================== */
+.dilution-calc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+}
+.dilution-calc__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+}
+.dilution-calc__result {
+  font-family: var(--font-family-mono);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  color: var(--brand-secondary);
+  line-height: var(--leading-relaxed);
+}
+.dilution-calc__note {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+.chem-card__review {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+.review-badge--unreviewed {
+  background-color: color-mix(in srgb, var(--status-warning) 18%, transparent);
+  color: var(--status-warning);
+}
+.review-badge--stale {
+  background-color: color-mix(in srgb, var(--status-danger) 18%, transparent);
+  color: var(--status-danger);
+}
+.review-badge--ok {
+  background-color: color-mix(in srgb, var(--status-safe) 18%, transparent);
+  color: var(--status-safe);
+}
+.review-sds-link {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+
+/* ==========================================================================
+   v2.3 — السجلات التشغيلية
+   ========================================================================== */
+.logs-tabs,
+.print-tabs {
+  display: flex;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+  overflow-x: auto;
+}
+.logs-panel,
+.print-host {
+  padding: var(--space-3) var(--space-4);
+}
+.logs-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.logs-hint {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-muted);
+}
+.logs-subheading {
+  font-size: calc(var(--text-base) * var(--font-scale));
+}
+.logs-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.logs-toolbar__actions {
+  display: flex;
+  gap: var(--space-2);
+}
+.check-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+}
+.check-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.check-card__title {
+  font-size: calc(var(--text-base) * var(--font-scale));
+}
+.check-card__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-2) 0;
+  font-size: calc(var(--text-base) * var(--font-scale));
+  line-height: var(--leading-relaxed);
+}
+.check-item__box {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  accent-color: var(--brand-primary);
+}
+.temp-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+}
+.temp-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+}
+.temp-form__rule {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--brand-secondary);
+  font-weight: var(--weight-semibold);
+}
+.temp-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.temp-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border-inline-start: 4px solid var(--status-safe);
+}
+.temp-row--bad {
+  border-inline-start-color: var(--status-danger);
+}
+.temp-row__main {
+  flex: 1;
+  min-width: 0;
+}
+.temp-row__title {
+  font-weight: var(--weight-semibold);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-variant-numeric: tabular-nums;
+}
+.temp-row__sub {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+
+/* ==========================================================================
+   v2.3 — المطبوعات (معاينة + طباعة بألوان ثابتة)
+   ========================================================================== */
+.print-name {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+.print-host > div > .btn {
+  margin-bottom: var(--space-3);
+}
+.print-sheet {
+  background: #fff;
+  color: #111;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.print-sheet__title {
+  font-size: 20px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.print-sheet__sub {
+  font-size: 15px;
+  margin: 14px 0 6px;
+  border-bottom: 2px solid #111;
+  padding-bottom: 2px;
+}
+.print-sheet__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.print-sheet__table th,
+.print-sheet__table td {
+  border: 1px solid #555;
+  padding: 4px 6px;
+  text-align: start;
+  vertical-align: top;
+}
+.print-sheet__table thead th {
+  background: #e5e5e5;
+}
+.print-sheet__en {
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  color: #444;
+  direction: ltr;
+  text-align: start;
+}
+.print-sheet__ltr {
+  unicode-bidi: plaintext;
+}
+.print-sheet__danger--high {
+  font-weight: 700;
+  color: #b00020;
+}
+.print-sheet__danger--med {
+  color: #8a5200;
+}
+.print-sheet__danger--low {
+  color: #1b5e20;
+}
+.print-sheet__foot {
+  margin-top: 12px;
+  font-size: 11px;
+  border-top: 1px solid #555;
+  padding-top: 6px;
+}
+.print-sheet__boards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+.print-sheet__board {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.print-sheet__swatch {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #111;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.print-sheet__list {
+  padding-inline-start: 20px;
+}
+.print-sheet__list li {
+  list-style: revert;
+}
+.print-sheet--certificate {
+  text-align: center;
+  border: 6px double #111;
+  padding: 36px 24px;
+}
+.print-sheet__kicker {
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.print-sheet__name {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 12px 0;
+  border-bottom: 1px solid #111;
+  display: inline-block;
+  min-width: 60%;
+}
+.print-sheet__modules {
+  text-align: start;
+  max-width: 420px;
+  margin: 12px auto;
+  padding-inline-start: 20px;
+}
+.print-sheet__modules li {
+  list-style: disc;
+}
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+@media print {
+  .site-header,
+  .bottom-nav,
+  .fab,
+  .skip-link,
+  .app-disclaimer,
+  .toast-region,
+  .update-banner,
+  .offline-banner,
+  .splash-screen,
+  [data-no-print] {
+    display: none !important;
+  }
+  [data-view='print'] .print-sheet {
+    border: none;
+    padding: 0;
+    font-size: 12pt;
+  }
+  [data-view='print'] .print-sheet--certificate {
+    border: 6px double #111;
+    padding: 20mm 12mm;
+  }
+  [data-view='print'] .print-host,
+  [data-view='print'] {
+    padding: 0;
+  }
+}
+
+.dashboard-card--link {
+  text-align: start;
+  width: 100%;
+  cursor: pointer;
+}
+.dashboard-card__value--alert {
+  color: var(--status-danger);
+}

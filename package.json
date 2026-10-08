@@ -1,0 +1,29 @@
+{
+  "name": "steward-guide",
+  "version": "2.3.0",
+  "private": true,
+  "type": "module",
+  "description": "دليل الاستيوارد — أدوات التطوير والاختبار فقط (التطبيق نفسه بلا بناء ولا اعتماديات)",
+  "scripts": {
+    "test": "node --test \"tests/unit/*.test.js\"",
+    "test:unit": "node --test \"tests/unit/*.test.js\"",
+    "test:e2e": "playwright test --project=mobile-chrome",
+    "test:visual": "playwright test --project=visual",
+    "test:visual:update": "playwright test --project=visual --update-snapshots",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "check": "npm run lint && npm run typecheck && npm run test:unit",
+    "serve": "python3 -m http.server 8000",
+    "fix:data": "node scripts/patch-data.mjs",
+    "report:review": "node scripts/review-report.mjs",
+    "qr": "node scripts/generate-qr.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "globals": "^15.0.0",
+    "qrcode": "^1.5.4",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+  ============================================================================
+  index.html — دليل الاستيوارد | Marriott Stewarding Guide (v2.1)
+  ============================================================================
+  الصدفة (Shell) الوحيدة للتطبيق: لا محتوى تطبيقي هنا، كل عرض يُبنى ديناميكياً
+  من ملفه في assets/js. لا CSS ولا JS مضمّن.
+  ============================================================================
+-->
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="description" content="دليل مرجعي شامل لقسم الاستيوارد بفندق Marriott — مواد كيميائية، سلامة غذاء، تعليم HACCP، ومساعد ذكي، يعمل بالكامل بدون إنترنت.">
+  <meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
+  <meta name="color-scheme" content="dark light">
+  <title>دليل الاستيوارد — Marriott</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="دليل الاستيوارد">
+
+  <!-- الخطوط مستضافة ذاتياً (assets/css/fonts.css) — لا طلبات لأطراف ثالثة -->
+  <link rel="preload" href="assets/fonts/cairo-arabic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- طبقات التصميم: توكنز ← أساسي ← مكوّنات ← تخطيطات ← إضافات v2.1 -->
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/views.css">
+  <link rel="stylesheet" href="assets/css/extras.css">
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+
+  <div class="splash-screen" id="splashScreen" aria-hidden="true">
+    <div class="splash-screen__logo">STEWARD GUIDE</div>
+    <div class="splash-screen__spinner"></div>
+  </div>
+
+  <div class="offline-banner" id="offlineBanner" role="status">
+    <span aria-hidden="true">📡</span> أنت الآن بدون اتصال — التطبيق يعمل بكامل بياناته المحفوظة محلياً
+  </div>
+
+  <header class="site-header">
+    <div class="site-header__row">
+      <span class="site-header__logo" aria-hidden="true">STW</span>
+      <div>
+        <div class="site-header__title">دليل الاستيوارد</div>
+        <div class="site-header__subtitle">Marriott Stewarding Guide</div>
+      </div>
+    </div>
+  </header>
+
+  <noscript>
+    <p class="app-disclaimer">هذا التطبيق يحتاج تفعيل JavaScript ليعمل.</p>
+  </noscript>
+
+  <main id="main-content">
+    <section class="view" data-view="dashboard" hidden></section>
+    <section class="view" data-view="chemicals" hidden></section>
+    <section class="view" data-view="education" hidden></section>
+    <section class="view" data-view="safety" hidden>
+      <div class="view-header">
+        <div class="view-header__eyebrow">السلامة</div>
+        <h1 class="view-header__title">السلامة والطوارئ</h1>
+      </div>
+    </section>
+    <section class="view" data-view="logs" hidden></section>
+    <section class="view" data-view="print" hidden></section>
+    <section class="view" data-view="ai" hidden></section>
+    <section class="view" data-view="settings" hidden>
+      <div class="view-header">
+        <div class="view-header__eyebrow">الإعدادات</div>
+        <h1 class="view-header__title">تفضيلات التطبيق</h1>
+      </div>
+    </section>
+  </main>
+
+  <!-- تنبيه مرجعية المحتوى (يخص مواد كيميائية وسلامة) -->
+  <p class="app-disclaimer" data-no-print>
+    ⚠️ المعلومات في هذا التطبيق مرجع تشغيلي سريع. عند أي اختلاف أو شك، الأولوية دائماً لملصق المنتج وصحيفة بيانات السلامة (SDS) من Ecolab وتعليمات المشرف.
+  </p>
+
+  <!-- زر طوارئ دائم: وصول لصفحة السلامة من أي مكان -->
+  <a class="fab fab--danger fab--sos" href="#safety" aria-label="الطوارئ والسلامة" data-no-print>🚨</a>
+
+  <nav class="bottom-nav" aria-label="التنقل الرئيسي">
+    <a class="bottom-nav__item" href="#dashboard" data-nav-target="dashboard" aria-current="page">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🏠</span>
+      <span>الرئيسية</span>
+    </a>
+    <a class="bottom-nav__item" href="#chemicals" data-nav-target="chemicals" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🧪</span>
+      <span>المواد</span>
+    </a>
+    <a class="bottom-nav__item" href="#education" data-nav-target="education" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">📚</span>
+      <span>التعليم</span>
+    </a>
+    <a class="bottom-nav__item" href="#safety" data-nav-target="safety" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🚨</span>
+      <span>السلامة</span>
+    </a>
+    <a class="bottom-nav__item" href="#ai" data-nav-target="ai" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">🤖</span>
+      <span>المساعد</span>
+    </a>
+    <a class="bottom-nav__item" href="#settings" data-nav-target="settings" aria-current="false">
+      <span class="bottom-nav__indicator" aria-hidden="true"></span>
+      <span class="bottom-nav__icon" aria-hidden="true">⚙️</span>
+      <span>الإعدادات</span>
+    </a>
+  </nav>
+
+  <div class="toast-region" id="toastRegion" aria-live="polite"></div>
+
+  <script type="module" src="assets/js/diagnostics.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/a11y.js"></script>
+  <script type="module" src="assets/js/pwa-update.js"></script>
+</body>
+</html>
