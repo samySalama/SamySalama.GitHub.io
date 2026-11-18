@@ -1,0 +1,16 @@
+{
+  "name": "steward-guide",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "دليل الاستيوارد — أدوات التطوير والاختبار فقط (التطبيق نفسه بلا بناء ولا اعتماديات)",
+  "scripts": {
+    "test": "node --test \"tests/unit/*.test.js\"",
+    "test:unit": "node --test \"tests/unit/*.test.js\"",
+    "test:e2e": "playwright test",
+    "serve": "python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0"
+  }
+}
