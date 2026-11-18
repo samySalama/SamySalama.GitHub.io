@@ -1,0 +1,264 @@
+/* ==========================================================================
+   BASE.CSS
+   دليل الاستيوارد — Marriott | الإعادة التأسيسية والعناصر الأساسية
+   ==========================================================================
+   هذا الملف مسؤول فقط عن:
+     1. تصفير الأنماط الافتراضية للمتصفح (Reset)
+     2. الأنماط الأساسية لعناصر HTML الخام (body, h1, a, button..)
+     3. أدوات إتاحة الاستخدام العامة (Accessibility Primitives)
+     4. فئات مساعدة عامة (Utility Classes) لا ترتبط بمكوّن معيّن
+
+   لا يحتوي هذا الملف على أي تصميم خاص بمكوّن (بطاقة، زر، شارة..) — تلك
+   موجودة في components.css. القاعدة: إن كان الاسم يصف مكوّناً محدداً
+   (.chem-card, .nav-btn) فمكانه ملف آخر. إن كان يصف عنصر HTML عام
+   أو أداة عامة، فمكانه هنا.
+
+   كل قيمة هنا مسحوبة من tokens.css فقط — لا قيم مكتوبة يدوياً (no magic
+   numbers)، تحقيقاً لقاعدة "مصدر الحقيقة الواحد".
+   ========================================================================== */
+
+/* ==========================================================================
+   1. صندوق الحجم والتصفير الشامل
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* منع تمدد الصور والوسائط خارج حاوياتها بشكل غير مقصود */
+img,
+picture,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* التأكد من أن العناصر القابلة للنقر بها مؤشر مناسب دائماً */
+button,
+[role='button'],
+input[type='submit'] {
+  cursor: pointer;
+}
+
+/* إزالة أنماط القوائم الافتراضية عند الحاجة لبناء مكوّنات مخصصة */
+ul,
+ol {
+  list-style: none;
+}
+
+/* توريث الخط في عناصر النماذج (المتصفحات لا تفعل هذا تلقائياً) */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* منع كسر تخطيط النص الطويل داخل أي عنصر مرن */
+textarea {
+  resize: vertical;
+  min-height: 2.5em;
+}
+
+/* ==========================================================================
+   2. الجذر والعناصر الأساسية
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%; /* منع تكبير النص التلقائي في iOS Safari */
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  line-height: var(--leading-normal);
+  background-color: var(--surface-page);
+  color: var(--content-primary);
+  min-height: 100vh;
+  min-height: 100dvh; /* يراعي أشرطة أدوات المتصفح المتحركة على الموبايل */
+  position: relative;
+  overflow-x: hidden;
+  padding-bottom: calc(var(--nav-height) + var(--space-3));
+  transition: background-color var(--duration-base) var(--ease-standard),
+              color var(--duration-base) var(--ease-standard);
+}
+
+/* الخلفية الجوية الزخرفية — طبقة واحدة ثابتة، لا تتكرر لكل صفحة */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-base);
+  pointer-events: none;
+  background: var(--ambient-gradient);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+}
+
+a {
+  color: var(--brand-secondary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   3. إتاحة الاستخدام (Accessibility Primitives)
+   ========================================================================== */
+
+/* إخفاء بصري فقط — يبقى العنصر متاحاً لقارئ الشاشة وترتيب التنقل بالتاب */
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* رابط تخطي المحتوى — أول عنصر يصل له مستخدم لوحة المفاتيح في الصفحة */
+.skip-link {
+  position: absolute;
+  z-index: var(--z-skip-link);
+  top: -100px;
+  right: var(--space-3);
+  background-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-weight: var(--weight-bold);
+  transition: top var(--duration-fast) var(--ease-standard);
+}
+.skip-link:focus {
+  top: var(--space-3);
+}
+
+/* حالة تركيز واضحة وموحّدة لكل عنصر تفاعلي في التطبيق */
+:focus-visible {
+  outline: var(--border-width-thick) solid var(--brand-secondary);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* احترام تفضيل المستخدم لتقليل الحركة — يُلغي كل الحركات والانتقالات فعلياً */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* دعم التباين العالي (High Contrast) — يقوّي الحدود حين يطلب النظام ذلك */
+@media (prefers-contrast: more) {
+  :root {
+    --border-subtle: var(--border-strong);
+  }
+  .skip-link,
+  :focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* ==========================================================================
+   4. فئات مساعدة عامة (Utilities)
+   ==========================================================================
+   فئات صغيرة، عامة، متعددة الاستخدام. لا تُستخدم لبناء مكوّنات كاملة —
+   فقط لضبطات تخطيطية بسيطة ومتكررة عبر الصفحة.
+   ========================================================================== */
+
+.u-container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+}
+
+.u-flex {
+  display: flex;
+}
+.u-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.u-items-center {
+  align-items: center;
+}
+.u-justify-between {
+  justify-content: space-between;
+}
+.u-gap-1 { gap: var(--space-1); }
+.u-gap-2 { gap: var(--space-2); }
+.u-gap-3 { gap: var(--space-3); }
+.u-gap-4 { gap: var(--space-4); }
+
+.u-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.u-scroll-x {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+}
+.u-scroll-x::-webkit-scrollbar {
+  display: none; /* Chrome / Safari / Edge */
+}
+
+/* فئة عامة لإخفاء عنصر مع الحفاظ عليه في الشجرة (بدلاً من display:none
+   المتكرر يدوياً في عشرات الأماكن) — تُستخدم بديلاً عن سمة hidden حين
+   يحتاج العنصر انتقال حركي عند الإخفاء/الإظهار */
+.u-collapsed {
+  display: none !important;
+}
+
+/* طبقة زجاجية عامة (Glassmorphism) — تُستخدم فوق الخلفية الجوية مباشرة،
+   لأي عنصر ثابت التموضع (رأس الصفحة، شريط التنقل، النوافذ المنبثقة) */
+.u-glass-surface {
+  background-color: var(--surface-glass);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+
+/* ==========================================================================
+   5. طباعة (Print) — يحافظ على قابلية طباعة صفحات السلامة/التعليم كما
+      كانت متاحة في التطبيق الأصلي (heroPrintBtn)
+   ========================================================================== */
+@media print {
+  .bottom-nav,
+  .fab,
+  .site-header,
+  .skip-link,
+  [data-no-print] {
+    display: none !important;
+  }
+  body {
+    padding-bottom: 0;
+    background: #fff;
+    color: #000;
+  }
+  body::before {
+    display: none;
+  }
+}

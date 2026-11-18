@@ -1,0 +1,1212 @@
+/* ==========================================================================
+   VIEWS.CSS
+   دليل الاستيوارد — Marriott | تخطيطات الصفحات (Views)
+   ==========================================================================
+   هذا الملف مسؤول عن التخطيط الخاص بكل صفحة/عرض من عروض التطبيق الستة:
+   لوحة التحكم، المواد الكيميائية، التعليم، السلامة، المساعد الذكي، الإعدادات.
+
+   القاعدة: عناصر الواجهة العامة (زر، بطاقة، شارة) تُبنى من components.css.
+   هذا الملف فقط يرتّبها ضمن سياق كل صفحة، ويضيف الأنماط الخاصة بمحتوى
+   لا يتكرر إلا في هذا العرض تحديداً (مثال: مقياس pH لا يظهر إلا في التعليم).
+
+   كل عرض (view) مغلّف بـ <section class="view" data-view="..." hidden>
+   يديره router.js عبر تبديل السمة hidden وتحديث location.hash.
+   ========================================================================== */
+
+/* ==========================================================================
+   0. حاوية العرض العامة
+   ========================================================================== */
+.view {
+  padding-bottom: var(--space-8);
+}
+.view[hidden] {
+  display: none;
+}
+
+.view-header {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+}
+.view-header__eyebrow {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+}
+.view-header__title {
+  font-size: calc(var(--text-xl) * var(--font-scale));
+  margin-top: var(--space-1);
+}
+
+/* ==========================================================================
+   1. لوحة التحكم (Dashboard)
+   ========================================================================== */
+.hero-panel {
+  margin: var(--space-4);
+  padding: var(--space-5);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--brand-primary) 16%, transparent), transparent 60%),
+    var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.hero-panel__kicker {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--brand-primary);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+.hero-panel__title {
+  font-size: calc(var(--text-2xl) * var(--font-scale));
+}
+.hero-panel__desc {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  color: var(--content-secondary);
+  line-height: var(--leading-relaxed);
+}
+.hero-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+.dashboard-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  transition: transform var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+}
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-primary);
+}
+.dashboard-card__value {
+  font-family: var(--font-family-mono);
+  font-size: calc(var(--text-2xl) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  color: var(--brand-primary);
+}
+.dashboard-card__label {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+}
+.dashboard-card__hint {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-4);
+}
+.quick-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 80px;
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  color: var(--content-primary);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  text-align: center;
+  transition: transform var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard);
+}
+.quick-action:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-primary);
+}
+.quick-action__icon {
+  font-size: calc(var(--text-xl) * var(--font-scale));
+}
+
+.section-heading {
+  padding: var(--space-2) var(--space-4);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-muted);
+  font-weight: var(--weight-semibold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* -- قائمة "أخيراً" / "المفضلة" على لوحة التحكم -- */
+.recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+}
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid transparent;
+  color: var(--content-primary);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+.recent-item:hover {
+  border-color: var(--border-subtle);
+}
+.recent-item__meta {
+  flex: 1;
+  min-width: 0;
+}
+.recent-item__title {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-semibold);
+}
+.recent-item__sub {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+
+/* ==========================================================================
+   2. المواد الكيميائية (Chemicals)
+   ========================================================================== */
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  position: sticky;
+  top: var(--header-height);
+  z-index: var(--z-sticky-header);
+  background-color: var(--surface-page);
+}
+.toolbar__row {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+.toolbar__filters {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+
+/* -- بطاقة المادة الكيميائية: تعتمد على .card من components.css -- */
+.chem-card__ppe-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.chem-card__ppe-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  background-color: var(--surface-raised);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+}
+.chem-card__dilution-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+}
+.chem-card__dilution-ratio {
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-bold);
+  color: var(--brand-secondary);
+}
+.chem-card__firstaid-item {
+  display: flex;
+  gap: var(--space-2);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  align-items: flex-start;
+}
+.chem-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.chem-card__related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* -- حالة فارغة (لا نتائج بحث) -- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+  color: var(--content-muted);
+}
+.empty-state__icon {
+  font-size: calc(var(--text-4xl) * var(--font-scale));
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   3. التعليم (Education / Academy)
+   ========================================================================== */
+
+/* -- أكورديون الأقسام التعليمية -- */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+.accordion__item {
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  overflow: hidden;
+}
+.accordion__header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: var(--space-4);
+  background: none;
+  border: none;
+  color: var(--content-primary);
+  font-family: var(--font-family-base);
+  text-align: inherit;
+}
+.accordion__icon {
+  font-size: calc(var(--text-lg) * var(--font-scale));
+  flex-shrink: 0;
+}
+.accordion__title {
+  flex: 1;
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.accordion__badge-new {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  background-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+}
+.accordion__chevron {
+  transition: transform var(--duration-base) var(--ease-standard);
+  flex-shrink: 0;
+}
+.accordion__header[aria-expanded='true'] .accordion__chevron {
+  transform: rotate(180deg);
+}
+.accordion__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-base) var(--ease-standard);
+}
+.accordion__body[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.accordion__body-inner {
+  overflow: hidden;
+  padding: 0 var(--space-4) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.accordion__divider {
+  border: none;
+  border-top: var(--border-width-thin) solid var(--border-subtle);
+  margin: var(--space-2) 0;
+}
+.accordion__subheading {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--brand-primary);
+  font-weight: var(--weight-bold);
+}
+
+/* -- شبكة معلومات عامة (يُعاد استخدامها: أنواع الاتساخ، النظافة الشخصية..) -- */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+}
+.info-card {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  border-inline-start: 3px solid var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.info-card__icon {
+  font-size: calc(var(--text-xl) * var(--font-scale));
+}
+.info-card__title {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.info-card__desc {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+  line-height: var(--leading-relaxed);
+}
+/* تعديلات لونية دلالية للحدود (تُستبدل style="border-color:.." المضمّن سابقاً) */
+.info-card--info    { border-inline-start-color: var(--status-info); }
+.info-card--warning { border-inline-start-color: var(--status-warning); }
+.info-card--safe    { border-inline-start-color: var(--status-safe); }
+.info-card--brand   { border-inline-start-color: var(--brand-primary); }
+
+/* -- مقياس الـ pH -- */
+.ph-scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.ph-scale__bar {
+  height: 14px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--status-danger) 0%,
+    var(--status-warning) 40%,
+    var(--status-safe) 50%,
+    var(--brand-secondary) 60%,
+    var(--status-danger) 100%
+  );
+}
+.ph-scale__numbers {
+  display: flex;
+  justify-content: space-between;
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+.ph-scale__numbers-neutral {
+  color: var(--brand-primary);
+  font-weight: var(--weight-bold);
+}
+.ph-scale__labels {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-2);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  text-align: center;
+  color: var(--content-muted);
+}
+
+.ph-ref-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.ph-ref-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.ph-ref-item__badge {
+  flex-shrink: 0;
+  font-family: var(--font-family-mono);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  min-width: 52px;
+  text-align: center;
+}
+.ph-ref-item__badge--acid    { background-color: color-mix(in srgb, var(--status-danger) 20%, transparent); color: var(--status-danger); }
+.ph-ref-item__badge--neutral { background-color: color-mix(in srgb, var(--status-safe) 20%, transparent); color: var(--status-safe); }
+.ph-ref-item__badge--alkali  { background-color: color-mix(in srgb, var(--brand-secondary) 20%, transparent); color: var(--brand-secondary); }
+.ph-ref-item__text {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+}
+
+/* -- تدفّق الخطوات المرقّمة (مراحل التنظيف، الحوض الثلاثي) -- */
+.steps-flow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.step-item {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+.step-item__number {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  display: grid;
+  place-items: center;
+  font-weight: var(--weight-bold);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+.step-item__number--danger  { background-color: var(--status-danger); }
+.step-item__number--warning { background-color: var(--status-warning); color: var(--content-on-hazard); }
+.step-item__content {
+  flex: 1;
+  padding-top: var(--space-1);
+}
+.step-item__title {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.step-item__desc {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-muted);
+  margin-top: var(--space-1);
+  line-height: var(--leading-relaxed);
+}
+
+/* -- بطاقة معدّات (خطوات صيانة/تنظيف جهاز) -- */
+.equip-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  border-inline-start: 3px solid var(--border-strong);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.equip-card__title {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.equip-card__steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+  padding-inline-start: var(--space-4);
+}
+.equip-card__steps li {
+  list-style: disc;
+}
+.equip-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+/* -- جدول درجات الحرارة -- */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+.data-table th,
+.data-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: center;
+  border: var(--border-width-thin) solid var(--border-subtle);
+}
+.data-table th {
+  background-color: var(--surface-raised);
+  font-weight: var(--weight-bold);
+}
+.data-table td[data-temp='low']  { color: var(--status-info); }
+.data-table td[data-temp='mid']  { color: var(--status-warning); }
+.data-table td[data-temp='high'] { color: var(--status-danger); font-weight: var(--weight-bold); }
+
+/* -- شبكة القواعد الذهبية / بطاقات HACCP -- */
+.rule-grid,
+.haccp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--space-3);
+}
+.rule-card,
+.haccp-card {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+}
+.rule-card__number,
+.haccp-card__number {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  display: grid;
+  place-items: center;
+  font-weight: var(--weight-bold);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+.rule-card__title,
+.haccp-card__title {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.rule-card__desc,
+.haccp-card__desc {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+  margin-top: var(--space-1);
+  line-height: var(--leading-relaxed);
+}
+.haccp-card__example {
+  margin-top: var(--space-2);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--brand-secondary);
+  font-style: italic;
+}
+
+/* -- شارات مسببات الحساسية -- */
+.allergen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: var(--space-2);
+}
+.allergen-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  text-align: center;
+}
+.allergen-badge__icon {
+  font-size: calc(var(--text-xl) * var(--font-scale));
+}
+.allergen-badge__label {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-secondary);
+}
+
+/* -- ترتيب الثلاجة (Fridge Storage Order) -- */
+.fridge-order {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.fridge-tier {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+}
+.fridge-tier__icon {
+  font-size: calc(var(--text-lg) * var(--font-scale));
+  flex-shrink: 0;
+}
+.fridge-tier__label {
+  flex: 1;
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  font-weight: var(--weight-semibold);
+}
+.fridge-tier__note {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+.fridge-tier__arrow {
+  color: var(--content-muted);
+  flex-shrink: 0;
+}
+
+/* -- صندوق تنبيه عام (يُستخدم في السلامة والتعليم) -- */
+.alert-box {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  line-height: var(--leading-relaxed);
+}
+.alert-box--danger {
+  background-color: color-mix(in srgb, var(--status-danger) 14%, transparent);
+  color: var(--status-danger);
+  border: var(--border-width-thin) solid color-mix(in srgb, var(--status-danger) 30%, transparent);
+}
+.alert-box--warning {
+  background-color: color-mix(in srgb, var(--status-warning) 14%, transparent);
+  color: var(--status-warning);
+  border: var(--border-width-thin) solid color-mix(in srgb, var(--status-warning) 30%, transparent);
+}
+.alert-box--info {
+  background-color: color-mix(in srgb, var(--status-info) 14%, transparent);
+  color: var(--status-info);
+  border: var(--border-width-thin) solid color-mix(in srgb, var(--status-info) 30%, transparent);
+}
+
+/* -- مؤشر تقدم الدرس/الاختبار -- */
+.quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+}
+.quiz-option {
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  color: var(--content-primary);
+  text-align: inherit;
+  font-family: var(--font-family-base);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              background-color var(--duration-fast) var(--ease-standard);
+}
+.quiz-option:hover {
+  border-color: var(--brand-secondary);
+}
+.quiz-option[data-state='correct'] {
+  border-color: var(--status-safe);
+  background-color: color-mix(in srgb, var(--status-safe) 16%, transparent);
+}
+.quiz-option[data-state='incorrect'] {
+  border-color: var(--status-danger);
+  background-color: color-mix(in srgb, var(--status-danger) 16%, transparent);
+}
+.quiz-option:disabled {
+  pointer-events: none;
+}
+
+.achievement-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  text-align: center;
+}
+.achievement-badge__icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  font-size: calc(var(--text-2xl) * var(--font-scale));
+  background-color: var(--surface-raised);
+  border: var(--border-width-thick) solid var(--border-subtle);
+}
+.achievement-badge--unlocked .achievement-badge__icon {
+  border-color: var(--brand-primary);
+  background: color-mix(in srgb, var(--brand-primary) 18%, transparent);
+}
+.achievement-badge__label {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-secondary);
+}
+
+/* ==========================================================================
+   4. السلامة (Safety) والطوارئ (Emergency)
+   ========================================================================== */
+.safety-block {
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.safety-block__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: calc(var(--text-lg) * var(--font-scale));
+}
+
+.safety-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.safety-list li {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+  line-height: var(--leading-relaxed);
+}
+.safety-list__icon {
+  flex-shrink: 0;
+}
+
+.contam-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.contam-card__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.contam-card__desc {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-muted);
+}
+.contam-card__examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.ppe-full-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--space-2);
+}
+.ppe-full-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  text-align: center;
+}
+.ppe-full-item__icon {
+  font-size: calc(var(--text-xl) * var(--font-scale));
+}
+.ppe-full-item__name {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  font-weight: var(--weight-semibold);
+}
+.ppe-full-item__when {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+}
+
+/* -- وضع الطوارئ: زر SOS مميز ولوحة اتصال سريع -- */
+.emergency-sos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4);
+}
+.emergency-sos__button {
+  width: 120px;
+  height: 120px;
+  border-radius: var(--radius-full);
+  background-color: var(--status-danger);
+  color: #fff;
+  font-size: calc(var(--text-xl) * var(--font-scale));
+  font-weight: var(--weight-black);
+  border: 4px solid color-mix(in srgb, var(--status-danger) 60%, white 10%);
+  box-shadow: var(--elevation-4);
+  animation: emergency-pulse 2.2s var(--ease-standard) infinite;
+}
+@keyframes emergency-pulse {
+  0%, 100% { box-shadow: var(--elevation-4), 0 0 0 0 color-mix(in srgb, var(--status-danger) 45%, transparent); }
+  50%      { box-shadow: var(--elevation-4), 0 0 0 14px transparent; }
+}
+.emergency-contacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-2);
+  padding: 0 var(--space-4);
+}
+.emergency-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-raised);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  color: var(--content-primary);
+}
+.emergency-contact__number {
+  font-family: var(--font-family-mono);
+  font-size: calc(var(--text-lg) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  color: var(--status-danger);
+}
+
+/* -- تذييل المطوّر -- */
+.dev-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-8) var(--space-4);
+  color: var(--content-muted);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+.dev-footer__name {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  color: var(--content-primary);
+}
+.dev-footer__whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  color: var(--brand-primary);
+  font-weight: var(--weight-semibold);
+}
+
+/* ==========================================================================
+   5. المساعد الذكي (AI Assistant) — واجهة شبيهة بـ ChatGPT
+   ========================================================================== */
+.ai-view {
+  display: flex;
+  flex-direction: column;
+  height: calc(100dvh - var(--header-height) - var(--nav-height));
+}
+.ai-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.ai-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+}
+.ai-welcome__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: calc(var(--text-lg) * var(--font-scale));
+  font-weight: var(--weight-bold);
+}
+.ai-welcome__desc {
+  font-size: calc(var(--text-sm) * var(--font-scale));
+  color: var(--content-secondary);
+  line-height: var(--leading-relaxed);
+}
+.ai-context-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  align-self: flex-start;
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--status-safe);
+  background-color: color-mix(in srgb, var(--status-safe) 14%, transparent);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+}
+.ai-suggestions-row {
+  display: flex;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: var(--space-1);
+}
+.ai-suggestions-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* -- فقاعات الرسائل -- */
+.ai-message {
+  display: flex;
+  gap: var(--space-2);
+  max-width: 92%;
+  animation: message-in var(--duration-base) var(--ease-decelerate);
+}
+@keyframes message-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ai-message--user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.ai-message--assistant {
+  align-self: flex-start;
+}
+.ai-message__avatar {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  background-color: var(--surface-raised);
+  font-size: calc(var(--text-base) * var(--font-scale));
+}
+.ai-message__bubble {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: calc(var(--text-base) * var(--font-scale));
+  line-height: var(--leading-relaxed);
+}
+.ai-message--user .ai-message__bubble {
+  background-color: var(--brand-primary);
+  color: var(--content-on-accent);
+  border-end-end-radius: var(--radius-xs);
+}
+.ai-message--assistant .ai-message__bubble {
+  background-color: var(--surface-card);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  border-end-start-radius: var(--radius-xs);
+}
+.ai-message__bubble :is(p) + :is(p) {
+  margin-top: var(--space-2);
+}
+.ai-message__bubble code {
+  font-family: var(--font-family-mono);
+  background-color: var(--surface-raised);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  font-size: 0.9em;
+}
+.ai-message__actions {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+/* -- مؤشر الكتابة (Typing Indicator) -- */
+.ai-typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: var(--space-3) var(--space-4);
+}
+.ai-typing__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--content-muted);
+  animation: typing-bounce 1.2s ease-in-out infinite;
+}
+.ai-typing__dot:nth-child(2) { animation-delay: 0.15s; }
+.ai-typing__dot:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30%           { transform: translateY(-4px); opacity: 1; }
+}
+
+/* -- منطقة الإدخال -- */
+.ai-input-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-top: var(--border-width-thin) solid var(--border-subtle);
+  background-color: var(--surface-page);
+}
+.ai-input-bar__field {
+  flex: 1;
+}
+.ai-input-bar__mic {
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   6. الإعدادات (Settings)
+   ========================================================================== */
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-4) var(--space-4);
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-width-thin) solid var(--border-subtle);
+}
+.settings-row:last-child {
+  border-bottom: none;
+}
+.settings-row__meta {
+  flex: 1;
+  min-width: 0;
+}
+.settings-row__label {
+  font-size: calc(var(--text-base) * var(--font-scale));
+  font-weight: var(--weight-semibold);
+}
+.settings-row__desc {
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  color: var(--content-muted);
+  margin-top: 2px;
+}
+
+.theme-picker {
+  display: flex;
+  gap: var(--space-2);
+}
+.theme-picker__option {
+  flex: 1;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  background-color: var(--surface-raised);
+  color: var(--content-secondary);
+  font-size: calc(var(--text-sm) * var(--font-scale));
+}
+.theme-picker__option[aria-pressed='true'] {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  font-weight: var(--weight-bold);
+}
+
+.font-size-picker {
+  display: flex;
+  gap: var(--space-2);
+}
+.font-size-picker__option {
+  flex: 1;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  border: var(--border-width-thin) solid var(--border-subtle);
+  background-color: var(--surface-raised);
+  color: var(--content-secondary);
+}
+.font-size-picker__option[aria-pressed='true'] {
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+  font-weight: var(--weight-bold);
+}
+
+/* ==========================================================================
+   7. الشاشة الافتتاحية (Splash) والتحميل العام
+   ========================================================================== */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-splash);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  background-color: var(--surface-page);
+  transition: opacity var(--duration-slow) var(--ease-standard),
+              visibility var(--duration-slow) var(--ease-standard);
+}
+.splash-screen--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.splash-screen__logo {
+  font-family: var(--font-family-mono);
+  font-weight: var(--weight-black);
+  font-size: calc(var(--text-2xl) * var(--font-scale));
+  letter-spacing: var(--tracking-label);
+  color: var(--brand-primary);
+}
+.splash-screen__spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  border: 3px solid var(--border-subtle);
+  border-top-color: var(--brand-primary);
+  animation: btn-spin var(--duration-slower) linear infinite;
+}
+
+/* ==========================================================================
+   8. مؤشر حالة الاتصال (Offline Indicator)
+   ========================================================================== */
+.offline-banner {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky-header);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background-color: var(--status-warning);
+  color: var(--content-on-hazard);
+  font-size: calc(var(--text-xs) * var(--font-scale));
+  font-weight: var(--weight-bold);
+  transform: translateY(-100%);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+.offline-banner--visible {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   9. الاستجابة للشاشات الأعرض (تابلت / سطح مكتب) — تحسين تدريجي فقط
+   ========================================================================== */
+@media (min-width: 640px) {
+  .dashboard-grid,
+  .info-grid,
+  .rule-grid,
+  .haccp-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
